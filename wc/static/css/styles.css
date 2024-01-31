@@ -1,0 +1,89 @@
+* {
+
+    margin: 0px;
+  
+    padding: 0px;
+  
+    box-sizing: border-box;
+  
+  }
+.body-bg{
+  background-color:#F5EEE6;
+}
+.container1{
+  width: 500px;
+}
+.nav-right ul{
+  display: flex;
+  column-gap: 20px;
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  
+}
+.bg-colour{
+  background-color:
+  #F3D7CA;
+
+}
+
+#logo{
+  width: 100px;
+  border-radius: 20px;  
+}
+.nav-names {
+  font-size: 20px;
+  font-weight: 500;
+  margin-left: 10px;
+  color: rgb(36, 34, 34);
+  text-decoration: none !important;
+  color:#B19470;
+}
+
+.form-layout{
+  background-color:#fbf7f5;
+  border: 1px solid #F3D7CA ;
+  margin-top: 20px;
+  max-width: 800px;
+  border-radius: 20px;
+}
+.form-layout h2{
+  text-align: start;
+  margin-top: 15px;
+  color: #B19470;
+}
+
+
+.form-layout form{
+  color: #B19470;
+  text-decoration: none;
+}
+.form-layout form ul {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+.custom-form {
+  list-style: none;  /* Remove bullet points */
+  padding: 20px;        /* Remove default padding */
+  margin: 10px;         /* Remove default margin */
+}
+
+.custom-form .form-group {
+  margin-bottom: 10px;  /* Add some spacing between form fields */
+}
+.custom-form  button{
+  background-color: #F3D7CA;
+  color: #B19470;
+   
+}
+.custom-form p{
+ margin-top: 10px;
+}
+
+.msg-width{
+  margin-left: 500px;
+  margin-right: 500px;
+  margin-top: 20px;
+}
