@@ -12,7 +12,18 @@ class createUserForm(UserCreationForm):
         model = CustomUser
         fields = ['email', 'phone', 'password1', 'password2']
 
+# class LoginForm(AuthenticationForm):
+
+#     username = forms.EmailField(widget=EmailInput())
+#     password = forms.CharField(widget=PasswordInput())
+
 class LoginForm(AuthenticationForm):
-    
-    username = forms.EmailField(widget=EmailInput())
-    password = forms.CharField(widget=PasswordInput())
+
+    username = forms.EmailField(
+        widget = EmailInput(attrs={'class': '', }),
+        # label='Email',
+        # required=False
+    )
+    password = forms.CharField(
+        widget=PasswordInput(attrs={'class': '', })
+    )

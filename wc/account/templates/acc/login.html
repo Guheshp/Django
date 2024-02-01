@@ -1,10 +1,12 @@
+
 {% extends 'acc/base.html'%}
 
 {% load crispy_forms_tags %}
 
 {% block content %}
 
-<body>
+
+<!-- <body>
 
     <div class="container  form-layout"  style="max-width: 700px;">
         
@@ -14,9 +16,10 @@
 
         <form action="" method="POST" autocomplete="off" class="custom-form">
 
-            {% csrf_token %} <!--   'Cross-Site Request Forgery' tokens help protect against CSRF attacks by making it difficult for an attacker to construct a valid request on behalf of the victim. -->
+            {% csrf_token %}   'Cross-Site Request Forgery' tokens help protect against CSRF attacks by making it difficult for an attacker to construct a valid request on behalf of the victim.
        
             {{form|crispy}}
+
 
             <br>
 
@@ -29,6 +32,39 @@
 
        <br>
     </div><br>
-</body>    
+</body>     -->
+
+<body>
+    <div class="form-container">
+    <div class="wrapper">
+        <div class="form-box">
+            <h2>Login</h2>
+            <form action="" method="post">
+                {% csrf_token %} 
+                <div class="input-box">
+                    <span  class="icon"><i class="fa-solid fa-envelope"></i></span>
+                    {{form.username}}
+                    <label for="">Email</label>
+                </div>
+                <div class="input-box">
+                    <span  class="icon"><i class="fa-solid fa-lock"></i></span>
+                    {{form.password}}
+                    <label for="">Password</label>
+                </div>
+                <div class="remember-password">
+                    <a href="">Forgot Password?</a>
+                </div>
+                <button type="submit" class="Btn">
+                    Login
+                </button>
+                <div class="login-register">
+                    <p>Don't haave an account?<a href="" class="register-link">Register</a>
+                    </p>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+</body>
 
 {% endblock %}

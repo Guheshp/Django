@@ -6,7 +6,7 @@ from django.contrib import messages
 
 from .forms import (createUserForm, LoginForm, )
 
-from django.contrib.auth import authenticate, login as auth_login
+from django.contrib.auth import authenticate, login as auth_login, logout as auth_logout
 
 
 # Create your views here.
@@ -28,12 +28,13 @@ def Register(request):
 
             messages.success(request, 'Your Registration completed!')
 
-            return redirect('home')
+            return redirect('login')
+        else:
+                messages.error(request, 'Invalid email or password. Please try again.')
 
     context = {'form':form}
 
     return render(request, 'acc/register.html', context)
-
 
 
 def Login(request):
@@ -62,9 +63,18 @@ def Login(request):
             else:
                 messages.error(request, 'Invalid email or password. Please try again.')
                 
-                
-          
     context = {'form':form}
 
 
     return render(request, 'acc/login.html', context=context)
+
+
+
+def Logout(request):
+
+    auth_logout(request)
+
+    messages.success(request, 'Sucessfully Logged out!')
+
+    return redirect("home")
+
