@@ -24,11 +24,11 @@
     <div class="msg-width">
       {% for message in messages %}
 
-          {% if messsge.level == DEFAULT_MESSAGE_LEVELS_SUCCESS %}
+          {% if message %}
 
-              <p id="message-timer" class="alert alert-success float-center text-center message-text"> 
+              <p id="message-timer" class="alert  display-error "> 
 
-                  <i class="fa fa-check " aria-hidden="true"></i> &nbsp; {{message}}
+              {{message}}
 
               </p>
 

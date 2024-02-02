@@ -1,0 +1,24 @@
+{% extends 'acc/base.html' %}
+
+{% block content %}
+<body>
+
+    <div class="invalid-container">
+        <div class="invalid-page">
+        
+        <h4>Email Confirmation</h4>
+
+        <h6>Thank you {{user.email}} for your email confirmation. Now you can login into your account.</h6>
+
+        <hr>
+
+        <button type="submit" class="Btn">
+            <a href="{% url 'login'%}">Login</a>  
+          </button>
+          
+        <br>
+    </div>
+</div>
+
+</body>  
+{% endblock %}
