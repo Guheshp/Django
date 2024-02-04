@@ -10,6 +10,9 @@ from django.contrib.auth import authenticate, login as auth_login, logout as aut
 
 from django.contrib.auth import get_user_model
 
+from django.contrib.auth.decorators import login_required
+
+
 
 
 from django.contrib.sites.shortcuts import get_current_site  
@@ -24,11 +27,10 @@ from django.contrib.auth import get_user_model
 from django.http import HttpResponse
 
 
-
-
 CustomUser = get_user_model()
 # Create your views here.
 
+login_required(login_url='login')
 def Home(request):
     return render(request, 'acc/index.html')
 
@@ -135,7 +137,7 @@ def Login(request):
 
     return render(request, 'acc/login.html', context=context)
 
-
+login_required(login_url='login')
 def Logout(request):
 
     auth_logout(request)

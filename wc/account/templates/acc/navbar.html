@@ -4,11 +4,17 @@
   
   <div class="nav-links">
    
-    <div class="logo"><a href="#">@wedding Cluster</a></div>
+    <div class="logo"><a href="{% url 'home'%}">@wedding Cluster</a></div>
     {% if user.is_authenticated %}
+    <ul>
+      <li class="links"><a href="{% url 'vender_register' %}">Vender Registration</a></li>
+    </ul>
+
   <ul>
-    <li class="links"><a href="#">Home</a></li>
+
+    <li  class="links"><a href=#>{{user.email}}</a></li>
     <li class="links"><a href="{% url 'logout'%}">Logout</a></li>
+
   </ul>
   {%else%}
   <ul>

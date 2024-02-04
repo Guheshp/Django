@@ -1,0 +1,33 @@
+{% extends 'acc/base.html'%}
+
+{% block content %}
+
+<div class=" card container border ">
+    <h1 class="text-center">Venders</h1>
+
+        <table class="table table-bordered">
+           
+            <thead>
+              <tr>
+
+                <th scope="col">Sl.no</th>
+                <th scope="col">Name</th>
+                <th  scope="col"></th>
+               
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                {% for vender in venders%}
+                <th scope="row">{{ forloop.counter }}</th>
+                <td><a href="{% url 'venderview' vender.id %}">{{ vender.vender_name|upper}}</a></td>
+                <td><a style="color: red;" href="{% url 'deletevender' vender.id %}"><i class="fa-solid fa-x"></i></a></td>
+              </tr>
+            </tbody>
+            {% endfor %}
+          </table>
+         
+
+</div>
+    
+{% endblock %}

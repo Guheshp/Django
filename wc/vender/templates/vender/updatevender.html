@@ -1,0 +1,31 @@
+{% extends 'acc/base.html' %}
+	
+{% block content %}
+
+ <div class="container card border border-5">
+
+    <h1 class="text-center py-3 ">Update Vender</h1><hr>
+
+        <form action="" method="post" class="" enctype="multipart/form-data">
+            {%csrf_token%}
+
+            {{form.as_p}}
+
+            <div class="row gutters">
+                <div class="col-xl-12">
+                    <div class=" py-4 text-right">
+                        <a class="btn btn-outline-info" href="{% url 'venderview' vender.id  %}">Cancle</a>
+                        <button type="submit"class="btn btn-success">Update</button>
+
+                    </div>
+                </div>
+            </div>
+            
+
+        </form>
+
+
+ </div>
+	
+		
+{% endblock %}

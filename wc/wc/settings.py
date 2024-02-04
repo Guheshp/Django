@@ -41,6 +41,8 @@ INSTALLED_APPS = [
     #apps
     'account',
     'crispy_forms',
+    'vender'
+
 
 ]
 
@@ -147,3 +149,18 @@ MEDIA_URL = '/images/'
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+
+#kcgi pjbu osog lqyo
+
+#EMAIL CONFIGURATION
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_FROM = 'guheshpanjagall481@gmail.com'
+EMAIL_HOST_USER = 'guheshpanjagall481@gmail.com'
+EMAIL_HOST_PASSWORD = 'ivrb cpna ksjs fahy'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+
+PASSWORD_RESET_TIMEOUT = 14400
+# EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
