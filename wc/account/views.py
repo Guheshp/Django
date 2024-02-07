@@ -1,10 +1,11 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, reverse
 
 from django.http import HttpResponse
 
 from django.contrib import messages
 
-from .forms import (createUserForm, LoginForm, )
+from .forms import (createUserForm, LoginForm, EditUserProfilrForm,
+                    EditAdminProfilrForm, )
 
 from django.contrib.auth import authenticate, login as auth_login, logout as auth_logout
 
@@ -26,6 +27,7 @@ from django.core.mail import EmailMessage
 from django.contrib.auth import get_user_model
 from django.http import HttpResponse
 
+from vender.models import Vendor
 
 CustomUser = get_user_model()
 # Create your views here.
@@ -60,11 +62,6 @@ def acc_active_email_invalid(request):
 
 
 def Register(request):
-
-    user = CustomUser.objects.all()
-
-    form = createUserForm()
-
     if request.method == 'POST':
 
         form = createUserForm(request.POST)
@@ -94,19 +91,66 @@ def Register(request):
             
             return redirect('login')
         else:
-            form = createUserForm()
+            # Form is invalid, so render the registration form template with form errors
+            for field, errors in form.errors.items():
+                for error in errors:
+                    messages.error(request, f'{field.capitalize()}: {error}')
+    else:
+        form = createUserForm()
 
-            context = {'form':form, 'user':user}
+    context = {'form':form}
 
-            return render(request, 'acc/register.html', context)
-            # for field, errors in form.errors.items():
-            #     for error in errors:
-            #         messages.error(request, f'{field.capitalize()}: {error}')
+    return render(request, 'acc/register.html', context)
+           
+
+login_required(login_url='login')
+def UserProfile(request, pk):
+
+    user = CustomUser.objects.get(id=pk)
+
+    context = {'user':user}
+    
+    return render(request, 'acc/user_profile.html', context)
 
 
+login_required(login_url='login')
+def UpdateProfile(request, pk):
+   
+    user = CustomUser.objects.get(id=pk)
+    # form = EditUserProfilrForm(instance = user)
+    # form = EditAdminProfilrForm(instance = user)
 
-    return render(request, 'acc/register.html')
+    if request.user.is_authenticated:
+        if request.method == 'POST':
+            if request.user.is_superuser == True:
+                form = EditAdminProfilrForm(request.POST, instance = user)
+            else:
+                form = EditUserProfilrForm(request.POST, instance = user)
+            if form.is_valid():
+                form.save()
+                
+                name = form.cleaned_data.get('name')
+                messages.success(request, f"{name} updated Successfully!" )
+                profile_url = reverse('user_profile', args=[user.pk])
+                return redirect(profile_url)
+        else:
+            if request.user.is_superuser == True:
+                form = EditAdminProfilrForm(instance=user)
+            else:
+                form = EditUserProfilrForm(instance=user)
 
+        context={'form':form}
+        return render(request, 'acc/update_profile.html', context)
+        
+    return render(request, 'acc/update_profile.html')
+
+login_required(login_url='login')
+def ListUser(request):
+    list_user = CustomUser.objects.all()
+    list_vender = Vendor.objects.all()
+    
+    context = {'list_user':list_user, 'list_vender':list_vender}
+    return render(request, 'acc/list_user.html', context)
 
 def Login(request):
 

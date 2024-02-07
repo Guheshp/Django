@@ -1,0 +1,48 @@
+{% extends 'acc/base.html'%}
+
+{% load crispy_forms_tags %}
+
+{% block content %}
+
+{% for user in list_user%}
+{%if user.is_superuser %}
+<body>
+    
+    <div class="container">
+            
+        <strong>users</strong>
+            <ul class="list-group ">
+                <li class="list-group-item">SuperUser:-<strong>{{user}}</strong></li>
+            </ul>
+            {%else%}
+            <ul class="list-group container">
+                <li class="list-group-item">{{user}}</li>
+            </ul>
+            {%endif%}
+            {% endfor %}
+
+    </div>
+
+           
+
+    <div class="container">
+        <strong>Venders</strong>
+        {% for vender in list_vender%}
+        {%if request.vender.is_superuser %}
+
+
+        <ul class="list-group ">
+            <li class="list-group-item">SuperUser:-<strong>{{vender.vender_name}}</strong></li>
+        </ul>
+        {%else%}
+        <ul class="list-group container">
+            <li class="list-group-item">{{vender.vender_name}}</li>
+        </ul>
+        {%endif%}
+        {% endfor %}
+    </div>
+
+
+</body>
+
+{% endblock %}

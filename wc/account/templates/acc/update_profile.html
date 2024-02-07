@@ -1,0 +1,29 @@
+<h1>profilepage! </h1>{% extends 'acc/base.html'%}
+
+{% load crispy_forms_tags %}
+
+{% block content %}
+
+
+<body>
+    <div class="form-container">
+    <div class="wrapper-reister">
+        <div class="form-box">
+            <h2>Update Profile</h2>
+            <form action="" method="post">
+                {% csrf_token %} 
+                
+                {{form|crispy}}
+
+                <button type="submit" class="btn btn-outline-info">
+                    Update
+                </button>
+               
+            </form>
+        </div>
+    </div>
+</div>
+
+</body>
+
+{% endblock %}

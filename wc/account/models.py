@@ -41,6 +41,9 @@ class CustomUser(AbstractUser):
     email = models.EmailField(_("email address"), unique=True)
     phone = models.CharField(max_length=12, unique=True, null=True)
     name = models.CharField(max_length=200, null=True, blank=True)
+    last_login = models.DateTimeField(_("last login"), auto_now=True, null=True,)
+    date_joined = models.DateTimeField(_("date joined"), auto_now_add=True, null=True,)
+
 
     USERNAME_FIELD = "email"
     REQUIRED_FIELDS = []

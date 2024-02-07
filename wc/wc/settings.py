@@ -32,8 +32,8 @@ ALLOWED_HOSTS = []
 
 INSTALLED_APPS = [
     'django.contrib.admin',
-    'django.contrib.auth',
-    'django.contrib.contenttypes',
+    'django.contrib.auth', #it is core of the authentication framework
+    'django.contrib.contenttypes', #which allows permission to be associated with the model we created
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',

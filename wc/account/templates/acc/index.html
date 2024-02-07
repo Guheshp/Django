@@ -8,10 +8,15 @@
     <h1>home</h1>
     {% if user.is_authenticated %}
 
-    <div class="container border py-3">
-        <a href="{% url 'venderviewall' %}"><button type="submit" class="btn btn-outline-success">Venders</button></a>
+   
 
+    <div class="container border py-3">
+        {%if request.user.is_superuser %}
+        <a href="{% url 'listuser' %}"><button type="submit" class="btn btn-outline-success">Users</button></a>
+        
+        <a href="{% url 'venderviewall' %}"><button type="submit" class="btn btn-outline-success">Venders</button></a>
     </div>
+    {% endif %}
     {% endif %}
 </body>
 {% endblock %}

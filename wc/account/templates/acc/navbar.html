@@ -6,19 +6,22 @@
    
     <div class="logo"><a href="{% url 'home'%}">@wedding Cluster</a></div>
     {% if user.is_authenticated %}
+    {% if registered_vendor %}
     <ul>
+  {%else%}
       <li class="links"><a href="{% url 'vender_register' %}">Vender Registration</a></li>
     </ul>
-
+    {%endif%}
   <ul>
 
     <li  class="links"><a href=#>{{user.email}}</a></li>
-    <li class="links"><a href="{% url 'logout'%}">Logout</a></li>
+    <li  class="links"><a href="{% url 'user_profile' user.id %}">Profile</a></li>
+    <li class="links"><a href="{% url 'logout' %}">Logout</a></li>
 
   </ul>
   {%else%}
   <ul>
-    <li  class="links"><a href="{% url 'register'%}">Register</a></li>
+    <li  class="links"><a href="{% url 'register' %}">Register</a></li>
     <li  class="links"><a href="{% url 'login' %}">Login</a></li>
   </ul>
   {% endif %}

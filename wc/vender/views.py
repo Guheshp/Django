@@ -18,14 +18,27 @@ def venderRegistration(request):
         form = VenderRegistrationForm(request.POST, request.FILES)
 
         if form.is_valid():
-            form.save()
 
+            vender = form.save(commit=False)
+            vender.user = request.user
+            vender.save()
             messages.success(request, "vender registration form created")
 
             return redirect("home")
+        
+    vendor_exists = Vendor.objects.filter(user=request.user).exists()
+    
+    if vendor_exists:
+        # Get the name of the registered vendor
+        registered_vendor = Vendor.objects.get(user=request.user)
+        messages.success(request,'allready registred')
+        context = {"registered_vendor": registered_vendor}
+        return render(request, 'vender/vender_exists.html', context)
 
-    context={"form":form}
+    else:
+        context={"form":form}
     return render(request, 'vender/registration.html', context)
+
 
 login_required(login_url='login')
 def VenderUpdate(request, pk):
@@ -43,12 +56,12 @@ def VenderUpdate(request, pk):
             messages.success(request, f"{vender_name} form updated!")
 
             venderview_url = reverse('venderview', args=[vender.pk])
-
             return redirect(venderview_url)
     
     context={'form':form, 'vender':vender}
         
     return render(request, 'vender/updatevender.html', context)
+
 
 
 login_required(login_url='login')

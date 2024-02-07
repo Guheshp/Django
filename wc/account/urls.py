@@ -8,10 +8,16 @@ urlpatterns = [
     path('',views.Home, name='home'),
 
     path('register/',views.Register, name='register'),
+
+    path('listuser/',views.ListUser, name='listuser'),
     
     path('login/',views.Login, name='login'),
 
     path('logout/',views.Logout, name='logout'),
+
+    path('user_profile/<str:pk>',views.UserProfile, name='user_profile'),
+
+    path('updateprofile/<str:pk>',views.UpdateProfile, name='updateprofile'),
 
     path('activate/(?P<uidb64>[0-9A-Za-z_\-]+)/(?P<token>[0-9A-Za-z]{1,13}-[0-9A-Za-z]{1,20})/', views.activate, name='activate'),
 

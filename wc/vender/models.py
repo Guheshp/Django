@@ -1,7 +1,10 @@
 from django.db import models
 
+from django.contrib.auth import get_user_model
+CustomUser = get_user_model()
 # Create your models here.
 class Vendor(models.Model):
+    user = models.OneToOneField(CustomUser, on_delete=models.CASCADE, related_name='vender_profile')
     company_name = models.CharField(max_length=100)
     vender_name =models.CharField(max_length=100, null=True)
     vender_phone = models.CharField(max_length=12, null=True)

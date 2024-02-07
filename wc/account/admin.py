@@ -6,11 +6,12 @@ from .models import CustomUser
 # Register your models here.
 
 class CustomUserAdmin(UserAdmin):
-    list_display = ("email", "phone","is_staff", "is_active","is_superuser")
+    list_display = ("email", "phone","is_staff", "is_active","is_superuser",'last_login', 'date_joined')
     list_filter = ("email", "is_staff", "is_active",)
     fieldsets = (
         (None, {"fields": ("email","phone", "password")}),
         ("Permissions", {"fields": ("is_staff", "is_active","is_superuser", "groups", "user_permissions")}),
+      
     )
     add_fieldsets = (
         (None, {
