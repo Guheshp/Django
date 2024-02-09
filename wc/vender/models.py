@@ -4,12 +4,26 @@ from django.contrib.auth import get_user_model
 CustomUser = get_user_model()
 # Create your models here.
 class Vendor(models.Model):
+
+    SERIVCES = (
+        ('Catering', 'Catering'),
+        ('Decor', 'Decor'),
+        ('Photography and Videography', 'Photography and Videography'),
+        ('Wedding Planning', 'Wedding Planning'),
+        ('Makeup and Mehndi', 'Makeup and Mehndi'),
+        ('Band Baja', 'Band Baja'),
+        ('Artist Management', 'Artist Management'),
+        ('Guest Management', 'Guest Management'),
+        ('Transport and Logistics', 'Transport and Logistics'),
+        ('Entertainment', 'Entertainment'),
+    )
     user = models.OneToOneField(CustomUser, on_delete=models.CASCADE, related_name='vender_profile')
+    service = models.CharField(max_length=200, null=True, choices=SERIVCES)
     company_name = models.CharField(max_length=100)
     vender_name =models.CharField(max_length=100, null=True)
     vender_phone = models.CharField(max_length=12, null=True)
-    vender_about = models.CharField(max_length=500, null=True, blank=True)
-    Vender_image = models.ImageField(default='defaultvenderimg.png', null=True)
+    vender_about = models.TextField(null=True, blank=True)
+    Vender_image = models.ImageField(default='defaultvenderimg.png', null=True, blank=True)
     vender_email = models.EmailField(max_length=200, null=True)
     vender_address = models.CharField(max_length=500,null=True, blank=True)
     vender_city = models.CharField(max_length=200, null=True)
@@ -18,3 +32,13 @@ class Vendor(models.Model):
 
     def __str__(self):
         return f"{self.vender_name}'s company is {self.company_name}"
+
+class Image(models.Model):
+    vender = models.ForeignKey(Vendor, on_delete=models.CASCADE)
+    image = models.ImageField(upload_to='gallery_images')
+
+    def __str__(self):
+        return f"{self.image} by {self.vender}"
+
+
+

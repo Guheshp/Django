@@ -11,11 +11,16 @@ urlpatterns = [
     path('updatevender/<str:pk>',views.VenderUpdate, name='updatevender'),
 
     path('deletevender/<str:pk>',views.deleteVender, name='deletevender'),
-
-
-
     
+    path('services/',views.services, name='services'),
 
+    path('venue/',views.venue, name='venue'),
+    
+    path('catering/',views.catering, name='catering'),
+
+    path('caterView/<str:pk>',views.caterView, name='caterView'),
+    
+    path('uploadimages/',views.UploadImages, name='uploadimages'),
 
 
 

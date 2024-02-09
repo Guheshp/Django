@@ -1,15 +1,16 @@
 from django import forms
 
-from .models import Vendor
+from .models import Vendor, Image
 
 class VenderRegistrationForm(forms.ModelForm):
 
     class Meta:
 
         model = Vendor
-        fields = ['vender_name', 'company_name','Vender_image', 'vender_phone', 'vender_email',
-                 'vender_address', 'vender_city', 'vender_state', 'vender_zip' ]
+        fields = ['service', 'vender_name', 'company_name','Vender_image', 'vender_phone', 'vender_email',
+                 'vender_about','vender_address', 'vender_city', 'vender_state', 'vender_zip' ]
         widgets = {
+            'service': forms.Select(attrs={'class':'form-control', 'placeholder': 'Choose Service', 'required': True}),
             'vender_name':forms.TextInput(attrs={'class':'form-control', 'placeholder': 'Enter Vender Name', 'required': True}),
             'company_name':forms.TextInput(attrs={'class':'form-control', 'placeholder': 'Enter Company Name', 'required': True}),
             'vender_phone':forms.TextInput(attrs={'class':'form-control', 'placeholder': 'Enter Phone Number', 'required': True}),
@@ -27,9 +28,10 @@ class VenderUpdateForm(forms.ModelForm):
     class Meta:
 
         model = Vendor
-        fields = ['vender_name', 'company_name', 'vender_phone', 'Vender_image', 'vender_email',
-                 'vender_address', 'vender_city', 'vender_state', 'vender_zip' ]
+        fields = ['service', 'vender_name', 'company_name', 'vender_phone', 'Vender_image', 'vender_email',
+                 'vender_about','vender_address', 'vender_city', 'vender_state', 'vender_zip' ]
         widgets = {
+            'service': forms.Select(attrs={'class':'form-control', 'placeholder': 'Choose Service', 'required': True}),
             'vender_name':forms.TextInput(attrs={'class':'form-control', 'placeholder': 'Enter Vender Name', 'required': True}),
             'company_name':forms.TextInput(attrs={'class':'form-control', 'placeholder': 'Enter Company Name', 'required': True}),
             'vender_phone':forms.TextInput(attrs={'class':'form-control', 'placeholder': 'Enter Phone Number', 'required': True}),
@@ -43,3 +45,9 @@ class VenderUpdateForm(forms.ModelForm):
         }
 
 
+
+class ImageForm(forms.ModelForm):
+    class Meta:
+        model = Image
+        fields = ['image']
+        labels = {'image':''}

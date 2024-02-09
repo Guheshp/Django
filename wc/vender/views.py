@@ -1,17 +1,18 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse
-from .models import Vendor
+from .models import Vendor, Image
 from django.http import HttpResponse, HttpResponseRedirect
 from django.contrib import messages
 
 from django.contrib.auth.decorators import login_required
 
-from .forms import VenderRegistrationForm, VenderUpdateForm
+from .forms import VenderRegistrationForm, VenderUpdateForm, ImageForm
 
 # Create your views here.
 
 login_required(login_url='login')
-def venderRegistration(request):
+def venderRegistration(request,):
+
     form = VenderRegistrationForm()
 
     if request.method == "POST":
@@ -29,15 +30,21 @@ def venderRegistration(request):
     vendor_exists = Vendor.objects.filter(user=request.user).exists()
     
     if vendor_exists:
+
         # Get the name of the registered vendor
+
         registered_vendor = Vendor.objects.get(user=request.user)
+
         messages.success(request,'allready registred')
-        context = {"registered_vendor": registered_vendor}
-        return render(request, 'vender/vender_exists.html', context)
+
+        context = {"registered_vendor": registered_vendor, 
+                 }
+
+        return render(request, 'vendor/vender_exists.html', context)
 
     else:
         context={"form":form}
-    return render(request, 'vender/registration.html', context)
+    return render(request, 'vendor/registration.html', context)
 
 
 login_required(login_url='login')
@@ -60,8 +67,7 @@ def VenderUpdate(request, pk):
     
     context={'form':form, 'vender':vender}
         
-    return render(request, 'vender/updatevender.html', context)
-
+    return render(request, 'vendor/updatevender.html', context)
 
 
 login_required(login_url='login')
@@ -71,7 +77,7 @@ def venderViewAll(request):
 
     context={"venders":vender}
 
-    return render(request, 'vender/viewvender_registration.html', context)
+    return render(request, 'vendor/viewvender_registration.html', context)
 
 login_required(login_url='login')
 def deleteVender(request, pk):
@@ -80,16 +86,64 @@ def deleteVender(request, pk):
     if request.method == "POST":
 
         vender.delete()
-        messages.success(request, 'vender deleted successfully!')
+        messages.success(request, 'vendor deleted successfully!')
         return redirect("venderviewall")
     
     context = {"vender":vender}
-    return render(request, 'vender/delete_vender.html', context)
+    return render(request, 'vendor/delete_vender.html', context)
 
 login_required(login_url='login')
 def vebderView(request, pk):
     vender = Vendor.objects.get(id=pk)
-
     context = {"vender":vender}
-    return render(request, 'vender/venderview.html', context)
+    return render(request, 'vendor/venderview.html', context)
 
+login_required(login_url='login')
+def services(request):
+    return render(request, 'vendor/services.html')
+
+login_required(login_url='login')
+def catering(request):
+    cater_vendors = Vendor.objects.filter(service='Catering')
+    context = {'cater':cater_vendors, }
+    return render(request, 'vendor/catering.html', context)
+
+login_required(login_url='login')
+def caterView(request, pk):
+    vender = get_object_or_404(Vendor, pk=pk)
+
+    images = Image.objects.filter(vender=vender)
+
+    context = {"vender":vender, 'images':images}
+    return render(request, 'vendor/cater_details.html', context)
+
+
+login_required(login_url='login')
+def venue(request):
+    return render(request, 'vendor/venue.html')
+
+
+login_required(login_url='login')
+def UploadImages(request):
+   
+    if request.method == "POST":
+
+        form = ImageForm(request.POST, request.FILES)
+
+        if form.is_valid():
+            image_instance = form.save(commit=False)
+            
+            # Get the registered vendor associated with the current user
+            vendor = request.user.vender_profile
+            
+            # Set the vendor field of the image instance to the retrieved vendor
+            image_instance.vender = vendor
+            image_instance.save()
+            messages.success(request, 'Image uploaded successfully.')
+            return redirect('vender_register')
+    else:
+
+        form = ImageForm()
+    
+    context = {'form': form}
+    return render(request, 'vendor/images.html', context)

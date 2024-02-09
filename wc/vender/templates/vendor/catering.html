@@ -1,0 +1,37 @@
+{% extends 'acc/base.html'%}
+{% load static %}
+{% block content %}
+
+
+
+<h2>{{ vendor.company_name }}</h2>
+
+<body>
+
+
+        <div class="container">
+
+            <h1 class="heading">Cater Services Providers</h1>
+
+            <div class="cater">
+                {% for vendor in cater %}
+                <div class="cater-box">
+                    <p>id ={{vendor.id}} </p>
+                    <img class="img-thumbnail" src="{{ vendor.Vender_image.url }}" alt="cater-service-provider">
+                   
+                    <h3>{{ vendor.company_name }}</h3>
+                    <div class="cater-about">
+                        <p>{{ vendor.vender_email }}</p>
+                    </div>
+                    <a class="btn" href="{% url 'caterView' vendor.id%}">view company</a>
+                </div>
+                
+                {% endfor %}
+            </div>
+        </div>
+
+</body>
+
+
+
+{% endblock %}

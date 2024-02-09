@@ -4,19 +4,52 @@
 
 
 {% block content%}
-<body>
-    <h1>home</h1>
-    {% if user.is_authenticated %}
+<body style="background-image: url('{% static 'images/homephoto.jpeg' %}'); background-repeat:no-repeat; background-size:100% ">
+    
+    <div class="container py-3">
+        <div class="home">
+            <h1 ><a href="#Wellcome-to-Wedding-Cluster"> Wellcome to @wedding-cluster </a></h1>
+        </div>
+    </div>
 
-   
+    <div class="container py-3">
+       {% if user.is_authenticated %}
 
-    <div class="container border py-3">
+
+        </div>
         {%if request.user.is_superuser %}
         <a href="{% url 'listuser' %}"><button type="submit" class="btn btn-outline-success">Users</button></a>
-        
         <a href="{% url 'venderviewall' %}"><button type="submit" class="btn btn-outline-success">Venders</button></a>
     </div>
     {% endif %}
     {% endif %}
-</body>
+
+        </div>
+
+        <div class="container border py-3 home-content" >
+                <div class="content-box" style="background-image: url('{% static 'images/serviceshome.jpeg' %}'); background-repeat:no-repeat; background-size:100%; background-size:cover; ">
+                    <h1> <a href="{% url 'services'%}">Services</a></h1>
+                </div>
+
+                <div class="content-box" style="background-image: url('{% static 'images/venuehome.jpeg' %}'); background-repeat:no-repeat; background-size:100%; background-size:cover; ">
+                    <h1> <a href="{% url 'venue'%}">Venue</a></h1>
+                </div>
+
+                <div class="content-box" style="background-image: url('{% static 'images/bloghome.jpeg' %}'); background-repeat:no-repeat; background-size:100%; background-size:cover; ">
+                    <h1> <a href="">Blogs</a></h1>
+
+                </div>
+        </div>
+<br>
+
+
+       
+         
+    </div>
+
+
+
+   
+    
+
 {% endblock %}

@@ -1,0 +1,20 @@
+{% extends 'acc/base.html' %}
+	
+{% block content %}
+
+ <div class="container card border border-5">
+
+    <h1 class="text-center py-3 ">Vender Registration</h1><hr>
+
+        <form action="" method="post" class="" enctype="multipart/form-data">
+            {%csrf_token%}
+
+            {{form.as_p}}
+
+            <button type="submit"class="btn btn-success">Register</button>
+
+        </form>
+ </div>
+ 
+		
+{% endblock %}

@@ -1,0 +1,44 @@
+{% extends 'acc/base.html'%}
+{% load static %}
+{% block content %}
+
+<div class="container-fluid">
+    
+    
+    <div class="services">
+
+        <div class="services-box1">
+            <div class="service-box1">
+                <img src="{% static 'images/venues-dharwad-.jpeg'%}" class="img-thumbnail" alt="...">
+                <h4><a href="#Dharwad">Dharwad (4)</a></h4>
+            </div>
+            <div class="service-box1">
+                <img src="{% static 'images/gadag.jpeg'%}" class="img-thumbnail" alt="...">
+                <h4><a href="#Gadag">Gadag (5)</a></h4>
+            </div>
+          
+        </div>
+
+       
+    </div><br>
+
+            <div class="services">
+
+                <div class="services-box1">
+                    <div class="service-box1">
+                        <img src="{% static 'images/HUBBALLI-EAST.jpeg'%}" class="img-thumbnail" alt="...">
+                        <h4><a href="#Hubballi-east">Hubballi-east (3)</a></h4>
+                    </div>
+
+
+                <div class="services-box1">
+                    <div class="service-box1">
+                        <img src="{% static 'images/HUBBALLI-WEST.jpeg'%}" class="img-thumbnail" alt="...">
+                        <h4><a href="#Hubballi-west">Hubballi-west (5)</a></h4>
+                    </div>
+                </div>
+
+            </div>
+    
+  </div>
+{% endblock %}
