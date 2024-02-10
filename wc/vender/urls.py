@@ -16,9 +16,32 @@ urlpatterns = [
 
     path('venue/',views.venue, name='venue'),
     
+    # caterview and their details -----------------------------------------
+
     path('catering/',views.catering, name='catering'),
 
     path('caterView/<str:pk>',views.caterView, name='caterView'),
+
+
+    # decorview and their details -----------------------------------------
+
+    path('decor/',views.decor, name='decor'),
+
+    path('decorView/<str:pk>',views.decorView, name='decorView'),
+    
+    # planningview and their details -----------------------------------------
+
+    path('planning/',views.planning, name='planning'),
+
+    path('planningView/<str:pk>',views.planningView, name='planningView'),
+
+ # PhotosVideosview and their details -----------------------------------------
+
+    path('PhotosVideos/',views.PhotosVideos, name='PhotosVideos'),
+
+    path('PhotosVideosView/<str:pk>',views.PhotosVideosView, name='PhotosVideosView'),
+
+
     
     path('uploadimages/',views.UploadImages, name='uploadimages'),
 

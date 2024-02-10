@@ -3,8 +3,7 @@ from django.db import models
 from django.contrib.auth import get_user_model
 CustomUser = get_user_model()
 # Create your models here.
-class Vendor(models.Model):
-
+class Service(models.Model):
     SERIVCES = (
         ('Catering', 'Catering'),
         ('Decor', 'Decor'),
@@ -17,8 +16,16 @@ class Vendor(models.Model):
         ('Transport and Logistics', 'Transport and Logistics'),
         ('Entertainment', 'Entertainment'),
     )
+    service_name = models.CharField(max_length=200, null=True, choices=SERIVCES)
+
+    def __str__(self):
+        return self.service_name
+
+
+class Vendor(models.Model):
+
     user = models.OneToOneField(CustomUser, on_delete=models.CASCADE, related_name='vender_profile')
-    service = models.CharField(max_length=200, null=True, choices=SERIVCES)
+    services = models.ManyToManyField(Service)
     company_name = models.CharField(max_length=100)
     vender_name =models.CharField(max_length=100, null=True)
     vender_phone = models.CharField(max_length=12, null=True)
@@ -39,6 +46,5 @@ class Image(models.Model):
 
     def __str__(self):
         return f"{self.image} by {self.vender}"
-
 
 

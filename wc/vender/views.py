@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse
-from .models import Vendor, Image
+from .models import Vendor, Image, Service
 from django.http import HttpResponse, HttpResponseRedirect
 from django.contrib import messages
 
@@ -23,6 +23,7 @@ def venderRegistration(request,):
             vender = form.save(commit=False)
             vender.user = request.user
             vender.save()
+            form.save_m2m()
             messages.success(request, "vender registration form created")
 
             return redirect("home")
@@ -95,26 +96,107 @@ def deleteVender(request, pk):
 login_required(login_url='login')
 def vebderView(request, pk):
     vender = Vendor.objects.get(id=pk)
-    context = {"vender":vender}
+    service = vender.services.all()
+    context = {"vender":vender, 'service':service}
     return render(request, 'vendor/venderview.html', context)
 
 login_required(login_url='login')
 def services(request):
     return render(request, 'vendor/services.html')
 
+# caterview and their details -----------------------------------------
+
 login_required(login_url='login')
 def catering(request):
-    cater_vendors = Vendor.objects.filter(service='Catering')
+    cater_vendors = Vendor.objects.filter(services__service_name='Catering')
     context = {'cater':cater_vendors, }
     return render(request, 'vendor/catering.html', context)
 
 login_required(login_url='login')
 def caterView(request, pk):
-    vender = get_object_or_404(Vendor, pk=pk)
 
+    vender = get_object_or_404(Vendor, pk=pk)
+    service = vender.services.all()
     images = Image.objects.filter(vender=vender)
 
-    context = {"vender":vender, 'images':images}
+    context = {"vender":vender, 'images':images, 'service':service}
+
+    return render(request, 'vendor/cater_details.html', context)
+
+# decorview and their details -----------------------------------------
+
+login_required(login_url='login')
+def decor(request):
+
+    decor_vendors = Vendor.objects.filter(services__service_name='Decor')
+    context = {'decor':decor_vendors}
+                
+    return render(request, 'vendor/decor.html', context)
+
+
+login_required(login_url='login')
+def decorView(request, pk):
+
+    vender = get_object_or_404(Vendor, pk=pk)
+    service = vender.services.all()
+    images = Image.objects.filter(vender=vender)
+
+    context = {"vender":vender, 'images':images, 'service':service}
+
+    return render(request, 'vendor/decor_details.html', context)
+
+# planningview and their details -----------------------------------------
+
+login_required(login_url='login')
+def planning(request):
+
+    planning_vendors = Vendor.objects.filter(services__service_name='Wedding Planning')
+    context = {'planning':planning_vendors, }
+
+    return render(request, 'vendor/planning.html', context)
+
+login_required(login_url='login')
+def planningView(request, pk):
+
+    vender = get_object_or_404(Vendor, pk=pk)
+    service = vender.services.all()
+    images = Image.objects.filter(vender=vender)
+
+    context = {"vender":vender, 'images':images, 'service':service}
+
+    return render(request, 'vendor/planning_details.html', context)
+
+# PhotosVideosview and their details -----------------------------------------
+
+login_required(login_url='login')
+def PhotosVideos(request):
+
+    PhotosVideos_vendors = Vendor.objects.filter(services__service_name='Photography and Videography')
+    context = {'PhotosVideos':PhotosVideos_vendors }
+
+    return render(request, 'vendor/PhotosVideos.html', context)
+
+login_required(login_url='login')
+def PhotosVideosView(request, pk):
+
+    vender = get_object_or_404(Vendor, pk=pk)
+    service = vender.services.all()
+    images = Image.objects.filter(vender=vender)
+
+    context = {"vender":vender, 'images':images, 'service':service}
+
+    return render(request, 'vendor/PhotosVideos_details.html', context)
+
+
+login_required(login_url='login')
+def caterView(request, pk):
+
+    vender = get_object_or_404(Vendor, pk=pk)
+    service = vender.services.all()
+    images = Image.objects.filter(vender=vender)
+
+    context = {"vender":vender, 'images':images, 'service':service}
+
     return render(request, 'vendor/cater_details.html', context)
 
 

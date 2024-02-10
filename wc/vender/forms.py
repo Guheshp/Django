@@ -1,16 +1,20 @@
 from django import forms
 
-from .models import Vendor, Image
+from .models import Vendor, Image, Service
 
 class VenderRegistrationForm(forms.ModelForm):
+
+    services = forms.ModelMultipleChoiceField(queryset=Service.objects.all(), widget=forms.CheckboxSelectMultiple)
+
 
     class Meta:
 
         model = Vendor
-        fields = ['service', 'vender_name', 'company_name','Vender_image', 'vender_phone', 'vender_email',
+        fields = ['services', 'vender_name', 'company_name','Vender_image', 'vender_phone', 'vender_email',
                  'vender_about','vender_address', 'vender_city', 'vender_state', 'vender_zip' ]
         widgets = {
-            'service': forms.Select(attrs={'class':'form-control', 'placeholder': 'Choose Service', 'required': True}),
+
+
             'vender_name':forms.TextInput(attrs={'class':'form-control', 'placeholder': 'Enter Vender Name', 'required': True}),
             'company_name':forms.TextInput(attrs={'class':'form-control', 'placeholder': 'Enter Company Name', 'required': True}),
             'vender_phone':forms.TextInput(attrs={'class':'form-control', 'placeholder': 'Enter Phone Number', 'required': True}),
@@ -24,14 +28,15 @@ class VenderRegistrationForm(forms.ModelForm):
         }
 
 class VenderUpdateForm(forms.ModelForm):
+    services = forms.ModelMultipleChoiceField(queryset=Service.objects.all(), widget=forms.CheckboxSelectMultiple)
 
     class Meta:
 
         model = Vendor
-        fields = ['service', 'vender_name', 'company_name', 'vender_phone', 'Vender_image', 'vender_email',
+        fields = ['services', 'vender_name', 'company_name', 'vender_phone', 'Vender_image', 'vender_email',
                  'vender_about','vender_address', 'vender_city', 'vender_state', 'vender_zip' ]
         widgets = {
-            'service': forms.Select(attrs={'class':'form-control', 'placeholder': 'Choose Service', 'required': True}),
+
             'vender_name':forms.TextInput(attrs={'class':'form-control', 'placeholder': 'Enter Vender Name', 'required': True}),
             'company_name':forms.TextInput(attrs={'class':'form-control', 'placeholder': 'Enter Company Name', 'required': True}),
             'vender_phone':forms.TextInput(attrs={'class':'form-control', 'placeholder': 'Enter Phone Number', 'required': True}),
