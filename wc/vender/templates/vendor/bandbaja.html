@@ -1,0 +1,33 @@
+{% extends 'acc/base.html'%}
+{% load static %}
+{% block content %}
+
+<h2>{{ vendor.company_name }}</h2>
+
+<body>
+
+        <div class="container">
+
+            <h1 class="heading">Band Baja Providers</h1>
+
+            <div class="cater">
+                {% for vendor in bandbaja_vendors %}
+                <div class="cater-box">
+                    <p>id ={{vendor.id}} </p>
+                    <img class="img-thumbnail" src="{{ vendor.Vender_image.url }}" alt="decor-service-provider">
+                   
+                    <h3>{{ vendor.company_name }}</h3>
+                    <div class="cater-about">
+                        <p>{{ vendor.vender_email }}</p>
+                    </div>
+                    <a class="btn" href="{% url 'bandbajaviews' vendor.id%}">view company</a>
+                </div>
+                
+                {% endfor %}
+            </div>
+        </div>
+
+</body>
+
+
+{% endblock %}

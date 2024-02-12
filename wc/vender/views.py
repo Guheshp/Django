@@ -187,9 +187,18 @@ def PhotosVideosView(request, pk):
 
     return render(request, 'vendor/PhotosVideos_details.html', context)
 
+# mehndimakeupview and their details -----------------------------------------
 
-login_required(login_url='login')
-def caterView(request, pk):
+@login_required(login_url='login')
+def mehndimakeup(request):
+
+    mehndimakeup_vendors = Vendor.objects.filter(services__service_name = 'Makeup and Mehndi')
+    context = {'mehndimakeup_vendors':mehndimakeup_vendors}
+
+    return render(request, 'vendor/mehndimakeup.html', context)
+
+@login_required(login_url='login')
+def mehndimakeupviews(request, pk):
 
     vender = get_object_or_404(Vendor, pk=pk)
     service = vender.services.all()
@@ -197,10 +206,75 @@ def caterView(request, pk):
 
     context = {"vender":vender, 'images':images, 'service':service}
 
-    return render(request, 'vendor/cater_details.html', context)
+    return render(request, 'vendor/mehndimakeup_details.html', context) 
+
+# artistmanagementview and their details -----------------------------------------
+
+@login_required(login_url='login')
+def artistmanagement(request):
+
+    artistmanagement_vendors = Vendor.objects.filter(services__service_name = 'Artist Management')
+    context = {'artistmanagement_vendors':artistmanagement_vendors}
+
+    return render(request, 'vendor/artistmanagement.html', context)
+
+@login_required(login_url='login')
+def artistmanagementviews(request, pk):
+
+    vender = get_object_or_404(Vendor, pk=pk)
+    service = vender.services.all()
+    images = Image.objects.filter(vender=vender)
+
+    context = {"vender":vender, 'images':images, 'service':service}
+
+    return render(request, 'vendor/artistmanagement_details.html', context)
 
 
-login_required(login_url='login')
+# bandbajaview and their details -----------------------------------------
+
+@login_required(login_url='login')
+def bandbaja(request):
+
+    bandbaja_vendors = Vendor.objects.filter(services__service_name = 'Band Baja')
+    context = {'bandbaja_vendors':bandbaja_vendors}
+
+    return render(request, 'vendor/bandbaja.html', context)
+
+@login_required(login_url='login')
+def bandbajaviews(request, pk):
+
+    vender = get_object_or_404(Vendor, pk=pk)
+    service = vender.services.all()
+    images = Image.objects.filter(vender=vender)
+
+    context = {"vender":vender, 'images':images, 'service':service}
+
+    return render(request, 'vendor/bandbajaviews_details.html', context)
+
+# transportlogisticsview and their details -----------------------------------------
+
+@login_required(login_url='login')
+def transportlogistics(request):
+
+    transportlogistics_vendors = Vendor.objects.filter(services__service_name = 'Transport and Logistics')
+    context = {'transportlogistics_vendors':transportlogistics_vendors}
+
+    return render(request, 'vendor/transportlogistics.html', context)
+
+@login_required(login_url='login')
+def transportlogisticsviews(request, pk):
+
+    vender = get_object_or_404(Vendor, pk=pk)
+    service = vender.services.all()
+    images = Image.objects.filter(vender=vender)
+
+    context = {"vender":vender, 'images':images, 'service':service}
+
+    return render(request, 'vendor/transportlogisticsviews_details.html', context)
+
+
+
+@login_required(login_url='login')
 def venue(request):
     return render(request, 'vendor/venue.html')
 

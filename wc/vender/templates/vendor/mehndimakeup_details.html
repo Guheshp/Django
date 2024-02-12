@@ -1,0 +1,201 @@
+{% extends 'acc/base.html'%}
+{% load static %}
+{% block content %}
+
+<div class=" container card py-2">
+    <h1>Vender View</h1>
+</div>
+
+<div class="container">
+    <div class="row gutters">
+    <div class="col-xl-3 col-lg-3 col-md-12 col-sm-12 col-12">
+    <div class="card h-100">
+        <div class="card-body">
+            <div class="account-settings">
+                <div class="user-profile">
+                    <div class="user-avatar">
+                        <img src="{{ vender.Vender_image.url }}" alt="Vender image">
+                    </div>
+                    <h5 class="user-name">{{ vender.vender_name }}</h5>
+                    <h6 class="user-email">{{ vender.vender_email }}</h6>
+                </div>
+                <div class="about">
+                    <h5>About</h5>
+                    <p>{{ vender.vender_about}}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+    <div class="col-xl-9 col-lg-9 col-md-12 col-sm-12 col-12">
+    <div class="card h-100">
+        <div class="card-body">
+            <div class="row gutters">
+                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                    <h6 class="mb-2 text-primary">Service Details</h6>
+                </div>
+
+                <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+                    <div class="">
+                        <label class="py-1">services category</label>
+    
+                        <div class="card">
+                            <div class="py-2 mx-3">
+
+                                {% for serve in service %}
+                                <li>{{ serve.service_name }}</li>
+                                {% endfor %}
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                    <h6 class="mb-2 text-primary">Personal Details</h6>
+                </div>
+                <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+                    <div class="">
+                        <label class="py-1">Vender Name</label>
+    
+                        <div class="card">
+                            <div class="py-2 mx-3">
+                                {{ vender.vender_name}} 
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+                    <div class="">
+                        <label class="py-1">Company Name</label>
+
+                        <div class="card">
+                            <div class="py-2 mx-3">
+                                {{ vender.company_name}} 
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+                    <div class="">
+                        <label class="py-1">Email</label>
+
+                        <div class="card">
+                            <div class="py-2 mx-3">
+                                {{ vender.vender_email}} 
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+                    <div class="">
+                        <label class="py-1">Contact</label>
+
+                        <div class="card">
+                            <div class="py-2 mx-3">
+                                {{ vender.vender_phone}} 
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+            <div class="row gutters">
+                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                    <h6 class="mt-3 mb-2 text-primary">Address</h6>
+                </div>
+                <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+                    <div class="">
+                        <label class="py-1">Street</label>
+
+                        <div class="card">
+                            <div class="py-2 mx-3">
+                                {{ vender.vender_address}} 
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+                    <div class="">
+                        <label class="py-1">City</label>
+
+                        <div class="card">
+                            <div class="py-2 mx-3">
+                                {{ vender.vender_city}} 
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+                    <div class="">
+                        <label class="py-1">State</label>
+
+                        <div class="card">
+                            <div class="py-2 mx-3">
+                                {{ vender.vender_state}} 
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+                    <div class="">
+                        <label class="py-1" >Zip Code</label>
+
+                        <div class="card">
+                            <div class="py-2 mx-3">
+                                {{ vender.vender_zip}} 
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+       
+    </div>
+    </div>
+    </div>
+    <div class="container">
+
+        <h1 class="heading">Our Decor</h1>
+
+        <div class="cater">
+            {% for img in images%}
+
+            <div class="cater-box">
+
+                <img class="img-thumbnail " src="{{ img.image.url }}" alt="{{ img.image.url }}">
+               
+                <a class="btn" href="#">dish1</a>
+            </div>
+            
+            {% endfor %}
+        </div>
+    </div>
+
+
+    <!-- <div class="container-fluid">
+    
+        <h1 class="heading">Our Dishes</h1>
+    
+          <div class="services">
+              {% for img in images%}
+              <div class="services-box1">
+                  <div class="service-box1">
+                      <img src="{{ img.image.url }}" class="img-thumbnail" alt="...">
+                      <h4><a class="btn" href="#dish1">dish1</a></h4>
+                  </div>
+              </div>
+              {%endfor%}
+          </div>
+      </div> -->
+        
+   
+{% endblock %}

@@ -22,7 +22,6 @@ urlpatterns = [
 
     path('caterView/<str:pk>',views.caterView, name='caterView'),
 
-
     # decorview and their details -----------------------------------------
 
     path('decor/',views.decor, name='decor'),
@@ -35,11 +34,36 @@ urlpatterns = [
 
     path('planningView/<str:pk>',views.planningView, name='planningView'),
 
- # PhotosVideosview and their details -----------------------------------------
+    # PhotosVideosview and their details -----------------------------------------
 
     path('PhotosVideos/',views.PhotosVideos, name='PhotosVideos'),
 
     path('PhotosVideosView/<str:pk>',views.PhotosVideosView, name='PhotosVideosView'),
+
+    # MehndiandMakeupview and their details -----------------------------------------
+    
+    path('mehndimakeup/',views.mehndimakeup, name='mehndimakeup'),
+
+    path('mehndimakeupviews/<str:pk>',views.mehndimakeupviews, name='mehndimakeupviews'),
+
+    # artistmanagementviews and their details -----------------------------------------
+    
+    path('artistmanagement/',views.artistmanagement, name='artistmanagement'),
+
+    path('artistmanagementviews/<str:pk>',views.artistmanagementviews, name='artistmanagementviews'),
+
+    # bandbajaviews and their details -----------------------------------------
+    
+    path('bandbaja/',views.bandbaja, name='bandbaja'),
+
+    path('bandbajaviews/<str:pk>',views.bandbajaviews, name='bandbajaviews'),
+
+    # transportlogisticsviews and their details -----------------------------------------
+    
+    path('transportlogistics/',views.transportlogistics, name='transportlogistics'),
+
+    path('transportlogisticsviews/<str:pk>',views.transportlogisticsviews, name='transportlogisticsviews'),
+
 
 
     
