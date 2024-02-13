@@ -66,6 +66,9 @@ error!
                 <div class="remember-password">
                     <a href="{% url 'reset_password' %}">Forgot Password?</a>
                 </div>
+                {% if request.GET.next %}
+                <input type="hidden" name="next" value="{{ request.GET.next }}">
+                {% endif %}
                 <button type="submit" class="Btn">
                     Login
                 </button>

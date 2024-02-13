@@ -1,4 +1,8 @@
-from django.contrib.auth.forms import UserCreationForm, AuthenticationForm, UserChangeForm
+from django.contrib.auth.forms import (UserCreationForm,
+                                        AuthenticationForm,
+                                        UserChangeForm,
+                                        PasswordChangeForm,
+                                        )
 
 from .models import CustomUser
 
@@ -8,9 +12,13 @@ from django.forms.widgets import PasswordInput, TextInput, EmailInput
 
 class createUserForm(UserCreationForm):
 
+    profile_image = forms.ImageField(label='Profile Image', required=False) 
+    
     class Meta:
         model = CustomUser
-        fields = [ 'email', 'name','phone', 'password1', 'password2']
+    class Meta:
+        model = CustomUser
+        fields = [ 'email', 'name','phone','profile_Image', 'password1', 'password2']
 
 
 # class LoginForm(AuthenticationForm):
@@ -32,11 +40,18 @@ class LoginForm(AuthenticationForm):
 class EditUserProfilrForm(UserChangeForm):
 
     class Meta:
+        profile_image = forms.ImageField(label='Profile Image', required=False) 
 
         password = None
 
         model = CustomUser
-        fields = [ 'email', 'name','phone']
+        fields = [ 'email', 'name','phone', 'profile_Image']
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields.pop('password')
+        self.fields['email'].widget.attrs['readonly'] = True
+        
 
 class EditAdminProfilrForm(UserChangeForm):
 
@@ -46,3 +61,4 @@ class EditAdminProfilrForm(UserChangeForm):
 
         model = CustomUser
         fields = ['name', 'email', 'phone', 'is_staff', 'is_superuser', 'is_active']
+

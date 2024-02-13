@@ -41,6 +41,7 @@ class CustomUser(AbstractUser):
     email = models.EmailField(_("email address"), unique=True)
     phone = models.CharField(max_length=12, unique=True, null=True)
     name = models.CharField(max_length=200, null=True, blank=True)
+    profile_Image = models.ImageField(upload_to='profile_img', null=True, blank=True, default='userdefaultimg.png')
     last_login = models.DateTimeField(_("last login"), auto_now=True, null=True,)
     date_joined = models.DateTimeField(_("date joined"), auto_now_add=True, null=True,)
 

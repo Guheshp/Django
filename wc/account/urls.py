@@ -14,6 +14,8 @@ urlpatterns = [
     path('login/',views.Login, name='login'),
 
     path('logout/',views.Logout, name='logout'),
+    
+    path('changepassword/',views.ChangePassword, name='changepassword'),
 
     path('user_profile/<str:pk>',views.UserProfile, name='user_profile'),
 
