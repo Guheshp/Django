@@ -1,0 +1,17 @@
+{% extends 'acc/base.html'%}
+
+{% load static %}
+
+{% block content%}
+
+<body style="background-image: url('{% static 'images/homephoto.jpeg' %}'); background-repeat:no-repeat; background-size:100% ">
+<div class="venderpage">
+    <div class="container">
+     {% for v in vendor%}
+        <a class="title btn btn-outline-info" href="{% url 'vendorservice' v.id%}">MY SERVICES</a>
+        {% endfor %}
+    </div>
+</div>
+</body>
+
+{% endblock %}

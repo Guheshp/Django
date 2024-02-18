@@ -64,10 +64,15 @@ urlpatterns = [
 
     path('transportlogisticsviews/<str:pk>',views.transportlogisticsviews, name='transportlogisticsviews'),
 
+    # review -----------------------------------------
+
+    path('reviewVender/<str:pk>',views.reviewVender, name='reviewVender'),
+
+    #  -----------------------------------------
+
+  
 
 
-    
-    path('uploadimages/',views.UploadImages, name='uploadimages'),
 
 
 

@@ -1,0 +1,24 @@
+{% extends 'acc/base.html'%}
+
+{% load crispy_forms_tags %}
+
+{% block content %}
+
+<body >
+    
+
+<div class="container border">
+    <div class="card my-2  text-center">
+
+        <form method="post">
+            {% csrf_token %}
+            <label><input type="radio" name="registration_option" value="register_user"> Register as User</label><br>
+            <label><input type="radio" name="registration_option" value="register_vendor"> Register as Vendor</label><br>
+            <button type="submit">Submit</button>
+        </form>
+    </div>
+</div>
+  
+</body>
+
+{% endblock %}

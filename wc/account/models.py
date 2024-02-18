@@ -28,11 +28,17 @@ class CustomUserManager(BaseUserManager):
         extra_fields.setdefault("is_staff", True)
         extra_fields.setdefault("is_superuser", True)
         extra_fields.setdefault("is_active", True)
-
+        extra_fields.setdefault("is_vendor", True)
+        extra_fields.setdefault("is_customer", True)
+        
         if extra_fields.get("is_staff") is not True:
             raise ValueError(_("Superuser must have is_staff=True."))
         if extra_fields.get("is_superuser") is not True:
             raise ValueError(_("Superuser must have is_superuser=True."))
+        if extra_fields.get("is_vendor") is not True:
+            raise ValueError(_("Superuser must have is_vendor=True."))
+        if extra_fields.get("is_customer") is not True:
+            raise ValueError(_("Superuser must have is_customer=True."))
         return self.create_user(email, password, phone, **extra_fields)
     
 
@@ -44,6 +50,10 @@ class CustomUser(AbstractUser):
     profile_Image = models.ImageField(upload_to='profile_img', null=True, blank=True, default='userdefaultimg.png')
     last_login = models.DateTimeField(_("last login"), auto_now=True, null=True,)
     date_joined = models.DateTimeField(_("date joined"), auto_now_add=True, null=True,)
+
+    is_vendor = models.BooleanField(default=False)
+    is_customer = models.BooleanField(default=False)
+
 
 
     USERNAME_FIELD = "email"

@@ -9,6 +9,8 @@ urlpatterns = [
 
     path('register/',views.Register, name='register'),
 
+    path('VendorRegister/',views.VendorRegister, name='VendorRegister'),
+
     path('listuser/',views.ListUser, name='listuser'),
     
     path('login/',views.Login, name='login'),
@@ -27,12 +29,28 @@ urlpatterns = [
 
     path('acc_active_email_invalid',views.acc_active_email_invalid, name='acc_active_email_invalid'),
 
-#  password reset 
+#  password reset  ---------------------------------------------------------
 
     path('reset_password/',auth_views.PasswordResetView.as_view(template_name='acc/reset_password.html'),name='reset_password'),
     path('reset_password_sent/',auth_views.PasswordResetDoneView.as_view(template_name='acc/password_reset_done.html'),name='password_reset_done'),
     path('reset/<uidb64>/<token>/',auth_views.PasswordResetConfirmView.as_view(template_name='acc/password_reset_confirm.html'),name='password_reset_confirm'),
     path('reset_password_complete/',auth_views.PasswordResetCompleteView.as_view(template_name='acc/password_reset_complete.html'),name='password_reset_complete'),
+
+# registeration choices ---------------------------------------------------------
+    path('registrationchoice/', views.registrationchoice, name='registrationchoice'),
+
+# when vender registred redirect first to this page  ---------------------------------------------------------
+    path('newvendor/', views.newvendor, name='newvendor'),
+
+# vender to view his services ---------------------------------------------------------
+    path('vendorservice/<str:pk>', views.vendorservice, name='vendorservice'),
+
+    path('serviceimage/<str:pk>', views.serviceimage, name='serviceimage'),
+    
+# when newuser registred redirect first to this page  ---------------------------------------------------------
+    path('newcustomer/', views.newcustomer, name='newcustomer'),
+
+
    
 ]
 

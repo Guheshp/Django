@@ -1,0 +1,43 @@
+{% extends 'acc/base.html'%}
+
+{% load static %}
+
+{% block content%}
+
+<body style="background-image: url('{% static 'images/homephoto.jpeg' %}'); background-repeat:no-repeat; background-size:100% ">
+    <div class="venderpage">
+        <div class="container">
+            <h3 class="title">Vender Profile</h3>
+        
+            <div class="services-container">
+
+                <div class="servive">
+                    <img src="{{ vendor.Vender_image.url }}" alt="">
+                    <h3>{{ vendor.company_name }}</h3>
+                    <div class="gmail">{{ vendor.vender_email }}</div>
+                    <div class="phoneno">{{ vendor.vender_phone }}</div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <div class="venderpage">
+        <div class="container">
+            <h3 class="title">services</h3>
+        
+            <div class="services-container">
+                {% for s in services%}
+                <div class="servive">
+                    <img src="{% static 'images/wedds.jpeg'%}" alt="">
+                    <h3>{{ s.service_name }}</h3>
+                    <!-- <div class="gmail">{{ s.service_name }}</div> -->
+                    <!-- <div class="phoneno">{{ vendor.vender_phone }}</div> -->
+                </div>
+                {% endfor %}
+
+            </div>
+        </div>
+    </div>
+</body>
+
+{% endblock %}    

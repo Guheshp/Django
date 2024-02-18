@@ -2,54 +2,104 @@
 
 {% load static %}
 
-
 {% block content%}
-<body style="background-image: url('{% static 'images/homephoto.jpeg' %}'); background-repeat:no-repeat; background-size:100% ">
-    
-    <div class="container py-3">
+<!-- <body style="background-image: url('{% static 'images/homephoto.jpeg' %}'); background-repeat:no-repeat; background-size:100% "> -->
+    <body>
+        <!-- <div class="container py-3">
+            <div class="home">
+                <h1 ><a href="#Wellcome-to-Wedding-Cluster"> Wellcome to @wedding-cluster </a></h1>
+            </div>
+        </div> -->
+
+            <!-- <div class="container py-3">
+                {% if user.is_authenticated %}
+                    {%if request.user.is_superuser %}
+                    <a href="{% url 'listuser' %}"><button type="submit" class="btn btn-outline-success">Users</button></a>
+                    <a href="{% url 'venderviewall' %}"><button type="submit" class="btn btn-outline-success">Venders</button></a>
+                </div>
+                {% endif %}
+                {% endif %}
+            </div>
+    <div class="home-slide ">
+
         <div class="home">
             <h1 ><a href="#Wellcome-to-Wedding-Cluster"> Wellcome to @wedding-cluster </a></h1>
         </div>
+        <section class="container">
+            <div class="slider-wrapper">
+                <div class="slider">
+                    <img id="slide-1" src="{% static 'images/home1back.jpeg'%}"  alt="home1back">
+                    <img id="slide-2" src="{% static 'images/home2back.jpeg'%}"   alt="home2back">
+                    <img id="slide-3" src="{% static 'images/home3back.jpeg'%}"  alt="home3back">
+                </div>
+                <div class="slider-nav">
+                    <a href="#slide-1" class="slide-link"></a>
+                    <a href="#slide-2" class="slide-link"></a>
+                    <a href="#slide-3" class="slide-link"></a>
+                </div>
+            </div>
+        </section>   
+        
+      <section class="container border py-3 home-content" >
+            <div class="content-box" style="background-image: url('{% static 'images/serviceshome.jpeg' %}'); background-repeat:no-repeat; background-size:100%; background-size:cover; ">
+                <h1> <a href="{% url 'services'%}">Services</a></h1>
+            </div>
+        
+            <div class="content-box" style="background-image: url('{% static 'images/venuehome.jpeg' %}'); background-repeat:no-repeat; background-size:100%; background-size:cover; ">
+                <h1> <a href="{% url 'venue'%}">Venue</a></h1>
+            </div>
+        
+            <div class="content-box" style="background-image: url('{% static 'images/bloghome.jpeg' %}'); background-repeat:no-repeat; background-size:100%; background-size:cover; ">
+                <h1> <a href="">Blogs</a></h1>
+        
+            </div>
+        </section> 
+        
     </div>
 
-    <div class="container py-3">
-       {% if user.is_authenticated %}
-
-
-        </div>
-        {%if request.user.is_superuser %}
-        <a href="{% url 'listuser' %}"><button type="submit" class="btn btn-outline-success">Users</button></a>
-        <a href="{% url 'venderviewall' %}"><button type="submit" class="btn btn-outline-success">Venders</button></a>
-    </div>
-    {% endif %}
-    {% endif %}
-
-        </div>
-
-        <div class="container border py-3 home-content" >
-                <div class="content-box" style="background-image: url('{% static 'images/serviceshome.jpeg' %}'); background-repeat:no-repeat; background-size:100%; background-size:cover; ">
-                    <h1> <a href="{% url 'services'%}">Services</a></h1>
-                </div>
-
-                <div class="content-box" style="background-image: url('{% static 'images/venuehome.jpeg' %}'); background-repeat:no-repeat; background-size:100%; background-size:cover; ">
-                    <h1> <a href="{% url 'venue'%}">Venue</a></h1>
-                </div>
-
-                <div class="content-box" style="background-image: url('{% static 'images/bloghome.jpeg' %}'); background-repeat:no-repeat; background-size:100%; background-size:cover; ">
-                    <h1> <a href="">Blogs</a></h1>
-
-                </div>
-        </div>
 <br>
 
+</div>
 
-       
-         
-    </div>
+-->
+
+        <div class="home">
+
+            <div class="slider">
+                <img class="slide" src="{% static 'images/home1back.jpeg.png'%}"  alt="home1back">
+                <img class="slide" src="{% static 'images/home2back.jpeg'%}"   alt="home2back">
+                <img class="slide" src="{% static 'images/home3back.jpeg'%}"  alt="home3back">
+                
+
+                <div class="slider-button">
+
+                    <button onclick="goPrev()"><i class="fa-solid fa-arrow-left"></i></button>
+                    <button onclick="goNext()"><i class="fa-solid fa-arrow-right"></i></button>
+                </div>
+            </div>
+
+           
+
+        </div>
+        <div class="info container">
+            <div class="box1">
+                <div class="card text-center">
+                   
+                    <div class="card-body">
+                      <h5 class="card-title">Special title treatment</h5>
+                      <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+                      <a href="#" class="btn btn-primary">Go somewhere</a>
+                    </div>
+                    
+                  </div>
+            </div>
+            <div class="box1"></div>
+            <div class="box1"></div>
+        </div>
 
 
+        <!-- <img class="img-info" src="{% static 'images/wedds.jpeg'%}" alt="" -->
 
-   
-    
 
+</body>
 {% endblock %}

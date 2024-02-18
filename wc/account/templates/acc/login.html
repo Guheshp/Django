@@ -3,7 +3,6 @@
 
 {% load crispy_forms_tags %}
 
-
 {% block content %}
 
 
@@ -73,7 +72,7 @@ error!
                     Login
                 </button>
                 <div class="login-register">
-                    <p>Don't haave an account?<a href="" class="register-link">Register</a>
+                    <p>Don't haave an account?<a href="{% url 'registrationchoice'%}" class="register-link">Register</a>
                     </p>
                 </div>
             </form>

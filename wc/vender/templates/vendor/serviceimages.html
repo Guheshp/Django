@@ -1,0 +1,23 @@
+{% extends 'acc/base.html' %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+
+<body class="m-5">
+    <div class="container">
+
+    <!-- <h1 class="text-center py-3 ">Upload Images</h1><hr> -->
+        <div class="card">
+            <form action="" method="post" enctype="multipart/form-data">
+                {%csrf_token%}
+                    {{form|crispy}}                
+                <button type="submit"class="btn btn-success m-3">upload</button>
+
+            </form>
+
+        </div>
+    </div>
+	
+</body>
+		
+{% endblock %}

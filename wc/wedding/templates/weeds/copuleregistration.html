@@ -1,0 +1,60 @@
+{% extends 'acc/base.html' %}
+
+{% load static %}
+
+{% block content %}
+
+<body>
+    <div class="container">
+        <div class="row justify-content-center mb-3 underline">
+        <h1>couples registration</h1>
+        </div>
+
+    </div>
+
+    <div class="container">
+
+        <div class="row  justify-content-center">
+            <div class="col-md-5">
+                <div class="card">
+                    <form action="" method="POST">
+                        {% csrf_token %}
+                        <div class="form-group m-3">
+                            <label for="">Groom Name</label>
+                            <input type="text" name="groomname" placeholder="Enter Groom Name" class="form-control" id="">
+                        </div>
+                        <div class="form-group m-3">
+                            <label for="">Bride Name</label>
+                            <input type="text" name="bridename" placeholder="Enter Bride Name" class="form-control" id="">
+                        </div>
+                        <div class="form-group m-3">
+                            <label for="">Groom Date Of Birth</label>
+                            <input type="date" name="groom_dob"  class="form-control" id="">
+                        </div>
+
+                        <div class="form-group m-3">
+                            <label for="">Bride Date Of Birth</label>
+                            <input type="date" name="bride_dob"  class="form-control" id="">
+                        </div>
+
+                        <div class="form-group m-3">
+                            <label for="">Contact Number</label>
+                            <input type="tel" name="phone_number" placeholder="Enter Contact Number" class="form-control" id="">
+                        </div>
+
+                        <div class="form-group m-3">
+                            <label for="">Wedding Date</label>
+                            <input type="date" name="Wedding_date" placeholder="Enter Groom Name" class="form-control" id="">
+                        </div>
+                        <button class="btn btn-outline-success m-3">Submit</button>
+                    </form>
+                </div>
+            </div>
+            
+
+        </div>
+    </div>
+
+</body>
+
+{% endblock %}

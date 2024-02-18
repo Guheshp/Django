@@ -1,16 +1,18 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse
-from .models import Vendor, Image, Service
+from .models import Vendor, Service, ReviewVender
 from django.http import HttpResponse, HttpResponseRedirect
 from django.contrib import messages
 
+from account.decorators import unauthenticated_user, allowed_users, admin_only
+
 from django.contrib.auth.decorators import login_required
 
-from .forms import VenderRegistrationForm, VenderUpdateForm, ImageForm
-
+from .forms import VenderRegistrationForm, VenderUpdateForm, ReviewForm
 # Create your views here.
 
-login_required(login_url='login')
+@login_required(login_url='login')
+@admin_only
 def venderRegistration(request,):
 
     form = VenderRegistrationForm()
@@ -23,6 +25,7 @@ def venderRegistration(request,):
             vender = form.save(commit=False)
             vender.user = request.user
             vender.save()
+            # Save the services associated with the vendor
             form.save_m2m()
             messages.success(request, "vender registration form created")
 
@@ -35,11 +38,12 @@ def venderRegistration(request,):
         # Get the name of the registered vendor
 
         registered_vendor = Vendor.objects.get(user=request.user)
+        service = registered_vendor.services.all()
 
-        messages.success(request,'allready registred')
+        # messages.success(request,'allready registred')
 
         context = {"registered_vendor": registered_vendor, 
-                 }
+                    "service":service, }
 
         return render(request, 'vendor/vender_exists.html', context)
 
@@ -48,30 +52,27 @@ def venderRegistration(request,):
     return render(request, 'vendor/registration.html', context)
 
 
-login_required(login_url='login')
+@login_required(login_url='login')
 def VenderUpdate(request, pk):
-
     vender = Vendor.objects.get(id=pk)
     form = VenderUpdateForm(instance=vender)
 
     if request.method == "POST":
         form = VenderUpdateForm(request.POST, request.FILES, instance=vender)
-
         if form.is_valid():
             form.save()
-
             vender_name = form.cleaned_data.get('vender_name')
             messages.success(request, f"{vender_name} form updated!")
-
             venderview_url = reverse('venderview', args=[vender.pk])
             return redirect(venderview_url)
-    
-    context={'form':form, 'vender':vender}
-        
+    else:
+        form = VenderUpdateForm(instance=vender)
+    context = {'form': form, 'vender': vender}
     return render(request, 'vendor/updatevender.html', context)
 
 
-login_required(login_url='login')
+
+@login_required(login_url='login')
 def venderViewAll(request):
 
     vender = Vendor.objects.all().order_by('-id')
@@ -80,7 +81,7 @@ def venderViewAll(request):
 
     return render(request, 'vendor/viewvender_registration.html', context)
 
-login_required(login_url='login')
+@login_required(login_url='login')
 def deleteVender(request, pk):
     vender = Vendor.objects.get(id=pk)
 
@@ -93,7 +94,7 @@ def deleteVender(request, pk):
     context = {"vender":vender}
     return render(request, 'vendor/delete_vender.html', context)
 
-login_required(login_url='login')
+@login_required(login_url='login')
 def vebderView(request, pk):
     vender = Vendor.objects.get(id=pk)
     service = vender.services.all()
@@ -117,9 +118,10 @@ def caterView(request, pk):
 
     vender = get_object_or_404(Vendor, pk=pk)
     service = vender.services.all()
-    images = Image.objects.filter(vender=vender)
 
-    context = {"vender":vender, 'images':images, 'service':service}
+    review = ReviewVender.objects.filter(vendor=vender).order_by('-created_at')
+
+    context = {"vender":vender,'service':service,'review':review}
 
     return render(request, 'vendor/cater_details.html', context)
 
@@ -139,9 +141,11 @@ def decorView(request, pk):
 
     vender = get_object_or_404(Vendor, pk=pk)
     service = vender.services.all()
-    images = Image.objects.filter(vender=vender)
 
-    context = {"vender":vender, 'images':images, 'service':service}
+ # getting all review
+    review = ReviewVender.objects.filter(vendor=vender).order_by('-created_at')
+
+    context = {"vender":vender, 'service':service, 'review':review}
 
     return render(request, 'vendor/decor_details.html', context)
 
@@ -160,9 +164,11 @@ def planningView(request, pk):
 
     vender = get_object_or_404(Vendor, pk=pk)
     service = vender.services.all()
-    images = Image.objects.filter(vender=vender)
 
-    context = {"vender":vender, 'images':images, 'service':service}
+    
+    review = ReviewVender.objects.filter(vendor=vender).order_by('-created_at')
+
+    context = {"vender":vender,'service':service,'review':review}
 
     return render(request, 'vendor/planning_details.html', context)
 
@@ -181,15 +187,14 @@ def PhotosVideosView(request, pk):
 
     vender = get_object_or_404(Vendor, pk=pk)
     service = vender.services.all()
-    images = Image.objects.filter(vender=vender)
+    review = ReviewVender.objects.filter(vendor=vender).order_by('-created_at')
 
-    context = {"vender":vender, 'images':images, 'service':service}
-
+    context = {"vender":vender,'service':service,'review':review}
     return render(request, 'vendor/PhotosVideos_details.html', context)
 
 # mehndimakeupview and their details -----------------------------------------
 
-@login_required(login_url='login')
+login_required(login_url='login')
 def mehndimakeup(request):
 
     mehndimakeup_vendors = Vendor.objects.filter(services__service_name = 'Makeup and Mehndi')
@@ -197,20 +202,21 @@ def mehndimakeup(request):
 
     return render(request, 'vendor/mehndimakeup.html', context)
 
-@login_required(login_url='login')
+login_required(login_url='login')
 def mehndimakeupviews(request, pk):
 
     vender = get_object_or_404(Vendor, pk=pk)
     service = vender.services.all()
-    images = Image.objects.filter(vender=vender)
 
-    context = {"vender":vender, 'images':images, 'service':service}
+    review = ReviewVender.objects.filter(vendor=vender).order_by('-created_at')
+
+    context = {"vender":vender,'service':service,'review':review}
 
     return render(request, 'vendor/mehndimakeup_details.html', context) 
 
 # artistmanagementview and their details -----------------------------------------
 
-@login_required(login_url='login')
+login_required(login_url='login')
 def artistmanagement(request):
 
     artistmanagement_vendors = Vendor.objects.filter(services__service_name = 'Artist Management')
@@ -218,21 +224,22 @@ def artistmanagement(request):
 
     return render(request, 'vendor/artistmanagement.html', context)
 
-@login_required(login_url='login')
+login_required(login_url='login')
 def artistmanagementviews(request, pk):
 
     vender = get_object_or_404(Vendor, pk=pk)
     service = vender.services.all()
-    images = Image.objects.filter(vender=vender)
 
-    context = {"vender":vender, 'images':images, 'service':service}
+    review = ReviewVender.objects.filter(vendor=vender).order_by('-created_at')
+
+    context = {"vender":vender,'service':service,'review':review}
 
     return render(request, 'vendor/artistmanagement_details.html', context)
 
 
 # bandbajaview and their details -----------------------------------------
 
-@login_required(login_url='login')
+login_required(login_url='login')
 def bandbaja(request):
 
     bandbaja_vendors = Vendor.objects.filter(services__service_name = 'Band Baja')
@@ -240,20 +247,20 @@ def bandbaja(request):
 
     return render(request, 'vendor/bandbaja.html', context)
 
-@login_required(login_url='login')
+login_required(login_url='login')
 def bandbajaviews(request, pk):
 
     vender = get_object_or_404(Vendor, pk=pk)
     service = vender.services.all()
-    images = Image.objects.filter(vender=vender)
 
-    context = {"vender":vender, 'images':images, 'service':service}
+    review = ReviewVender.objects.filter(vendor=vender).order_by('-created_at')
 
+    context = {"vender":vender,'service':service,'review':review}
     return render(request, 'vendor/bandbajaviews_details.html', context)
 
 # transportlogisticsview and their details -----------------------------------------
 
-@login_required(login_url='login')
+login_required(login_url='login')
 def transportlogistics(request):
 
     transportlogistics_vendors = Vendor.objects.filter(services__service_name = 'Transport and Logistics')
@@ -261,17 +268,45 @@ def transportlogistics(request):
 
     return render(request, 'vendor/transportlogistics.html', context)
 
-@login_required(login_url='login')
+login_required(login_url='login')
 def transportlogisticsviews(request, pk):
 
     vender = get_object_or_404(Vendor, pk=pk)
     service = vender.services.all()
-    images = Image.objects.filter(vender=vender)
 
-    context = {"vender":vender, 'images':images, 'service':service}
+    review = ReviewVender.objects.filter(vendor=vender).order_by('-created_at')
+
+    context = {"vender":vender,'service':service,'review':review}
 
     return render(request, 'vendor/transportlogisticsviews_details.html', context)
 
+# review -----------------
+@login_required(login_url='login')
+def reviewVender(request, pk):
+
+    url = request.META.get("HTTP_REFERER")
+    if request.method == 'POST':
+        try:
+            reviews = ReviewVender.objects.get(user__id=request.user.id, vendor__id= pk)
+            form = ReviewForm(request.POST, instance=reviews)
+            form.save()
+            messages.success(request, 'Thank you, Your review has been updated')
+
+            return redirect(url)
+
+        except ReviewVender.DoesNotExist:
+            form = ReviewForm(request.POST)
+            if form.is_valid():
+                review = form.save(commit=False)  
+                review.vendor = Vendor.objects.get(id=pk)
+                review.user = request.user
+                review.save()
+                messages.success(request, 'Thank you, your review has been created')
+                return redirect(url)
+    else:
+        form = ReviewForm() 
+        context = {'form':form}
+    return render(request, 'vendor/decor_details.html', context)    
 
 
 @login_required(login_url='login')
@@ -279,27 +314,4 @@ def venue(request):
     return render(request, 'vendor/venue.html')
 
 
-login_required(login_url='login')
-def UploadImages(request):
-   
-    if request.method == "POST":
 
-        form = ImageForm(request.POST, request.FILES)
-
-        if form.is_valid():
-            image_instance = form.save(commit=False)
-            
-            # Get the registered vendor associated with the current user
-            vendor = request.user.vender_profile
-            
-            # Set the vendor field of the image instance to the retrieved vendor
-            image_instance.vender = vendor
-            image_instance.save()
-            messages.success(request, 'Image uploaded successfully.')
-            return redirect('vender_register')
-    else:
-
-        form = ImageForm()
-    
-    context = {'form': form}
-    return render(request, 'vendor/images.html', context)

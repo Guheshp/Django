@@ -1,0 +1,103 @@
+{% extends 'acc/base.html' %}
+
+{% load static %}
+
+{% block content %}
+ <div class="container d-flex justify-content-center">
+
+    <div class=" col-xl- col-lg-10 col-md-12 col-sm-12 col-12 ">
+    <div class="card h-100">
+        <div class="card-body">
+
+            <div class="row gutters">
+                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                    <h3 class="mb-2 text-primary">{{groom_name}} and  {{bride_name}} already registred!</h3>
+                        
+                    <p class="blockquote-footer">View Your Details </p>
+                    <hr class="border border-primary border-3 opacity-75">
+
+                </div>
+
+                <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+                    <div class="">
+                        <label class="py-1 text-primary">Groom Name</label>
+                        <div class="card">
+                            <div class="py-2 mx-3 ">
+                               <span>{{ registred_copules.groomname}}</span> 
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                 <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+                    <div class="">
+                        <label class="py-1 text-primary">Bride Name</label>
+                        <div class="card">
+                            <div class="py-2 mx-3 ">
+                               <span>{{ registred_copules.bridename}}</span> 
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                 <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+                    <div class="">
+                        <label class="py-1 text-primary">Groom DOB</label>
+                        <div class="card">
+                            <div class="py-2 mx-3 ">
+                               <span>{{ registred_copules.groom_dob}}</span> 
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+                    <div class="">
+                        <label class="py-1 text-primary">Groom DOB</label>
+                        <div class="card">
+                            <div class="py-2 mx-3 ">
+                               <span>{{ registred_copules.bride_dob}}</span> 
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+                    <div class="">
+                        <label class="py-1 text-primary">Contact number</label>
+                        <div class="card">
+                            <div class="py-2 mx-3 ">
+                               <span>{{ registred_copules.phone_number}}</span> 
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            
+                <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+                    <div class="">
+                        <label class="py-1 text-primary">Wedding Date</label>
+                        <div class="card">
+                            <div class="py-2 mx-3 ">
+                               <span>{{ registred_copules.Wedding_date}}</span> 
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row gutters">
+                <div class="col-xl-12">
+                    <div class=" py-2 text-right">
+                        <a class="btn btn-outline-info" href="{% url 'home'%}">Cancle</a>
+                        <a class="btn btn-primary" href="{% url 'coupleupdate' registred_copules.id %}">Update</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+    </div>
+    </div>
+ 
+</div>
+{% endblock %}

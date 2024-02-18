@@ -21,12 +21,13 @@
                         <img src="{{ registered_vendor.Vender_image.url }}" alt="Vender image">
                     </div>
                     <h5 class="user-name">{{ vender.vender_name}}</h5>
+                    <h5 class="user-name">id ={{  registered_vendor.id}}</h5>
                     <h6 class="user-email">{{ vender.vender_email }}</h6>
                 </div>
                 <div class="about">
                     <h5>About</h5>
                     <p>{{ registered_vendor.vender_about}}</p>
-                    <a href="{% url 'uploadimages'%}">add images</a>
+                    <a href=#>add images</a>
                 </div>
             </div>
         </div>
@@ -47,9 +48,11 @@
     
                         <div class="card">
                             <div class="py-2 mx-3">
-                                {% for service in registered_vendor.services.all %}
-                                <li>{{ service.service_name }}</li>
+
+                                {% for s in service %}
+                                    <li>{{ s.service_name }}</li>
                                 {% endfor %}
+
                             </div>
                         </div>
 

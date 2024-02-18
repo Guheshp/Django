@@ -14,7 +14,6 @@
 
     <div class="logo"><a href="{% url 'home'%}">@wedding Cluster</a></div>
       
-
       {% if user.is_authenticated %}
 
       <div class="dropdown">
@@ -30,6 +29,7 @@
               <a class="option" href="{% url 'logout' %}">Logout</a>
             </div>
 
+
             {%else%}
 
             <div class="dropdown">
@@ -39,13 +39,15 @@
               </button>
                 
               <div class="dropdowncontent"> 
-                <a class="option" href="{% url 'register' %}">Register</a>
+                <a class="option" href="{% url 'registrationchoice' %}">Register</a>
                 <a class="option" href="{% url 'login' %}">Login</a>
               </div>
-
+              
+            </div>
+            
              {% endif %}
 
-            </div>
+            
       </div>
     </div>
 
@@ -55,7 +57,14 @@
     <div id="mySidenav" class="sidenav">
       <div class="sidenav-links">
 
-        <a href="#">About</a>
+      {% if user.is_authenticated %}
+      {% if request.user.is_vendor %}
+         <!-- Display content for vendors -->
+
+        <a href="{% url 'vender_register' %}">Vender Registration</a>
+       {% else %}
+        <!-- Display content for common users -->
+        <a href="{% url 'CouplesRegistration' %}">Couples Registration</a>
         <a href="{% url 'services' %}">Services</a>
         <a href="{% url 'catering' %}">Cater</a>
         <a href="{% url 'decor' %}">Decor</a>
@@ -66,12 +75,25 @@
         <a href="{% url 'transportlogistics' %}">Transport & Logistics</a>
         <a href="{% url 'bandbaja' %}">Band Baja</a>
         <a href="#">Contact</a>
-        {% if user.is_authenticated %}
-        {% if registered_vendor %}
-        {%else%}
-        <a href="{% url 'vender_register' %}">Vender Registration</a>
-        {%endif%}
         {% endif %}
+
+        {% else %}
+          <!-- Display content for unauthenticated users -->
+        <a href="{% url 'vender_register' %}">Vender Registration</a>
+          <a href="{% url 'CouplesRegistration' %}">Couples Registration</a>
+          <a href="{% url 'services' %}">Services</a>
+          <a href="{% url 'catering' %}">Cater</a>
+          <a href="{% url 'decor' %}">Decor</a>
+          <a href="{% url 'planning' %}">Wedding Planning</a>
+          <a href="{% url 'planning' %}">Photos & Videos</a>
+          <a href="{% url 'mehndimakeup' %}">Mehndi & Makeup</a>
+          <a href="{% url 'artistmanagement'%}">Artist Management</a>
+          <a href="{% url 'transportlogistics' %}">Transport & Logistics</a>
+          <a href="{% url 'bandbaja' %}">Band Baja</a>
+          <a href="#">Contact</a>
+
+          {% endif %}
+
       </div>
     </div>
 </div>
@@ -80,6 +102,10 @@
 
 
 
+ <!-- {% if registered_vendor %} -->
+    <!-- {%else%} -->
+
+     <!-- {% endif %} -->
 
  <!-- <div class="nav-links navbar">
    

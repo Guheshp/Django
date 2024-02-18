@@ -1,0 +1,68 @@
+{% extends 'acc/base.html' %}
+
+{% load static %}
+
+{% block content %}
+
+<body>
+    <div class="container">
+        <div class="row justify-content-center mb-3 underline">
+        <h1>Update Your Details</h1>
+        </div>
+
+    </div>
+
+    <div class="container">
+
+        <div class="row  justify-content-center">
+            <div class="col-md-5">
+                <div class="card">
+                    <form action="{% url 'coupleupdate' couple.id %}" method="POST">
+                        {% csrf_token %}
+                        <div class="form-group m-3">
+                            <label for="">Groom Name</label>
+                            <input type="text" name="groomname" value="{{ couple.groomname }}" placeholder="Enter Groom Name" class="form-control" id="">
+                        </div>
+                        <div class="form-group m-3">
+                            <label for="">Bride Name</label>
+                            <input type="text" name="bridename" value="{{ couple.bridename }}"  placeholder="Enter Bride Name" class="form-control" id="">
+                        </div>
+                        <div class="form-group m-3">
+                            <label for="">Groom Date Of Birth</label>
+                            <input type="date" name="groom_dob" value="{{ couple.groom_dob|date:'Y-m-d' }}"  class="form-control" id="">
+                        </div>
+
+                        <div class="form-group m-3">
+                            <label for="">Bride Date Of Birth</label>
+                            <input type="date" name="bride_dob" value="{{ couple.bride_dob|date:'Y-m-d' }}" class="form-control" id="">
+                        </div>
+
+                        <div class="form-group m-3">
+                            <label for="">Contact Number</label>
+                            <input type="tel" name="phone_number" value="{{ couple.phone_number }}" placeholder="Enter Contact Number" class="form-control" id="">
+                        </div>
+
+                        <div class="form-group m-3">
+                            <label for="">Wedding Date</label>
+                            <input type="date" name="Wedding_date" value="{{ couple.Wedding_date|date:'Y-m-d' }}" placeholder="Enter Groom Name" class="form-control" id="">
+                        </div>
+
+                        <div class="row gutters">
+                            <div class="col-xl-12">
+                                <div class=" py-2 px-2 text-right">
+                                    <a class="btn btn-outline-info" href="{% url 'home'%}">Cancle</a>
+                                    <button type="submit" class="btn btn-primary">Update</button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            
+
+        </div>
+    </div>
+
+</body>
+
+{% endblock %}

@@ -162,40 +162,105 @@
     </div>
     </div>
     </div>
-    <div class="container">
+    
 
-        <h1 class="heading">Our Decor</h1>
-
-        <div class="cater">
-            {% for img in images%}
-
-            <div class="cater-box">
-
-                <img class="img-thumbnail " src="{{ img.image.url }}" alt="{{ img.image.url }}">
-               
-                <a class="btn" href="#">dish1</a>
+    <!-- review system --------------------- -->
+   
+    <div class="py-3 ">
+        <div class="card">
+            <div class="card-body">
+                <blockquote class="blockquote mb-0">
+    
+                    <form action="{% url 'reviewVender' vender.id %}" method="POST" autocomplete="off">
+                            {% csrf_token %}
+    
+                        <h4 class="fw-bolder m-0">Write Your Overall Vender Reviewr</h4>
+    
+                        <!-- start  start-->
+                        <div class="down1">
+                            <label style="margin-bottom: 0; ">How do you rate this Vender?</label><br>
+                            <div class="rating " id="stars">
+                                <input type="radio" id="star5" name="rating" value="5" required/><label for="star5" class="full" title="5"></label>
+                                <input type="radio" id="star4.5" name="rating" value="4.5" required/><label for="star4.5" class="half" title="4.5"></label>
+                                <input type="radio" id="star4" name="rating" value="4" required/><label for="star4" class="full" title="4"></label>
+                                <input type="radio" id="star3.5" name="rating" value="3.5" required/><label for="star3.5" class="half" title="3.5"></label>
+                                <input type="radio" id="star3" name="rating" value="3" required/><label for="star3" class="full" title="3"></label>
+                                <input type="radio" id="star2.5" name="rating" value="2.5" required/><label for="star2.5" class="half" title="2.5"></label>
+                                <input type="radio" id="star2" name="rating" value="2" required/><label for="star2" class="full" title="2"></label>
+                                <input type="radio" id="star1.5" name="rating" value="1.5" required/><label for="star1.5" class="half" title="1.5"></label>
+                                <input type="radio" id="star1" name="rating" value="1" required/><label for="star1" class="full" title="1"></label>
+                                <input type="radio" id="star0.5" name="rating" value="0.5" required/><label for="star0.5" class="half" title="0.5"></label>
+                            </div>
+                        </div>
+                        <!-- stars ends -->
+                        <div class="form-floating">
+                            <label for="floatingTextarea">Comments</label>
+                            <textarea class="form-control" name="review" placeholder="Leave a comment here" id="floatingTextarea"></textarea>
+                        </div>
+    
+                        <button class="btn btn-outline-info mt-3">Submit Review</button>
+                    
+                    </form>
+    
+                </blockquote>
             </div>
-            
-            {% endfor %}
+          </div>
+    </div>
+    <!-- customer review  -->
+    <div class="container">
+    
+        <div class="rating-star">
+            <h3>Customers Reviews</h3>
+            <span>Average Review: {{vender.AveragReview}}</span>
+            <span>
+                <i class="fa fa-star{% if vender.AveragReview < 0.5 %}-o{% elif vender.AveragReview >= 0.5 and vender.AveragReview < 1 %}-half-o {% endif %}" aria-hidden="true"></i>
+                <i class="fa fa-star{% if vender.AveragReview < 1.5 %}-o{% elif vender.AveragReview >= 1.5 and vender.AveragReview < 2 %}-half-o {% endif %}" aria-hidden="true"></i>
+                <i class="fa fa-star{% if vender.AveragReview < 2.5 %}-o{% elif vender.AveragReview >= 2.5 and vender.AveragReview < 3 %}-half-o {% endif %}" aria-hidden="true"></i>
+                <i class="fa fa-star{% if vender.AveragReview < 3.5 %}-o{% elif vender.AveragReview >= 3.5 and vender.AveragReview < 4 %}-half-o {% endif %}" aria-hidden="true"></i>
+                <i class="fa fa-star{% if vender.AveragReview < 4.5 %}-o{% elif vender.AveragReview >= 4.5 and vender.AveragReview < 5 %}-half-o {% endif %}" aria-hidden="true"></i>
+            </span>
         </div>
     </div>
-
-
-    <!-- <div class="container-fluid">
     
-        <h1 class="heading">Our Dishes</h1>
+    <div class=" card container" >
+       
+            {% for r in review%}
     
-          <div class="services">
-              {% for img in images%}
-              <div class="services-box1">
-                  <div class="service-box1">
-                      <img src="{{ img.image.url }}" class="img-thumbnail" alt="...">
-                      <h4><a class="btn" href="#dish1">dish1</a></h4>
-                  </div>
-              </div>
-              {%endfor%}
-          </div>
-      </div> -->
-        
-   
+            <div class="review-form" >
+            
+                    <div class="review-box1 m-0">
+                        <div class="m-0">
+                            <img  src="{{ r.user.profile_Image.url }}" alt="img">
+                        </div>
+                        </div>
+    
+            
+                <div class="review-box2">
+                
+                        <!-- Displaying the user's name -->
+                        <b class="user-name">{{ r.user }}</b>
+    
+                        <!-- Displaying the review date -->
+                        <p class="review-date">{{ r.created_at }}</p>
+    
+                        <!-- Displaying the review and star content -->
+    
+                        <div class="rating-star">
+                            <span>
+                                <i class="fa fa-star{% if r.rating == 0.5 %}-half-o{% elif r.rating < 1 %}-o {% endif %}" aria-hidden="true"></i>
+                                <i class="fa fa-star{% if r.rating == 1.5 %}-half-o{% elif r.rating < 2 %}-o {% endif %}" aria-hidden="true"></i>
+                                <i class="fa fa-star{% if r.rating == 2.5 %}-half-o{% elif r.rating < 3 %}-o {% endif %}" aria-hidden="true"></i>
+                                <i class="fa fa-star{% if r.rating == 3.5 %}-half-o{% elif r.rating < 4 %}-o {% endif %}" aria-hidden="true"></i>
+                                <i class="fa fa-star{% if r.rating == 4.5 %}-half-o{% elif r.rating < 5 %}-o {% endif %}" aria-hidden="true"></i>
+                            </span>&nbsp;&nbsp; <span>{{ r.review }}</span>
+                        </div>
+                </div>
+    
+                
+            </div><hr>
+    
+            {% endfor %}
+    
+    </div>
+    
 {% endblock %}
