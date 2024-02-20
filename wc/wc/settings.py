@@ -151,6 +151,8 @@ MEDIA_URL = '/images/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
+CONTACT_EMAIL = 'guheshpanjagall481@gmail.com'
+ADMIN_EMAILS = ['guheshpanjagall481@gmail.com','kavipanjagall@gmail.com' ]
 
 #kcgi pjbu osog lqyo
 

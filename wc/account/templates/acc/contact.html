@@ -1,0 +1,56 @@
+{% extends 'acc/base.html'%}
+
+{% load crispy_forms_tags %}
+
+{% block content %}
+
+<body>
+    <div class="container contact">
+      <div class="content">
+        <div class="left-side">
+          <div class="address details">
+            <i class="fas fa-map-marker-alt"></i>
+            <div class="topic">Address</div>
+            <div class="text-one">vidyagiri, Np12</div>
+            <div class="text-two">Dharwad</div>
+          </div>
+          <div class="phone details">
+            <i class="fas fa-phone-alt"></i>
+            <div class="topic">Phone</div>
+            <div class="text-one">8867050481</div>
+            <div class="text-two">+0096 3434 5678</div>
+          </div>
+          <div class="email details">
+            <i class="fas fa-envelope"></i>
+            <div class="topic">Email</div>
+            <div class="text-one">weddingcluster@gmail.com</div>
+            <div class="text-two">guheshpanjagall481@gmail.com</div>
+          </div>
+        </div>
+        <div class="right-side">
+          <div class="topic-text">Send us a message</div>
+          <p>If you have any any types of quries related to Wedding cluster, you can send me message from here. It's my pleasure to help you.</p>
+
+            <form action="{% url 'contactview' %}" method="post">
+                {% csrf_token %}
+            <div class="input-box">
+                
+                <input type="email" name="user_email" placeholder="Enter your email" required>
+            </div>
+            <div class="input-box">
+                <input type="text" name="subject" placeholder="Enter your subject" required>
+            </div>
+            <div class="input-box message-box">
+                <textarea  name="message" placeholder="Enter message" required></textarea>
+                
+            </div>
+            <div class="button">
+                <input type="submit" value="Send Now" >
+            </div>
+            </form>
+
+      </div>
+      </div>
+    </div>
+  </body>
+{% endblock %}

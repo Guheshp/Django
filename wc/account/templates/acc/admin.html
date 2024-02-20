@@ -1,0 +1,42 @@
+{% extends 'acc/base.html'%}
+
+{% load static %}
+
+{% block content%}
+
+
+<body>
+      <div class="container py-3">
+            <div class="home">
+                <h1 ><a href="#Wellcome-to-Wedding-Cluster"> Im Admin of @wedding-cluster </a></h1>
+            </div>
+        </div>
+
+        <div class="home">
+
+            <div class="slider">
+                <img class="slide" src="{% static 'images/adminhomepage.jpeg'%}"  alt="home1back">
+                <img class="slide" src="{% static 'images/home2back.jpeg'%}"   alt="home2back">
+                <img class="slide" src="{% static 'images/home3back.jpeg'%}"  alt="home3back">
+                
+
+                <div class="slider-button">
+
+                    <button onclick="goPrev()"><i class="fa-solid fa-arrow-left"></i></button>
+                    <button onclick="goNext()"><i class="fa-solid fa-arrow-right"></i></button>
+                </div>
+            </div>
+
+        <div class="container py-3">
+                {% if user.is_authenticated %}
+                    {%if request.user.is_superuser %}
+                    <a href="{% url 'listuser' %}"><button type="submit" class="btn btn-outline-success">Users</button></a>
+                    <a href="{% url 'venderviewall' %}"><button type="submit" class="btn btn-outline-success">Venders</button></a>
+                    <a href="{% url 'querieslist' %}"><button type="submit" class="btn btn-outline-success">Queries emails</button></a>
+                </div>
+                {% endif %}
+                {% endif %}
+        </div>
+</body>
+
+{% endblock %}

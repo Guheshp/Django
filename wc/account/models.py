@@ -63,6 +63,15 @@ class CustomUser(AbstractUser):
 
     def __str__(self):
         return self.email
+    
+
+class Contact(models.Model):
+    user_email = models.EmailField(max_length=200, null= True)
+    subject = models.CharField(max_length=255)
+    message = models.TextField()
+
+    def __str__(self):
+        return self.user_email
 
 
 

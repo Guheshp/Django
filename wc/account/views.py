@@ -4,8 +4,10 @@ from django.http import HttpResponse, HttpResponseRedirect
 
 from django.contrib import messages
 
-from .forms import (createUserForm,CreateUserVenderForm, LoginForm, EditUserProfilrForm,
-                    EditAdminProfilrForm, PasswordChangeForm)
+from django.conf import settings
+from django.core.mail import send_mail
+
+from .forms import (createUserForm,CreateUserVenderForm, LoginForm, EditUserProfilrForm, EditAdminProfilrForm, PasswordChangeForm, ContactForm)
 
 from django.contrib.auth import (authenticate,
                                 login as auth_login,
@@ -31,6 +33,8 @@ from django.contrib.auth import get_user_model
 from . decorators import unauthenticated_user, allowed_users, admin_only
 
 from django.contrib.auth.models import Group
+
+from .models import Contact
 
 from vender.models import Vendor, ServiceImage
 
@@ -217,27 +221,30 @@ def UpdateProfile(request, pk):
         
     return render(request, 'acc/update_profile.html')
 
+
 @login_required(login_url='login')
 @allowed_users(allowed_roles=['admin'])
 def ListUser(request):
     list_user = CustomUser.objects.all()
     list_vender = Vendor.objects.all()
-    
     context = {'list_user':list_user, 'list_vender':list_vender}
     return render(request, 'acc/list_user.html', context)
+
+@allowed_users(allowed_roles=['admin'])
+def querieslist(request):
+    querieslist = Contact.objects.all()
+    context = {'querieslist':querieslist}
+    return render(request, 'acc/querieslist.html', context)
 
 
 @unauthenticated_user
 def Login(request):
-
     form = LoginForm()
-
     if request.method == "POST":
 
         form = LoginForm(request, data=request.POST) 
 
         if form.is_valid():
-
             # 'username' corresponds to the email field in AuthenticationForm
             email = request.POST.get('username') 
             password = request.POST.get('password')
@@ -283,6 +290,54 @@ def ChangePassword(request):
     context = {'form':form}
     return render(request, "acc/change-password.html", context)
 
+
+def contactview(request):
+    if request.method == 'POST':
+        form = ContactForm(request.POST)
+
+        if form.is_valid():
+            user_email = form.cleaned_data['user_email']
+            subject = form.cleaned_data['subject']
+            message = form.cleaned_data['message']
+
+            # Construct the email subject
+            email_subject = f'New contact {user_email}: {subject}'
+
+            # Load the email message template and render it with the form data
+            email_message = render_to_string('acc/contact_email_template.html', {
+                'user_email': user_email,
+                'subject': subject,
+                'message': message,
+            })
+
+                # Send email with user's email as the sender
+            send_mail(
+                email_subject,
+                email_message,
+                settings.EMAIL_FROM,  # Use the configured email from settings
+                [settings.CONTACT_EMAIL],  # Send email to the contact email address
+                fail_silently=False,  # Set this to True to see error messages ifsending fails
+            )
+
+            # Save the form data to the database
+            form.save()
+
+            return render(request, 'acc/contactsuccess.html')
+
+    else:
+        form=ContactForm()
+    
+    context = {'form':form}
+    return render(request, 'acc/contact.html', context)
+
+
+
+# if admin logged he will be directed to this page 
+@login_required(login_url='login')
+def admin(request):
+
+    return render(request, 'acc/admin.html')
+
 # if registered as vender he will be directed to this page 
 @login_required(login_url='login')
 def newvendor(request):
@@ -295,13 +350,17 @@ def newvendor(request):
 @login_required(login_url='login')
 def vendorservice(request, pk):
     vendor = get_object_or_404(Vendor, pk=pk)
+    #retriveung all servives respective vendor
     services = vendor.services.all()
-    context = {'vendor':vendor,"services":services}
+
+    #retriveung all servives image vendor
+    service_images = ServiceImage.objects.filter(vendor=vendor)
+    
+    context = {'vendor':vendor,"services":services, 'service_images':service_images}
     return render(request, 'acc/vendorservice.html', context)
 
-#vender uplaod image to specific services
-def serviceimage(request, pk):
-    return render(request)
+
+
 # if registered as newcustomer he will be directed to this page 
 def newcustomer(request):
     return render(request, 'acc/customerpage.html')

@@ -151,7 +151,9 @@ body{
   top: 0;
   width: 100%;
   z-index: 1000;
-  background:rgb(18,97,128)!important;
+  /* background:rgb(18,97,128)!important; */
+  /* background:rgb(23, 51, 79)!important; */
+  background:	rgb(23, 51, 79)!important;
   border-bottom: 1px solid white;
   /* background:rgb(225,142,150)!important; */
 
@@ -189,7 +191,8 @@ body{
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background-color:rgb(18,97,128);
+  background:rgb(23, 51, 79)!important;
+
   color: white;
   padding: 10px;
   font-size: 20px;
@@ -212,7 +215,7 @@ body{
   /* margin-top: 5px; */
   border-radius: 8px;
   position: absolute;
-  background: rgb(18,97,128);
+  background:rgb(23, 51, 79)!important;
   min-width: 200px;
   box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
   z-index: 1;
@@ -228,8 +231,8 @@ body{
 
 
 .dropdowncontent a:hover {
-  background-color: rgb(7, 56, 75) !important;
-  color: white;
+  background-color:		rgb(255, 255, 255);
+  color:rgb(23, 51, 79);
   border-radius: 10px;
 }
 
@@ -240,21 +243,19 @@ body{
   flex-direction: column;
   text-align: center;
   font-size: 18px;
-
   text-decoration: none !important;
 }
 
 /* Change the background color of the dropdown button when the dropdown content is shown */
 .dropdown:hover .dropbtn {
-  background-color: rgb(7, 56, 75);
+  background-color:		rgb(255, 255, 255);
+
 
 }
 .fa-solid {
   cursor: pointer;
 }
-.fa-solid:hover {
-  color: yellow; /* Change this to your desired hover color */
-}
+
 /* dropdoen settings  ends --------------------- */
 
 .nav-links .logo{
@@ -311,8 +312,7 @@ body{
   top: 0;
   left: 0;
   /* background-color: rgb(40, 110, 140);  */
-  background-color:rgb(18,97,128) ;
-
+  background:rgb(23, 51, 79)!important;
   overflow-x: hidden; 
   padding-top: 60px; 
 
@@ -330,8 +330,8 @@ body{
 .sidenav a:hover {
  text-decoration: none;
   /* background-color:rgb(50, 140, 140); */
-  background-color: rgb(7, 56, 75);
-  color: white;
+  background-color:		rgb(255, 255, 255);
+  color:rgb(23, 51, 79);
 }
 
 .sidenav .sidenav-links{
@@ -452,7 +452,7 @@ margin-top: 100px;
   margin-left: 500px;
   margin-right: 500px;
   border-radius:10px ;
-  background-color: rgb(18,97,128);
+  background-color:rgb(23, 51, 79);
   color: white;
   display: flex;
   align-items: center;
@@ -468,7 +468,7 @@ margin-top: 100px;
   margin-right: 520px; */
   width: 100%;
   border-radius:10px ;
-  background-color: rgb(18,97,128);
+  background-color:rgb(23, 51, 79);
   color: white;
   display: flex;
   align-items: center;
@@ -709,7 +709,7 @@ hr .new1 {
   padding: 10px;
   gap: 15px;
   border: 1px solid #818181;
-  border-radius: 20px;
+  /* border-radius: 20px; */
   box-shadow: 0 5px 10px rgba(0, 0, 0, .2);
 }
 .services .services-box1 .service-box1 .btn{
@@ -767,12 +767,16 @@ hr .new1 {
   text-align: center;
   padding: 20px 30px;
   border: 1px solid #818181;
-  border-radius: 20px;
+  /* border-radius: 20px; */
   box-shadow: 0 5px 10px rgba(0, 0, 0, .2);
 }
 .container .cater .cater-box img{
   height: 200px;
+}
 
+.container .cater .cater-box img:hover{
+  transform: scale(.9);
+  transition: all .2s linear ;
 }
 .container .cater .cater-box h3{
   color: #444;

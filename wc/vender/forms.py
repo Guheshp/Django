@@ -1,6 +1,6 @@
 from django import forms
 
-from .models import Vendor, Service, ReviewVender
+from .models import Vendor, Service, ReviewVender, ServiceImage
 
 
 
@@ -58,4 +58,12 @@ class ReviewForm(forms.ModelForm):
     class Meta:
         model = ReviewVender
         fields = ['review', 'rating']
+
+class servicesimageform(forms.ModelForm):
+    class Meta:
+        model = ServiceImage
+        fields = ['service', 'image','start_price']
+
+   
+
     

@@ -58,6 +58,7 @@ class ServiceImage(models.Model):
     vendor = models.ForeignKey(Vendor, on_delete=models.CASCADE)
     service = models.ForeignKey(Service, on_delete=models.CASCADE)
     image = models.ImageField(upload_to='service_images', null=True)
+    start_price = models.FloatField(null=True)
 
     def __str__(self):
         return f"${self.vendor.vender_name}, Image for {self.service.service_name}"

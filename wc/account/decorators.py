@@ -35,7 +35,7 @@ def admin_only(view_func):
             elif group == 'customer':
                 return redirect('newcustomer')
             elif group == 'admin':
-                return view_func(request, *args, **kwargs)
+                 return redirect('adminpage')
         else:
             return view_func(request, *args, **kwargs)   # Allow access for unauthenticated users
     return wrapper_func

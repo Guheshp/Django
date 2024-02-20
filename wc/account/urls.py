@@ -12,18 +12,23 @@ urlpatterns = [
     path('VendorRegister/',views.VendorRegister, name='VendorRegister'),
 
     path('listuser/',views.ListUser, name='listuser'),
+
+    path('querieslist/',views.querieslist, name='querieslist'),
     
     path('login/',views.Login, name='login'),
 
     path('logout/',views.Logout, name='logout'),
     
+    path('contactview/',views.contactview, name='contactview'),
+
     path('changepassword/',views.ChangePassword, name='changepassword'),
 
     path('user_profile/<str:pk>',views.UserProfile, name='user_profile'),
 
     path('updateprofile/<str:pk>',views.UpdateProfile, name='updateprofile'),
 
-    path('activate/(?P<uidb64>[0-9A-Za-z_\-]+)/(?P<token>[0-9A-Za-z]{1,13}-[0-9A-Za-z]{1,20})/', views.activate, name='activate'),
+    # path('activate/(?P<uidb64>[0-9A-Za-z_\-]+)/(?P<token>[0-9A-Za-z]{1,13}-[0-9A-Za-z]{1,20})/', views.activate, name='activate'),
+    path('activate/<str:uidb64>/<str:token>/', views.activate, name='activate'),
 
     path('acc_active_email_complete',views.acc_active_email_complete, name='acc_active_email_complete'),
 
@@ -39,14 +44,15 @@ urlpatterns = [
 # registeration choices ---------------------------------------------------------
     path('registrationchoice/', views.registrationchoice, name='registrationchoice'),
 
+# when admin redirect first to this page  ---------------------------------------------------------
+    path('adminpage/', views.admin, name='adminpage'),
+
 # when vender registred redirect first to this page  ---------------------------------------------------------
     path('newvendor/', views.newvendor, name='newvendor'),
 
 # vender to view his services ---------------------------------------------------------
     path('vendorservice/<str:pk>', views.vendorservice, name='vendorservice'),
 
-    path('serviceimage/<str:pk>', views.serviceimage, name='serviceimage'),
-    
 # when newuser registred redirect first to this page  ---------------------------------------------------------
     path('newcustomer/', views.newcustomer, name='newcustomer'),
 

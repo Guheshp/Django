@@ -4,7 +4,7 @@ from django.contrib.auth.forms import (UserCreationForm,
                                         PasswordChangeForm,
                                         )
 
-from .models import CustomUser
+from .models import CustomUser, Contact
 
 from django import forms
 
@@ -69,3 +69,8 @@ class EditAdminProfilrForm(UserChangeForm):
         model = CustomUser
         fields = ['name', 'email', 'phone', 'is_staff', 'is_superuser', 'is_active',]
 
+
+class ContactForm(forms.ModelForm):
+    class Meta:
+        model = Contact
+        fields = ['user_email', 'subject', 'message']

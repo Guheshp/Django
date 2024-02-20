@@ -8,7 +8,7 @@
 <div class="venderpage">
     <div class="container">
      {% for v in vendor%}
-        <a class="title btn btn-outline-info" href="{% url 'vendorservice' v.id%}">MY SERVICES</a>
+        <a class="title btn btn-outline-info d-flex justify-content-center" href="{% url 'vendorservice' v.id%}">MY SERVICES</a>
         {% endfor %}
     </div>
 </div>

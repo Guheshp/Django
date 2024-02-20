@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse
-from .models import Vendor, Service, ReviewVender
+from .models import Vendor, ReviewVender, ServiceImage
 from django.http import HttpResponse, HttpResponseRedirect
 from django.contrib import messages
 
@@ -8,11 +8,14 @@ from account.decorators import unauthenticated_user, allowed_users, admin_only
 
 from django.contrib.auth.decorators import login_required
 
-from .forms import VenderRegistrationForm, VenderUpdateForm, ReviewForm
+from .forms import VenderRegistrationForm, VenderUpdateForm, ReviewForm, servicesimageform
+
+from django.forms import inlineformset_factory
 # Create your views here.
 
 @login_required(login_url='login')
-@admin_only
+# @admin_only
+@allowed_users(allowed_roles=['admin','vendor'])
 def venderRegistration(request,):
 
     form = VenderRegistrationForm()
@@ -314,4 +317,24 @@ def venue(request):
     return render(request, 'vendor/venue.html')
 
 
+
+#vender uplaod image to specific services
+@login_required(login_url='login')
+def serviceimage(request, pk):
+    vendor = get_object_or_404(Vendor, id=pk)
+    service = vendor.services.all()
+
+    ServiceImageFormSet = inlineformset_factory(Vendor, ServiceImage, form=servicesimageform, extra=0)
+
+    if request.method == "POST":
+        formset = ServiceImageFormSet(request.POST, request.FILES, instance=vendor)
+        if formset.is_valid():
+            formset.save()
+            return redirect('vender_register')
+    else:
+        formset = ServiceImageFormSet(instance=vendor)
+        for form in formset.forms:
+            form.fields['service'].queryset = service
+    context = {'formset': formset}
+    return render(request, 'vendor/servicesimage.html', context)
 

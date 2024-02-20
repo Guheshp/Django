@@ -68,12 +68,10 @@ urlpatterns = [
 
     path('reviewVender/<str:pk>',views.reviewVender, name='reviewVender'),
 
-    #  -----------------------------------------
+    # services Image -----------------------------------------
 
-  
+    path('serviceimage/<str:pk>', views.serviceimage, name='serviceimage'),
 
-
-
-
+   
 
 ]

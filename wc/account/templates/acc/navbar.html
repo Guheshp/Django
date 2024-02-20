@@ -58,10 +58,33 @@
       <div class="sidenav-links">
 
       {% if user.is_authenticated %}
-      {% if request.user.is_vendor %}
-         <!-- Display content for vendors -->
+      {% if request.user.is_superuser %}
 
+      <a href="#admin"><b>Im Admin</b></a>
+      <a href="{% url 'vender_register' %}">Vender Registration</a>
+      <a href="{% url 'CouplesRegistration' %}">Couples Registration</a>
+        <a href="{% url 'services' %}">Services</a>
+        <a href="{% url 'catering' %}">Cater</a>
+        <a href="{% url 'decor' %}">Decor</a>
+        <a href="{% url 'planning' %}">Wedding Planning</a>
+        <a href="{% url 'planning' %}">Photos & Videos</a>
+        <a href="{% url 'mehndimakeup' %}">Mehndi & Makeup</a>
+        <a href="{% url 'artistmanagement'%}">Artist Management</a>
+        <a href="{% url 'transportlogistics' %}">Transport & Logistics</a>
+        <a href="{% url 'bandbaja' %}">Band Baja</a>
+        <a href="{% url 'contactview' %}">Contact</a>
+
+
+
+
+      {% elif request.user.is_vendor %}
+         <!-- Display content for vendors -->
+      <a href="#admin"><b>Im Vendor</b></a>
         <a href="{% url 'vender_register' %}">Vender Registration</a>
+        <a href="#">Add Details </a>
+        <a href="{% url 'contactview' %}">Contact</a>
+
+
        {% else %}
         <!-- Display content for common users -->
         <a href="{% url 'CouplesRegistration' %}">Couples Registration</a>
@@ -74,7 +97,7 @@
         <a href="{% url 'artistmanagement'%}">Artist Management</a>
         <a href="{% url 'transportlogistics' %}">Transport & Logistics</a>
         <a href="{% url 'bandbaja' %}">Band Baja</a>
-        <a href="#">Contact</a>
+        <a href="{% url 'contactview' %}">Contact</a>
         {% endif %}
 
         {% else %}
@@ -90,7 +113,7 @@
           <a href="{% url 'artistmanagement'%}">Artist Management</a>
           <a href="{% url 'transportlogistics' %}">Transport & Logistics</a>
           <a href="{% url 'bandbaja' %}">Band Baja</a>
-          <a href="#">Contact</a>
+          <a href="{% url 'contactview' %}">Contact</a>
 
           {% endif %}
 

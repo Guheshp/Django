@@ -1,0 +1,39 @@
+{% extends 'acc/base.html'%}
+
+{% load crispy_forms_tags %}
+
+{% block content %}
+
+
+<body>
+
+
+    <div class="container">
+            
+        <h1>Quires from End users</h1>
+
+            <table class="table  table-bordered">
+                <thead>
+                  <tr>
+                    <th scope="col">S.no</th>
+                    <th scope="col">Email</th>
+                    <th scope="col">Subject</th>
+                    <th scope="col">Message</th>
+                  </tr>
+                </thead>
+                {% for user in querieslist%}
+
+                <tbody>
+                  <tr>
+                    <th scope="row">{{forloop.counter}}</th>
+                    <td>{{user.user_email}}</td>
+                    <td>{{user.subject}}</td>
+                    <td>{{user.message}}</td>
+                  </tr>
+                </tbody>
+                {% endfor %}
+            </table>
+    </div>
+</body>
+
+{% endblock %}
