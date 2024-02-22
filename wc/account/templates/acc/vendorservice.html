@@ -21,6 +21,7 @@
             </div>
         </div>
     </div>
+    
     <div class="venderpage">
         <div class="container">
             <h3 class="title">services</h3>
@@ -30,7 +31,8 @@
                 {% for s in services%}
                 <div class="servive">
 
-                    {% for detail in s.serviceimage_set.all %}
+                    {% for detail in s.servicedetails_set.all %}
+
                     <img src="{{detail.image.url}}" alt="">
                     <h5 id="price">Start at </h5> 
                     <p><i class="fa-solid fa-indian-rupee-sign"></i>{{ detail.start_price|floatformat:2  }}</p>
@@ -41,11 +43,13 @@
                 {% endfor %} 
 
             </div>
+            
         </div>
     </div>
 </body>
 
 {% endblock %}    
+
 
 
 

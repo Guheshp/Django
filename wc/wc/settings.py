@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 
 from pathlib import Path
 import os
+from decouple import config
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -31,11 +32,11 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
-    'django.contrib.admin',
+    'django.contrib.admin', #admin page
     'django.contrib.auth', #it is core of the authentication framework (auth_user)
     'django.contrib.contenttypes', #which allows permission to be associated with the model we created
     'django.contrib.sessions',
-    'django.contrib.messages',
+    'django.contrib.messages', #display messages
     'django.contrib.staticfiles',
 
     #apps
@@ -161,7 +162,7 @@ EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_FROM = 'guheshpanjagall481@gmail.com'
 EMAIL_HOST_USER = 'guheshpanjagall481@gmail.com'
-EMAIL_HOST_PASSWORD = 'ivrb cpna ksjs fahy'
+EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD')
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 

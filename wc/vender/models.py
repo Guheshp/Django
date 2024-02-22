@@ -54,7 +54,7 @@ class Vendor(models.Model):
         return f"{self.vender_name}'s company is {self.company_name}"
     
 
-class ServiceImage(models.Model):
+class ServiceDetails(models.Model):
     vendor = models.ForeignKey(Vendor, on_delete=models.CASCADE)
     service = models.ForeignKey(Service, on_delete=models.CASCADE)
     image = models.ImageField(upload_to='service_images', null=True)

@@ -50,6 +50,10 @@ urlpatterns = [
 # when vender registred redirect first to this page  ---------------------------------------------------------
     path('newvendor/', views.newvendor, name='newvendor'),
 
+    path('myservices/', views.myservices, name='myservices'),
+
+    path('addDetails/', views.addDetails, name='addDetails'),
+
 # vender to view his services ---------------------------------------------------------
     path('vendorservice/<str:pk>', views.vendorservice, name='vendorservice'),
 

@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse
-from .models import Vendor, ReviewVender, ServiceImage
+from .models import Vendor, ReviewVender, ServiceDetails, Service
 from django.http import HttpResponse, HttpResponseRedirect
 from django.contrib import messages
 
@@ -8,9 +8,14 @@ from account.decorators import unauthenticated_user, allowed_users, admin_only
 
 from django.contrib.auth.decorators import login_required
 
-from .forms import VenderRegistrationForm, VenderUpdateForm, ReviewForm, servicesimageform
+from .forms import (VenderRegistrationForm,
+                    VenderUpdateForm, 
+                    ReviewForm, 
+                    servicesdetailform, 
+                    updateservicesdetailform)
 
 from django.forms import inlineformset_factory
+from django.forms.models import modelformset_factory
 # Create your views here.
 
 @login_required(login_url='login')
@@ -318,23 +323,54 @@ def venue(request):
 
 
 
-#vender uplaod image to specific services
+# vender uplaod image to specific services
 @login_required(login_url='login')
-def serviceimage(request, pk):
-    vendor = get_object_or_404(Vendor, id=pk)
-    service = vendor.services.all()
+def serviceDetails(request, pk):
+    vendor = Vendor.objects.get(id=pk)
+    services = vendor.services.all()
+    selected_services = vendor.services.all()
 
-    ServiceImageFormSet = inlineformset_factory(Vendor, ServiceImage, form=servicesimageform, extra=0)
-
+    selected_services = vendor.services.filter(service_name__in=['Catering',
+                                                                'Decor',
+                                                                'Photography and Videography',
+                                                                'Wedding Planning',
+                                                                'Makeup and Mehndi',
+                                                                'Band Baja',
+                                                                'Artist Management',
+                                                                'Guest Management',
+                                                                'Transport and Logistics',
+                                                                'Entertainment'])  # Adjust the list of service names as needed
+    
     if request.method == "POST":
-        formset = ServiceImageFormSet(request.POST, request.FILES, instance=vendor)
-        if formset.is_valid():
-            formset.save()
-            return redirect('vender_register')
+        form = servicesdetailform(request.POST, request.FILES)
+        if form.is_valid():
+            service_image = form.save(commit=False)
+            service_image.vendor = vendor
+
+            # Check if an image for the selected service already exists
+            if ServiceDetails.objects.filter(vendor=vendor, service=service_image.service).exists():
+                messages.error(request, "You have already added details for this service.")
+                return redirect('addDetails')  # Redirect to the same page
+            
+            service_image.save()
+            return redirect('addDetails')  # Redirect to a success page
     else:
-        formset = ServiceImageFormSet(instance=vendor)
-        for form in formset.forms:
-            form.fields['service'].queryset = service
-    context = {'formset': formset}
-    return render(request, 'vendor/servicesimage.html', context)
+        form = servicesdetailform(initial={'vendor': vendor})
+        form.fields['service'].queryset = selected_services  # Limit the queryset to selected services
+    
+    context = {'form': form,'vendor':vendor, 'services':services}
+    return render(request, 'vendor/servicesdetails.html', context)
+
+
+# update service details
+@login_required(login_url='login')
+def updateServiceDetails(request, pk):
+    vendor = Vendor.objects.get(id=pk)
+    services = vendor.services.all()
+
+    # form = updateservicesdetailform(instance=)
+    context={'vendor':vendor,'services':services}
+    return render(request, 'vendor/updateServiceDetails.html', context)
+
+
 

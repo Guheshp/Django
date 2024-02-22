@@ -1,0 +1,13 @@
+{% extends 'acc/base.html'%}
+
+{% load static %}
+
+{% block content%}
+<div class="venderpage">
+    <div class="container">
+    {% for v in vendor%}
+        <a class="title txt" href="{% url 'vendorservice' v.id%}">MY SERVICES</a>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

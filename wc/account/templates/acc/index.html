@@ -38,26 +38,70 @@
             <div class="box1"></div>
             <div class="box1"></div>
         </div> -->
-        <div>
+
+
+        <div class="lengthimg">
+            <img src="{% static 'images/lengthimg.jpeg'%}" class="img-fluid" alt="...">
+        </div> <hr>
+
+
+<!-- Find Services & plan your perfect wedding. start here -->
         <div class="info container">
         <div class="row">
             <div class="col-sm-6 mb-3 mb-sm-0">
               <div class="card" style="border: none !important;">
                 <div class="card-body mt-3">
-                  <h5 class="card-title text-center fw-900">Serivices We provide</h5>
+                  <h5 class="card-title text-center fw-900">Find Services & plan your perfect wedding.</h5>
                   <p class="card-text text-center">
-                    Feeling overwhelmed by wedding planning? Breathe easy! Wedding Cluster is your friendly guide, taking the chaos out of creating your dream celebration. No endless searches, just hand-picked vendors matching your style and budget. Stay organized with our intuitive tools, find inspiration in our vibrant community, and say goodbye to stress. It's all about enjoying the journey, from "I do" to unforgettable moments. Wedding Cluster - where your love story blossoms with ease.</p>
-                  <a href="#" class="d-flex justify-content-center">View Services</a>
+                    Feeling overwhelmed by wedding planning? Breathe easy! Wedding Cluster is your friendly guide, taking the Confusion out of creating your dream celebration. No endless searches, just hand-picked vendors matching your style and budget. Stay organized with us, find inspiration in our supportive community, and say goodbye to stress. It's all about enjoying the journey, from "I do" to unforgettable moments. Wedding Cluster - where your love story blossoms with ease.</p>
+                  <a href="{% url 'services' %}" class="d-flex justify-content-center">View Services</a>
                 </div>
               </div>
             </div>
+
             <div class="col-sm-6">
                 <div class="card-body">
-                  <img class="card-img" src="{% static 'images/ourservices.jpeg'%}"  alt="home1back">
+                  <a href="{% url 'services' %}"><img  class="card-img" src="{% static 'images/ourservices.jpeg'%}"  alt="home1back"></a>
                 </div>
             </div>
+
         </div>
     </div>
+
+
+    <div class="info container">
+        <div class="row">
+            <div class="col-sm-6 mb-3 mb-sm-0">
+                <div class="card-body">
+                    <a href="{% url 'venue' %}"><img class="card-img" src="{% static 'images/venue.jpeg'%}"  alt="home1back"></a>
+                  </div>
+            </div>
+
+            <div class="col-sm-6">
+                <div class="card" style="border: none !important;">
+                    <div class="card-body mt-3">
+                      <h5 class="card-title text-center fw-900">Perfect destination to make perfect wedding.</h5>
+                      <p class="card-text text-center">
+                        Celebrations such as weddings can be very overwhelming, especially when you have to plan events with guests attending from different places. If you are clueless about where to begin and the right steps to take, our venue providers team will assist you every step of the way.  The highly experienced team of Venue planners is skilled and trained to handle all aspects of the wedding in a seamless and efficient manner.</p>
+                      <a href="{% url 'venue' %}" class="d-flex justify-content-center">View Venue</a>
+                    </div>
+                  </div>
+            </div>
+            
+        </div>
+    </div>
+
+    <br><hr><br>
+
+
+    <div class="container">
+        <div class="contact-side">
+            <h1><a href="#Wellcome-to-Wedding-Cluster"> Get in touch </a></h1>
+        </div>
+    </div>
+
+<!-- contact us form ------------------------------- -->
+
 
     <div class="container contact">
         <div class="content">
@@ -109,5 +153,42 @@
         <!-- <img class="img-info" src="{% static 'images/wedds.jpeg'%}" alt="" -->
 
 
+        <!-----------footer begins--------- -->
+<br><hr><br>
+<footer>
+        <div class="foot-panal1">
+            <a href="{% url 'home'%}">Back to top</a>
+        </div>
+
+        <div class="foot-panal2 py-3">
+            <ul>
+                <p>Know about us </p>
+                <a>About Us</a>
+                <a>Venue</a>
+                <a>Vendors</a>
+                <a>Events</a>
+            </ul>
+        </div>
+
+    <div class="foot-panal3">
+        <div class="">@weddingcluster.com  | &nbsp;</div>
+        <div class="foot-icon">
+            <!-- <div class="border1" > -->
+                <div class="add-icon1">
+                    <i class="fa-solid fa-earth-americas"></i>
+                    <span class="add-second1">English</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="foot-panal4">
+      <div class="pages">
+        <a href="">Weddingcluster.com</a>
+        <a href="">services.com</a>
+        <a href="">venueservices.com</a>
+        <p>© 2023-2024, Weddingcluster.com </p>
+      </div>
+    </div>
+</footer>
 </body>
 {% endblock %}

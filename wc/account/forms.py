@@ -12,20 +12,23 @@ from django.forms.widgets import PasswordInput, TextInput, EmailInput
 
 class createUserForm(UserCreationForm):
 
-    # profile_image = forms.ImageField(label='Profile Image', required=False) 
-    # is_vendor = forms.BooleanField(label='Register as Vendor', required=False)
     is_customer = forms.BooleanField(label='Register as User', required=True)
+    name = forms.CharField(label='Name', required=True) 
     
     class Meta:
         model = CustomUser
-        fields = [ 'email', 'name','phone','profile_Image', 'password1', 'password2','is_customer']
+        fields = [ 'email', 'name','phone','password1', 'password2','is_customer']
+        # fields = [ 'email', 'name','phone','profile_Image', 'password1', 'password2','is_customer']
 
 class CreateUserVenderForm(UserCreationForm):
+    
     is_vendor = forms.BooleanField(label='Register as Vendor', required=True)
+    name = forms.CharField(label='Name', required=True) 
 
     class Meta:
         model = CustomUser
-        fields = ['email', 'name', 'phone', 'profile_Image', 'password1', 'password2', 'is_vendor']
+        fields = ['email', 'name', 'phone', 'password1', 'password2', 'is_vendor']
+        # fields = ['email', 'name', 'phone', 'profile_Image', 'password1', 'password2', 'is_vendor']
 
 # class LoginForm(AuthenticationForm):
 

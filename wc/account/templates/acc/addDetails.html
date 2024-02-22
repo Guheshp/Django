@@ -1,0 +1,33 @@
+{% extends 'acc/base.html'%}
+
+{% load static %}
+
+{% block content%}
+
+<div class="venderpage">
+    <div class="container">
+    {% for v in vendor%}
+        <a class="title txt" href="{% url 'serviceDetails' v.id%}">Add Details</a>
+    {% endfor %}
+    </div>
+</div>
+
+<div class="card">
+  <div class="card-body">
+    This is some text within a card body.
+  </div>
+</div>
+
+
+<div class="venderpage">
+  <div class="container">
+  {% for v in vendor%}
+      <a class="title txt" href="{% url 'updateServiceDetails' v.id%}">Update Details</a>
+  {% endfor %}
+  </div>
+</div>
+
+
+
+
+{% endblock %}

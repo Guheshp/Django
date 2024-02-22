@@ -68,9 +68,13 @@ urlpatterns = [
 
     path('reviewVender/<str:pk>',views.reviewVender, name='reviewVender'),
 
-    # services Image -----------------------------------------
+    # services details -----------------------------------------
 
-    path('serviceimage/<str:pk>', views.serviceimage, name='serviceimage'),
+    path('serviceDetails/<str:pk>', views.serviceDetails, name='serviceDetails'),
+    
+    # update services details -----------------------------------------
+
+    path('updateServiceDetails/<str:pk>', views.updateServiceDetails, name='updateServiceDetails'),
 
    
 

@@ -22,7 +22,7 @@
                     <div class="about">
                         <h5>About</h5>
                         <p>{{ vender.vender_about}}</p>
-                    <a href="{% url 'serviceimage' vender.id %}">Add Details</a>
+                    <a href="#">Add Details</a>
 
                     </div>
                 </div>
@@ -161,7 +161,7 @@
                 <div class="row gutters">
                     <div class="col-xl-12">
                         <div class=" py-4 text-right">
-                            <a class="btn btn-outline-info" href="{% url 'venderviewall'%}">Cancle</a>
+                            <a class="btn btn-outline-info" href="{% url 'newvendor'%}">Cancle</a>
                             <a class="btn btn-primary" href="{% url 'updatevender' vender.id%}">Update</a>
                         </div>
                     </div>

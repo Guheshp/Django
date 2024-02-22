@@ -85,21 +85,24 @@ body{
 }
 
 .form-layout{
-  background-color:#fbf7f5;
-  border: 1px solid #F3D7CA ;
+  /* background-color:#fbf7f5; */
+  /* border: 1px solid #F3D7CA ; */
   margin-top: 20px;
   max-width: 800px;
-  border-radius: 20px;
+  /* border-radius: 20px; */
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+
 }
 .form-layout h2{
   text-align: start;
   margin-top: 15px;
-  color: #B19470;
+  color:	rgb(23, 51, 79);
 }
 
 
 .form-layout form{
-  color: #B19470;
+  color:	rgb(23, 51, 79);
+
   text-decoration: none;
 }
 .form-layout form ul {
@@ -119,7 +122,7 @@ body{
 }
 .custom-form  button{
   background-color: #F3D7CA;
-  color: #B19470;
+  color:	rgb(23, 51, 79);
    
 }
 .custom-form p{
@@ -356,11 +359,11 @@ margin-top: 100px;
   position: relative;
   height: 400px;
   width: 400px;
-  border: 2px solid rgba(3, 6, 55, .3);
+  /* border: 2px solid rgba(3, 6, 55, .3); */
   /* background: transparent; */
-  border-radius: 20px;
+  /* border-radius: 20px; */
   /* backdrop-filter: blur(20px); */
-  box-shadow: 0 0 30px rgba(0, 0, 0, .5);
+  box-shadow: 0 0 30px rgba(0, 0, 0, .2);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -400,7 +403,7 @@ margin-top: 100px;
   width: 100%;
   height: 90%;
   border: none !important;
-  background-color:#FFFAF4;
+  background-color:#e6f2ff;
   outline: none;
 
 }
@@ -419,16 +422,21 @@ margin-top: 100px;
 .remember-password a{
   text-decoration: none !important;
   color:#030637;
-
+}
+.register-link {
+  color:#030637;
 }
 .remember-password a:hover{
   text-decoration: underline !important;
-  color:#B19470;
+ 
 }
 .Btn{
   width: 100%;
   height: 40px;
-  background-color: #B19470;
+  /* background-color: rgb(23, 51, 79); */
+  background-color: white;
+  border: 1px solid rgb(35, 35, 35) !important;
+  color: rgb(23, 51, 79) ;
   outline: none;
   border: none;
   border-radius: 6px;
@@ -436,8 +444,12 @@ margin-top: 100px;
   font-size: 1rem;
   font-weight: 500;
 }
-.Btn a{
+.Btn:hover{
   text-decoration: none !important;
+  color: rgb(250, 250, 250);
+  background-color:  rgb(23, 51, 79);
+  border: 1px solid rgb(23, 51, 79);
+  transition: .5s;
   /* color: #F3D7CA; */
 }
 .container2{
@@ -445,7 +457,28 @@ margin-top: 100px;
 }
 
 /* register form ---------------------------------------------------------  */
-
+/* registrationchoice  */
+.radio button{
+  width: 250px !important;
+}
+.radio .asvendor{
+  display: flex;
+  /* flex-direction: column; */
+  gap: 30px;
+}
+.radio .asvendor p{
+  width: 400px;
+  font-size: large;
+  padding: 25px 10px;
+  margin-bottom: 10px;
+  border-bottom: 1px solid rgb(23, 51, 79);
+}
+.radio .asvendor  span{
+  font-size: 22px;
+}
+.radio .asvendor .dis{
+  width: 300px !important;
+}
 /* display-error  */
 .login-error{
   margin-top: 30px;
@@ -481,9 +514,7 @@ margin-top: 100px;
 }
 
 .wrapper-reister{
-
   position: relative;
-
   width: 400px;
   border: 2px solid rgba(3, 6, 55, .3);
   /* background: transparent; */
@@ -502,7 +533,6 @@ margin-top: 100px;
 
 .invalid-container{
   margin-top: 30px;
-
   display: flex;
   justify-content: center;
   align-items: center;
@@ -511,14 +541,20 @@ margin-top: 100px;
 .invalid-page{
   border: 2px solid rgba(3, 6, 55, .3);
   width: 400px;
-  border-radius: 20px;
+  /* border-radius: 20px; */
   box-shadow: 0 0 30px rgba(0, 0, 0, .5);
+}
+.invalid-page a{
+  text-decoration: none !important ;
+  color:	rgb(23, 51, 79);
+}
+.invalid-page a:hover{
+  color: white;
 }
 .invalid-page h4{
   text-align: center;
   margin-top: 20px;
   padding: 1rem;
-  
 }
 .invalid-page h6{
   text-align: center;
@@ -708,7 +744,7 @@ hr .new1 {
   align-items: center;
   padding: 10px;
   gap: 15px;
-  border: 1px solid #818181;
+  /* border: 1px solid #818181; */
   /* border-radius: 20px; */
   box-shadow: 0 5px 10px rgba(0, 0, 0, .2);
 }
@@ -890,7 +926,45 @@ hr .new1 {
   color: #666; 
 }
 
+/* vendor registration form  */
+.vendor-form{
+  box-shadow: 0 5px 10px rgba(0, 0, 0, .2);
+  padding: 20px;
+
+}
+.vendor-form  h4{
+  border-bottom: 1px dotted rgb(23, 51, 79);
 
 
+}
+.vendor-form .form-detail{
+  padding: 10px;
+}
+.vendor-form .detail label{
+  font-size: 17px;
+  font-weight: 400;
+  
+}
+
+.buttons{
+  background-color:#fff;
+  color: rgb(23, 51, 79);
+  border: 1px solid rgb(23, 51, 79) ;
+  height: 37px;
+  width: 80px;
+  padding: 5px 10px;
+  border-radius: 3px;
+}
+
+.buttons:hover{
+  background-color: rgb(23, 51, 79);
+  border: 1px solid rgb(23, 51, 79);
+  color: white;
 
 
+}
+
+.service-image {
+  width: 200px; /* Adjust the width as needed */
+  height: auto; /* Maintain aspect ratio */
+}

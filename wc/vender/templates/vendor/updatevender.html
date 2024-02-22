@@ -2,29 +2,93 @@
 	
 {% block content %}
 
- <div class="container card border border-5">
+<div class="container">
 
-    <h1 class="text-center py-3 ">Update Vender</h1><hr>
+    <div class="row  justify-content-center">
+        <div class="col-md-10">
+            <div class="card">
 
-        <form action="" method="post" class="" enctype="multipart/form-data">
-            {%csrf_token%}
 
-            {{form.as_p}}
-
-            <div class="row gutters">
-                <div class="col-xl-12">
-                    <div class=" py-4 text-right">
-                        <a class="btn btn-outline-info" href="{% url 'venderview' vender.id  %}">Cancle</a>
-                        <button type="submit"class="btn btn-success">Submit</button>
-
+                <form action="" method="post" class="vendor-form" enctype="multipart/form-data">
+                    {%csrf_token%}
+        
+                    <h1 class=" py-3 ">Update Vendor</h1>
+        
+                    <div class="form-detail">
+                    <h4>Select the service Your company provide</h4>
+        
+                    <div class="form-group detail m-3">
+                        <label for="">Services:</label>
+                        {{form.services}}
                     </div>
-                </div>
+        
+                    <h4>Enter Details</h4>
+
+                    <div class="form-group detail m-3">
+                        <label for="">Vendor Name:</label>
+                        <input type="text" name="vender_name" value="{{ vender.vender_name }}" class="form-control"  required maxlength="100" id="id_vender_name">
+                    </div>
+        
+                    <div class="form-group detail m-3">
+                        <label for="">Company Name:</label>
+                        <input type="text" name="company_name" value="{{ vender.company_name }}"  maxlength="100"  class="form-control" required id="id_company_name">
+                    </div>
+        
+                    <div class="form-group detail m-3">
+                        <label for="">Phone Number:</label>
+                        <input type="text" name="vender_phone" value="{{ vender.vender_phone }}"  maxlength="12" class="form-control" required id="id_vender_phone">
+                    </div>
+        
+                    <div class="form-group detail m-3">
+                        <label for="">Vendor Email:</label>
+                        <input type="email" name="vender_email" value="{{ vender.vender_email }}" maxlength="200" class="form-control"  required id="id_vender_email">
+                    </div>
+        
+                    <div class="form-group detail m-3">
+                        <label for="">About Company:</label>
+                        <textarea name="vender_about"  cols="40"  rows="10"  class="form-control" id="id_vender_about">{{ vender.vender_about }}</textarea>
+                    </div>
+        
+                    <div class="form-group detail m-3">
+                        <label for="">Address:</label>
+                        <input type="text" name="vender_address"  value="{{ vender.vender_address }}" maxlength="500" class="form-control" id="id_vender_address">
+                    </div>
+        
+                    <div class="form-group detail m-3">
+                        <label for="">City:</label>
+                        <input type="text" name="vender_city"  value="{{ vender.vender_city }}" maxlength="200" class="form-control"  required id="id_vender_city">
+                    </div>
+        
+                    <div class="form-group detail m-3">
+                        <label for="">State:</label>
+                        <input type="text" name="vender_state" value="{{ vender.vender_state }}" maxlength="200" class="form-control" required id="id_vender_state">
+                    </div>
+        
+                    <div class="form-group detail m-3">
+                        <label for="">ZipCode:</label>
+                        <input type="number" name="vender_zip" value="{{ vender.vender_zip }}" class="form-control" required id="id_vender_zip">
+                    </div> 
+
+                    <div class="row gutters">
+                        <div class="col-xl-12">
+                            <div class=" py-4 text-right">
+                                <!-- <a class="btn btn-outline-info" href="{% url 'venderview' vender.id  %}">Cancle</a> -->
+
+
+                                    <a class="btn btn-outline-info" href="{% url 'venderview' vender.id  %}">Cancel</a>
+
+                                
+                                <button type="submit" class="btn btn-outline-success">
+                                    <a href="#"></a>Submit
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                
+                </form>
             </div>
-            
-
-        </form>
-
-
+        </div>
+    </div>
  </div>
 	
 		

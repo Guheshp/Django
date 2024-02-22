@@ -36,7 +36,7 @@ from django.contrib.auth.models import Group
 
 from .models import Contact
 
-from vender.models import Vendor, ServiceImage
+from vender.models import Vendor,ServiceDetails
 
 CustomUser = get_user_model()
 # Create your views here.
@@ -100,24 +100,23 @@ def Register(request):
             if is_customer:
                 group = Group.objects.get(name="customer")
                 user.groups.add(group)
-                messages.success(request, f"{user.email} You have been registered as a vendor.")
+
+                # Send activation email
+                current_site = get_current_site(request)
+                mail_subject = 'Activate your account'
+                message = render_to_string('acc/acc_active_email.html', {
+                    'user': user,
+                    'domain': current_site.domain,
+                    'uid': urlsafe_base64_encode(force_bytes(user.pk)),
+                    'token': account_activation_token.make_token(user),
+                })
+                to_email = form.cleaned_data.get('email')
+                email = EmailMessage(mail_subject, message, to=[to_email])
+                email.send()
+
+                messages.success(request, f"{user.email} You have been registered as User, Please check your email to activate your account.")
             else:
-                messages.success(request, f"{user.email} You have been registered.")
-
-            # Send activation email
-            current_site = get_current_site(request)
-            mail_subject = 'Activate your account'
-            message = render_to_string('acc/acc_active_email.html', {
-                'user': user,
-                'domain': current_site.domain,
-                'uid': urlsafe_base64_encode(force_bytes(user.pk)),
-                'token': account_activation_token.make_token(user),
-            })
-            to_email = form.cleaned_data.get('email')
-            email = EmailMessage(mail_subject, message, to=[to_email])
-            email.send()
-
-            messages.success(request, f"{user.email} You have been registered. Please check your email to activate your account.")
+                messages.error(request, "Something went wrong while registration!")
 
             return redirect('login')
         else:
@@ -148,24 +147,23 @@ def VendorRegister(request):
             if is_vendor:
                 group = Group.objects.get(name="vendor")
                 user.groups.add(group)
-                messages.success(request, f"{user.email} You have been registered as a customer.")
+
+                # Send activation email
+                current_site = get_current_site(request)
+                mail_subject = 'Activate your account'
+                message = render_to_string('acc/acc_active_email.html', {
+                    'user': user,
+                    'domain': current_site.domain,
+                    'uid': urlsafe_base64_encode(force_bytes(user.pk)),
+                    'token': account_activation_token.make_token(user),
+                })
+                to_email = form.cleaned_data.get('email')
+                email = EmailMessage(mail_subject, message, to=[to_email])
+                email.send()
+
+                messages.success(request, f"{user.email} You have been registered as a vendor, Please check your email to activate your account.")
             else:
-                messages.success(request, f"{user.email} You have been registered.")
-
-            # Send activation email
-            current_site = get_current_site(request)
-            mail_subject = 'Activate your account'
-            message = render_to_string('acc/acc_active_email.html', {
-                'user': user,
-                'domain': current_site.domain,
-                'uid': urlsafe_base64_encode(force_bytes(user.pk)),
-                'token': account_activation_token.make_token(user),
-            })
-            to_email = form.cleaned_data.get('email')
-            email = EmailMessage(mail_subject, message, to=[to_email])
-            email.send()
-
-            messages.success(request, f"{user.email} You have been registered as a vendor. Please check your email to activate your account.")
+                messages.error(request, "Something went wrong while registration ")
 
             return redirect('login')
         else:
@@ -343,8 +341,19 @@ def admin(request):
 def newvendor(request):
     vendor = Vendor.objects.all()
     context = {"vendor":vendor}
-  
     return render(request, 'acc/venderpage.html', context)
+
+@login_required(login_url='login')
+def myservices(request):
+    vendor = Vendor.objects.all()
+
+    context = {"vendor":vendor}
+    return render(request, 'acc/myservices.html', context)
+
+def addDetails(request):
+    vendor = Vendor.objects.all()
+    context={"vendor":vendor}
+    return render(request, 'acc/addDetails.html', context)
 
 # vender services view
 @login_required(login_url='login')
@@ -352,14 +361,10 @@ def vendorservice(request, pk):
     vendor = get_object_or_404(Vendor, pk=pk)
     #retriveung all servives respective vendor
     services = vendor.services.all()
+    servicesdetails = ServiceDetails.objects.filter(vendor=vendor)
 
-    #retriveung all servives image vendor
-    service_images = ServiceImage.objects.filter(vendor=vendor)
-    
-    context = {'vendor':vendor,"services":services, 'service_images':service_images}
+    context = {'vendor':vendor,"services":services, 'servicesdetails':servicesdetails}
     return render(request, 'acc/vendorservice.html', context)
-
-
 
 # if registered as newcustomer he will be directed to this page 
 def newcustomer(request):
