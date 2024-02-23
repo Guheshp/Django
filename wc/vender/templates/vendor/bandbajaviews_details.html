@@ -21,7 +21,14 @@
                 </div>
                 <div class="about">
                     <h5>About</h5>
-                    <p>{{ vender.vender_about}}</p>
+                    <!-- <p>{{ vender.vender_about}}</p> -->
+                    <div id="about-content">
+                        <p id="truncated-content">{{ vender.vender_about|truncatewords:20 }}
+                             <a id="toggle-button" href="#">read more</a>
+                        </p>
+                        <p id="full-content" style="display: none;">{{ vender.vender_about }}</p>
+                        <a id="toggle-button-less" href="#" style="display: none;">read less</a>
+                    </div>
                 </div>
             </div>
         </div>

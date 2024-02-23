@@ -15,6 +15,10 @@ urlpatterns = [
     path('services/',views.services, name='services'),
 
     path('venue/',views.venue, name='venue'),
+
+    # companyServices and their details -----------------------------------------
+
+    path('companyServices/<str:pk>',views.companyServices, name='companyServices'),
     
     # caterview and their details -----------------------------------------
 

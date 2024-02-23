@@ -101,13 +101,13 @@
   transform: scale(1.02);
 }
 .info a{
-  color:	rgb(23, 51, 79);
+  color:rgb(23, 51, 79);
 }
 .info .box1:hover{
   transform: scale(1.1);
 }
 
-/* vendor services  */
+/* vendor services ---------------------------------- */
 
 .services-container{
   margin: 0; padding: 0;
@@ -118,7 +118,7 @@
 .venderpage .container{
   max-width: 1200px;
   margin: 0 auto;
-  padding: 3rem 2rem;
+  padding:  1.5rem;
 }
 .venderpage .container .title{
   font-size: 3.5rem;
@@ -158,6 +158,13 @@
   gap: 2.3rem;
 }
 
+.venderpage .container .services-container a{
+  /* text-decoration: none; */
+  color: rgb(23, 51, 79); 
+
+
+}
+
 .venderpage .container .services-container .servive{
   text-align: center;
   padding: 3rem 2rem;
@@ -167,7 +174,20 @@
   outline-offset: -1rem;
   cursor: pointer;
     
+}
 
+.venderpage .container .services-container .servive .cater-email{
+  color:#444;
+  margin-bottom: 5px;
+  font-weight: 400;
+
+}
+.venderpage .container .services-container .servive #company-name{
+  color: #222;
+  font-size: 25px;
+  font-weight: 400;
+  margin-top: 20px;
+  margin-bottom: 0;
 }
 .venderpage .container .services-container .servive img{
     height: 8rem;
@@ -425,10 +445,13 @@ ul  a{
 .pages a{
   color: white;
   text-decoration: none;
-
 }
-
 .pages{
   margin-top: 20px;
 }
 
+
+/* wedding couples  */
+.sub-heading{
+  color: rgb(23, 51, 79);
+}

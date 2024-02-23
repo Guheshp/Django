@@ -26,8 +26,20 @@
                 </div>
                 <div class="about">
                     <h5>About</h5>
-                    <p>{{ registered_vendor.vender_about}}</p>
-                    <a href="#">Add Details</a>
+
+                    <div id="about-content">
+                        <p id="truncated-content">{{ registered_vendor.vender_about|truncatewords:20 }}
+                             <a id="toggle-button" href="#">read more</a>
+                        </p>
+                        <p id="full-content" style="display: none;">{{ registered_vendor.vender_about }}</p>
+                        <a id="toggle-button-less" href="#" style="display: none;">read less</a>
+                    </div>
+
+
+                    <a class="title txt" href="{% url 'serviceDetails' registered_vendor.id%}">Add Details</a><br>
+                    <a class="title txt" href="{% url 'updateServiceDetails' registered_vendor.id%}">Update Details</a>
+
+
                 </div>
             </div>
         </div>
@@ -55,6 +67,7 @@
 
                             </div>
                         </div>
+                        
 
                     </div>
                 </div>

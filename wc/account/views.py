@@ -189,14 +189,15 @@ def UserProfile(request, pk):
 
 @login_required(login_url='login')
 @allowed_users(allowed_roles=['admin','vendor','customer'])
+@unauthenticated_user
 def UpdateProfile(request, pk):
    
     user = CustomUser.objects.get(id=pk)
     # form = EditUserProfilrForm(instance = user)
     # form = EditAdminProfilrForm(instance = user)
 
-    if request.user.is_authenticated:
-        if request.method == 'POST':
+
+    if request.method == 'POST':
             if request.user.is_superuser == True:
                 form = EditAdminProfilrForm(request.POST, instance=user)
             else:
@@ -208,16 +209,15 @@ def UpdateProfile(request, pk):
                 messages.success(request, f"{name} updated Successfully!" )
                 profile_url = reverse('user_profile', args=[user.pk])
                 return redirect(profile_url)
-        else:
+    else:
             if request.user.is_superuser == True:
                 form = EditAdminProfilrForm(instance=user)
             else:
                 form = EditUserProfilrForm(instance=user)
 
-        context={'form':form}
-        return render(request, 'acc/update_profile.html', context)
+    context={'form':form}
+    return render(request, 'acc/update_profile.html', context)
         
-    return render(request, 'acc/update_profile.html')
 
 
 @login_required(login_url='login')
@@ -358,10 +358,11 @@ def addDetails(request):
 # vender services view
 @login_required(login_url='login')
 def vendorservice(request, pk):
-    vendor = get_object_or_404(Vendor, pk=pk)
+    vendor = Vendor.objects.get(id=pk)
     #retriveung all servives respective vendor
     services = vendor.services.all()
-    servicesdetails = ServiceDetails.objects.filter(vendor=vendor)
+    servicesdetails = ServiceDetails.objects.filter(vendor=vendor, service__in=services)
+
 
     context = {'vendor':vendor,"services":services, 'servicesdetails':servicesdetails}
     return render(request, 'acc/vendorservice.html', context)

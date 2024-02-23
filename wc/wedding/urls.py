@@ -5,11 +5,11 @@ urlpatterns = [
     #----------------------- couples registration page--------------------------------
     path('CouplesRegistration/', views.CouplesRegistration, name='CouplesRegistration'),
     
-    #----------------------- couples registration page--------------------------------
+    #----------------------- couples update page--------------------------------
 
     path('coupleupdate/<str:pk>', views.coupleupdate, name='coupleupdate'),
 
     #----------------------- couples  page--------------------------------
 
-    path('coupleupdate/<str:pk>', views.coupleupdate, name='coupleupdate'),
+
 ] 

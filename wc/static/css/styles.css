@@ -3,6 +3,9 @@ body{
   font-family: "Open Sans", sans-serif !important;
 }
 
+html {
+  scroll-behavior: smooth !important;
+}
 * {
 
     margin: 0px;
@@ -307,9 +310,9 @@ body{
 
 /* The side navigation menu ---------------------------------------------------------*/
 .sidenav {
-  height: 100%; /* 100% Full-height */
-  width: 200px; /* 0 width - change this with JavaScript */
-  position: fixed; /* Stay in place */
+  height: 100%; 
+  width: 205px; 
+  position: fixed; 
   /* z-index: 1000; */
   /* z-index:1000 ; Stay on top */
   top: 0;
@@ -715,16 +718,18 @@ hr .new1 {
 }
 
 .container-fluid .heading{
-  text-align: center;
+  /* text-align: center */
   padding-bottom: 15px;
-  color: black;
+  color: #444;
+  margin: 0;
   text-shadow: black;
-  font-size: 50px;
+  font-size: 45px;
+
  }
 
 .services-box1{
   display: flex;
-  gap: 20px;
+  /* gap: 10px; */
   justify-content: space-around;
 
 }
@@ -732,11 +737,20 @@ hr .new1 {
 .services-box1 img{
   height: 200px;
   width: 100%;
+
+
 }
 .services-box1 .service-box1{
+  /* height: 300px;
+  width: 300px; */
+  /* background-color: #030637; */
   height: 300px;
   width: 300px;
-  /* background-color: #030637; */
+
+  /* border: 1px solid black; */
+  /* border-radius: 10px; */
+  cursor: pointer;
+  transition: transform 0.5s ease;
 }
 .service-box1{
   display: flex;
@@ -744,15 +758,29 @@ hr .new1 {
   align-items: center;
   padding: 10px;
   gap: 15px;
-  /* border: 1px solid #818181; */
+  border: 1px solid #818181;
   /* border-radius: 20px; */
-  box-shadow: 0 5px 10px rgba(0, 0, 0, .2);
+  box-shadow: 0 .5rem 1rem rgba(0,0,0,0.6);
+  outline-offset: -1rem;
+
 }
+.service-box1 img{
+  padding: 10px;
+  outline: .1rem solid #ccc;
+
+}
+
+.service-box1 img:hover{
+  transform: scale(.9);
+  transition: all .2s linear ;
+}
+
 .services .services-box1 .service-box1 .btn{
   margin-top: 10px;
-  display: inline-block;
-  background: #333;
-  color: #fff;
+  /* display: inline-block; */
+  /* background:rgb(23, 51, 79); */
+  border: 1px solid rgb(23, 51, 79);
+  color: rgb(23, 51, 79);
   font-size: 17px;
   border-radius: 5px;
   padding: 8px 25px; 
@@ -762,8 +790,13 @@ hr .new1 {
   box-shadow: 0 10px 15px rbga(0, 0, 0, .3);
   transform: scale(1.03);
 }
+.services .services-box1 .service-box1 a{
+  text-decoration: none !important;
+}
 .services .services-box1 .service-box1 .btn:hover{
-  letter-spacing: 1px;
+  /* letter-spacing: 1px; */
+  background-color: rgb(23, 51, 79);
+  color: #fff;
 }
 .service-box1{
   cursor: pointer;
@@ -784,28 +817,60 @@ hr .new1 {
 
 /* catering  -----------------------------------------------------------------*/
 
-.container .heading{
+/* .container .heading{
  text-align: center;
  padding-bottom: 15px;
  color: black;
  text-shadow: black;
  font-size: 50px;
-}
+} */
 
-.container .cater{
+/* .container .cater{
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(270px, 1fr));
   gap: 15px;
-}
-.container .cater .cater-box{
+} */
+/* .container .cater .cater-box{
   box-shadow: 0 5px 10px rgba(0, 0, 0, .2);
   border-radius: 5px;
   text-align: center;
   padding: 20px 30px;
   border: 1px solid #818181;
   /* border-radius: 20px; */
-  box-shadow: 0 5px 10px rgba(0, 0, 0, .2);
+  /* box-shadow: 0 5px 10px rgba(0, 0, 0, .2); */
+/* } */
+/* .container .cater .cater-box img{
+  height: 200px;
 }
+
+.container .cater .cater-box img:hover{
+  transform: scale(.9);
+  transition: all .2s linear ;
+}
+.container .cater .cater-box h3{
+  color: #444;
+  font-size: 22px;
+  padding: 10px 0;
+  margin: 0;
+}
+
+.container .cater .cater-box p{
+.container .cater .cater-box img{
+  height: 200px;
+}
+
+.container .cater .cater-box img:hover{
+  transform: scale(.9);
+  transition: all .2s linear ;
+}
+.container .cater .cater-box h3{
+  color: #444;
+  font-size: 22px;
+  padding: 10px 0;
+  margin: 0;
+}
+
+.container .cater .cater-box p{
 .container .cater .cater-box img{
   height: 200px;
 }
@@ -844,7 +909,7 @@ hr .new1 {
 .container .cater .cater-box:hover{
   box-shadow: 0 10px 15px rbga(0, 0, 0, .3);
   transform: scale(1.03);
-}
+} */
 
 /*  ----------------------------------------------------------------- */
 /*styling star rating*/

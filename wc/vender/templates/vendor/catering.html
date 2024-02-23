@@ -2,31 +2,40 @@
 {% load static %}
 {% block content %}
 
-
-
-<h2>{{ vendor.company_name }}</h2>
-
 <body>
-
-
         <div class="container">
 
-            <h1 class="heading">Cater Services Providers</h1>
+            <!-- <h1 class="heading">Cater Services Providers</h1> -->
+            <div class="card-body">
+                <blockquote class="blockquote mb-0">
+                    <h1 class="heading">Cater Services Providers</h1>
+                    <footer class="blockquote-footer">Plan your dream event from A to Z with our one-stop shop for catering! <cite title="Source Title">Select Servics</cite></footer>
+                    <hr>
+                </blockquote>
+            </div>
 
-            <div class="cater">
-                {% for vendor in cater %}
-                <div class="cater-box">
-                    <p>id ={{vendor.id}} </p>
-                    <img class="img-thumbnail" src="{{ vendor.Vender_image.url }}" alt="cater-service-provider">
-                   
-                    <h3>{{ vendor.company_name }}</h3>
-                    <div class="cater-about">
-                        <p>{{ vendor.vender_email }}</p>
+
+            <div class="venderpage">
+                <div class="container">
+                    <div class="services-container">
+                        {% for vendor in cater %}
+                        <div class="servive">
+                                <p>id ={{vendor.id}} </p>
+                                <img src="{{ vendor.Vender_image.url }}" alt="">
+                            
+                                <h3 id="company-name">{{ vendor.company_name }}</h3>
+
+                            <div class="cater-email">
+                                <p>{{ vendor.vender_email }}</p>
+                            </div>
+
+                            <a class="" href="{% url 'caterView' vendor.id%}">view company</a><br>
+                            <a class="" href="{% url 'companyServices' vendor.id%}">Service Details</a>
+
+                        </div>
+                            {% endfor %}
                     </div>
-                    <a class="btn" href="{% url 'caterView' vendor.id%}">view company</a>
                 </div>
-                
-                {% endfor %}
             </div>
         </div>
 

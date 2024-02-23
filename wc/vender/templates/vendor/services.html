@@ -4,53 +4,73 @@
 
 <div class="container-fluid">
     
-      <h1 class="heading">Our Services</h1>
-    
+    <!-- <div class="card"> -->
+        
+        <div class="card-body">
+          <blockquote class="blockquote mb-0">
+            <h1 class="heading">Ease your wedding with these services</h1>
+            <footer class="blockquote-footer">Plan your dream event from A to Z with our one-stop shop for catering, decor, entertainment, and more! <cite title="Source Title">Select Servics</cite></footer>
+        <hr>
+            </blockquote>
+        </div>
+
     <div class="services">
 
         <div class="services-box1">
             <div class="service-box1">
-                <img src="{% static 'images/catering.jpeg'%}" class="img-thumbnail" alt="...">
+                <img src="{% static 'images/catering.jpeg'%}" class="" alt="...">
                 <h4><a class="btn" href="{% url 'catering' %}">Catering</a></h4>
             </div>
             <div class="service-box1">
-                <img src="{% static 'images/planning.jpeg'%}" class="img-thumbnail" alt="...">
-                <h4><a class="btn" href="{% url 'planning' %}">Wedding Planning</a></h4>
+                <img src="{% static 'images/decor.jpeg'%}" class="" alt="...">
+                <h4> <a class="btn" href="{% url 'decor'%}">Decor</a> </h4>
             </div>
             <div class="service-box1">
-                <img src="{% static 'images/mehndi.jpeg'%}" class="img-thumbnail" alt="...">
-                <h4><a class="btn" href="{% url 'mehndimakeup' %}">Mehndi and Makeup</a></h4>
-            </div>
-            <div class="service-box1">
-                <img src="{% static 'images/photo.jpeg'%}" class="img-thumbnail" alt="...">
+                <img src="{% static 'images/photo.jpeg'%}" class="" alt="...">
                 <h4><a class="btn" href="{% url 'PhotosVideos' %}">Photos & Videos</a></h4>
             </div>
         </div>
 
-       
     </div><br>
 
             <div class="services">
 
                 <div class="services-box1">
                     <div class="service-box1">
-                        <img src="{% static 'images/artist.jpeg'%}" class="img-thumbnail" alt="...">
+                        <img src="{% static 'images/planning.jpeg'%}" class="" alt="...">
+                        <h4><a class="btn" href="{% url 'planning' %}">Wedding Planning</a></h4>
+                    </div>
+
+                    <div class="service-box1">
+                        <img src="{% static 'images/artist.jpeg'%}" class="" alt="...">
                         <h4><a class="btn" href="{% url 'artistmanagement' %}">Artist Management</a></h4>
                     </div>
                     <div class="service-box1">
-                        <img src="{% static 'images/decor.jpeg'%}" class="img-thumbnail" alt="...">
-                        <h4> <a class="btn" href="{% url 'decor'%}">Decor</a> </h4>
-                    </div>
-                    <div class="service-box1">
-                        <img src="{% static 'images/transport.jpeg'%}" class="img-thumbnail" alt="...">
-                        <h4><a class="btn" href="{%url 'transportlogistics' %}">Transport and Logistics</a></h4>
-                    </div>
-                    <div class="service-box1">
-                        <img src="{% static 'images/band.jpeg'%}" class="img-thumbnail" alt="...">
-                        <h4><a class="btn" href="{% url 'bandbaja' %}">Band Baja</a></h4>
+                        <img src="{% static 'images/mehndi.jpeg'%}" class="" alt="...">
+                        <h4><a class="btn" href="{% url 'mehndimakeup' %}">Mehndi and Makeup</a></h4>
                     </div>
                 </div>
 
+            </div><br>
+
+            <div class="services">
+
+                <div class="services-box1">
+                    <div class="service-box1">
+                        <img src="{% static 'images/transport.jpeg'%}" class="" alt="...">
+                        <h4><a class="btn" href="{%url 'transportlogistics' %}">Transport and Logistics</a></h4>
+                    </div>
+                   
+                    
+                    <div class="service-box1">
+                        <img src="{% static 'images/band.jpeg'%}" class="" alt="...">
+                        <h4><a class="btn" href="{% url 'bandbaja' %}">Band Baja</a></h4>
+                    </div>
+                    <div class="service-box1">
+                        <img src="{% static 'images/invitation.jpeg'%}" class="" alt="...">
+                        <h4><a class="btn" href="{% url 'bandbaja' %}">Invititions</a></h4>
+                    </div>
+                </div>
             </div>
     
   </div>

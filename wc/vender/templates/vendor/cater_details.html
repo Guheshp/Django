@@ -58,7 +58,17 @@
                 </div>
                 <div class="about">
                     <h5>About</h5>
-                    <p>{{ vender.vender_about}}</p>
+                    <!-- <p>{{ vender.vender_about}}</p> -->
+                    <div id="about-content">
+                        <p id="truncated-content">{{ vender.vender_about|truncatewords:20 }}
+                             <a id="toggle-button" href="#">read more</a>
+                        </p>
+                        <p id="full-content" style="display: none;">{{ vender.vender_about }}</p>
+                        <a id="toggle-button-less" href="#" style="display: none;">read less</a>
+                    </div>
+
+                    
+
                 </div>
             </div>
         </div>
@@ -71,10 +81,12 @@
                 <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
                     <h6 class="mb-2 text-primary">Service Details</h6>
                 </div>
+                
 
                 <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
                     <div class="">
                         <label class="py-1">services category</label>
+
     
                         <div class="card">
                             <div class="py-2 mx-3">
@@ -84,7 +96,6 @@
                                 {% endfor %}
                             </div>
                         </div>
-
                     </div>
                 </div>
 

@@ -35,7 +35,7 @@ def venderRegistration(request,):
             vender.save()
             # Save the services associated with the vendor
             form.save_m2m()
-            messages.success(request, "vender registration form created")
+            messages.success(request, "Registration successfully, completed!")
 
             return redirect("home")
         
@@ -113,12 +113,23 @@ login_required(login_url='login')
 def services(request):
     return render(request, 'vendor/services.html')
 
+# companyServices and their details -----------------------------------------
+
+def companyServices(request, pk):
+    vendor = Vendor.objects.get(id=pk)
+    services = vendor.services.all()
+    servicesdetails = ServiceDetails.objects.filter(vendor=vendor, service__in=services)
+    context = {'vendor':vendor,"services":services, 'servicesdetails':servicesdetails}
+
+    return render(request, 'vendor/myservicesvendor.html', context)
+
 # caterview and their details -----------------------------------------
 
 login_required(login_url='login')
 def catering(request):
     cater_vendors = Vendor.objects.filter(services__service_name='Catering')
-    context = {'cater':cater_vendors, }
+
+    context = {'cater':cater_vendors}
     return render(request, 'vendor/catering.html', context)
 
 login_required(login_url='login')
@@ -150,7 +161,7 @@ def decorView(request, pk):
     vender = get_object_or_404(Vendor, pk=pk)
     service = vender.services.all()
 
- # getting all review
+    # getting all review
     review = ReviewVender.objects.filter(vendor=vender).order_by('-created_at')
 
     context = {"vender":vender, 'service':service, 'review':review}
@@ -330,16 +341,12 @@ def serviceDetails(request, pk):
     services = vendor.services.all()
     selected_services = vendor.services.all()
 
+    url = request.META.get("HTTP_REFERER")
+
     selected_services = vendor.services.filter(service_name__in=['Catering',
-                                                                'Decor',
-                                                                'Photography and Videography',
-                                                                'Wedding Planning',
-                                                                'Makeup and Mehndi',
-                                                                'Band Baja',
-                                                                'Artist Management',
-                                                                'Guest Management',
-                                                                'Transport and Logistics',
-                                                                'Entertainment'])  # Adjust the list of service names as needed
+            'Decor', 'Photography and Videography', 'Wedding Planning',
+            'Makeup and Mehndi', 'Band Baja','Artist Management','Guest Management',
+            'Transport and Logistics', 'Entertainment']) 
     
     if request.method == "POST":
         form = servicesdetailform(request.POST, request.FILES)
@@ -349,11 +356,15 @@ def serviceDetails(request, pk):
 
             # Check if an image for the selected service already exists
             if ServiceDetails.objects.filter(vendor=vendor, service=service_image.service).exists():
-                messages.error(request, "You have already added details for this service.")
-                return redirect('addDetails')  # Redirect to the same page
+                servive_name = service_image.service.service_name #retrive servive name 
+                messages.error(request, f"You have already added details for {servive_name} service.")
+                return redirect(url) 
             
             service_image.save()
-            return redirect('addDetails')  # Redirect to a success page
+            # servive_name = service_image.service.service_name #retrive servive name 
+            servicename = form.cleaned_data.get('service')
+            messages.success(request, f"You added details for {servicename} service.")
+            return redirect('vender_register') 
     else:
         form = servicesdetailform(initial={'vendor': vendor})
         form.fields['service'].queryset = selected_services  # Limit the queryset to selected services
@@ -365,12 +376,56 @@ def serviceDetails(request, pk):
 # update service details
 @login_required(login_url='login')
 def updateServiceDetails(request, pk):
-    vendor = Vendor.objects.get(id=pk)
+    vendor = get_object_or_404(Vendor, id=pk)
     services = vendor.services.all()
 
-    # form = updateservicesdetailform(instance=)
-    context={'vendor':vendor,'services':services}
+    selected_services = vendor.services.filter(service_name__in=[
+        'Catering', 'Decor', 'Photography and Videography', 'Wedding Planning',
+        'Makeup and Mehndi', 'Band Baja', 'Artist Management', 'Guest Management',
+        'Transport and Logistics', 'Entertainment'
+    ])
+
+
+    if request.method == "POST":
+        form = servicesdetailform(request.POST, request.FILES)
+        if form.is_valid():
+            service_detail = form.save(commit=False)
+            service_detail.vendor = vendor
+
+            # Check if details for the selected service already exist
+            existing_details = ServiceDetails.objects.filter(
+                vendor=vendor, service=service_detail.service
+            ).first()
+
+            if existing_details:
+                # update existing details
+                existing_details.image = service_detail.image
+                existing_details.start_price = service_detail.start_price
+                existing_details.save()
+                service_name = service_detail.service.service_name
+                messages.success(request, f"Details for {service_name} service updated successfully.")
+            else:
+                # Create new details
+                service_detail.save()
+                service_name = service_detail.service.service_name
+                messages.success(request, f"Details for {service_name} service added successfully.")
+
+            return redirect('vender_register')
+    else:
+        # If the request method is GET, check if details exist for any service
+        service_details = ServiceDetails.objects.filter(vendor=vendor)
+        if service_details.exists():
+            # If details exist, create a form instance pre-filled with the first service details
+            form = servicesdetailform(instance=service_details.first())
+        else:
+            # If no details exist, create an empty form
+            form = servicesdetailform(initial={'service': selected_services})
+
+        form.fields['service'].queryset = selected_services  # Limit the queryset to selected services
+    
+    context={'form':form, 'vendor':vendor, 'services':services}
     return render(request, 'vendor/updateServiceDetails.html', context)
 
 
 
+    

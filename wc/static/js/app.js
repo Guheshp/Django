@@ -51,3 +51,35 @@ const slideImage = () => {
     }
   )
 }
+
+// about content 
+
+document.addEventListener('DOMContentLoaded', function() {
+  var truncatedContent = document.getElementById('truncated-content');
+  var fullContent = document.getElementById('full-content');
+  var toggleButton = document.getElementById('toggle-button');
+  var toggleButtonLess = document.getElementById('toggle-button-less');
+
+  toggleButton.addEventListener('click', function(event) {
+      event.preventDefault();
+      if (truncatedContent.style.display === 'none') {
+          truncatedContent.style.display = 'block';
+          fullContent.style.display = 'none';
+          toggleButton.innerText = 'read more';
+          toggleButtonLess.style.display = 'none';
+      } else {
+          truncatedContent.style.display = 'none';
+          fullContent.style.display = 'block';
+          toggleButton.style.display = 'none';  // Hide "read more"
+          toggleButtonLess.style.display = 'inline';
+      }
+  });
+
+  toggleButtonLess.addEventListener('click', function(event) {
+      event.preventDefault();
+      truncatedContent.style.display = 'block';
+      fullContent.style.display = 'none';
+      toggleButton.style.display = 'inline';  // Show "read more"
+      toggleButtonLess.style.display = 'none';
+  });
+});

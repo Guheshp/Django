@@ -78,7 +78,11 @@ class updateservicesdetailform(forms.ModelForm):
 
         def __init__(self, *args, **kwargs):
             super().__init__(*args, **kwargs)
-            self.fields['service'].queryset = kwargs['initial'].get('service', None)
+            self.fields['image'].required = False
+            service_queryset = kwargs.get('initial', {}).get('service', None)
+            if service_queryset is not None:
+                self.fields['service'].queryset = service_queryset
+
 
 
 

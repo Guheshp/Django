@@ -8,6 +8,10 @@ from django.contrib import messages
 
 from django.contrib.auth.decorators import login_required
 
+from django.contrib.auth import get_user_model
+
+
+CustomUser = get_user_model()
 
 # Create your views here.
 @login_required(login_url='login')
@@ -41,6 +45,7 @@ def CouplesRegistration(request):
 @login_required(login_url='login')
 def coupleupdate(request, pk):
     couple = Couples.objects.get(id=pk)
+
     # form = CoupleUpdateForm(instance=couple)
 
     if request.method == "POST":
@@ -50,14 +55,19 @@ def coupleupdate(request, pk):
             # user = Couples.objects.get(user=request.user)
             # messages.success(request, f"{user} successfully updated Couples registration form!")
             # coupleview_url = reverse('CouplesRegistration', args=[couple.pk])
-            return redirect('home')
+            groomname = form.cleaned_data.get('groomname')
+            bridename = form.cleaned_data.get('bridename')
+            messages.success(request, f' {groomname} & {bridename} updated  successfully!')
+
+            return redirect('CouplesRegistration')
+
     else:
         form = CoupleUpdateForm(instance=couple)
     context = {"form":form,'couple':couple}
     return render(request, 'weeds/couplesupdate.html', context)
 
 @login_required(login_url='login')
-def coupleview(request, pk):
-    
-    context = {}
+def coupleview(request):
+    couple = Couples.objects.all()
+    context = {'couple':couple}
     return render(request, 'weeds/couplesview', context)
