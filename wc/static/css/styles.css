@@ -17,7 +17,7 @@ html {
   }
 
   .main{
-    margin-left: 200px; 
+    margin-left: 205px; 
   }
 .body-bg{
   background-color:#FFFAF4;
@@ -152,48 +152,35 @@ html {
 
 /*------------ navbar ---------------------------------------   */
 
- .navbar {
+
+
+.navbar {
+
+  left: 0;
   position: fixed !important;
   top: 0;
   width: 100%;
   z-index: 1000;
-  /* background:rgb(18,97,128)!important; */
-  /* background:rgb(23, 51, 79)!important; */
-  background:	rgb(23, 51, 79)!important;
+  background: rgb(23, 51, 79);
   border-bottom: 1px solid white;
-  /* background:rgb(225,142,150)!important; */
-
   padding: 9px;
-  /* border-radius: 12px; */
-  /* box-shadow: 0 5px 10px rgba(60, 7, 83, 0.2); */
-}
-.navbar strong{
-  cursor: pointer;
+  margin: 0 !important;
 }
 
-.nav-links {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  background: #116D6E;
-  padding: 10px ;
-  left: 0;
-  /* border-radius: 12px; */
-  /* box-shadow: 0 5px 10px #aeaeae */
- }
-.nav-links ul{
-  display: flex;
-  gap: 10px;
-  margin-top: 10px;
+.nav-link {
+  font-size: medium;
+  margin: 0;
+  color: white !important;
 }
-.nav-links li{
-  list-style: none;
-  margin: 0 12px;
+.navbar-brand{
+  font-size: larger; 
+  color: white !important;
 }
+
 
 /* dropdoen settings start --------------------- */
 
-.dropbtn {
+/* .dropbtn {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -207,75 +194,75 @@ html {
   border-radius: 8px;
   border: none !important;
   cursor: pointer;
-}
+} */
 
 /* The container <div> - needed to position the dropdown content */
-.dropdown {
+/* .dropdown {
   position: relative;
   display: inline-block;
-}
+} */
 
 /* Dropdown Content (Hidden by Default) */
-.dropdowncontent {
+/* .dropdowncontent {
   display: none;
-  /* margin-top: 5px; */
+
   border-radius: 8px;
   position: absolute;
   background:rgb(23, 51, 79)!important;
   min-width: 200px;
   box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
   z-index: 1;
-}
+} */
 
 /* Links inside the dropdown */
-.dropdowncontent a {
+/* .dropdowncontent a {
   color: white;
   padding: 12px 16px;
   text-decoration: none !important;
   display: block;
-}
+} */
 
 
-.dropdowncontent a:hover {
+/* .dropdowncontent a:hover {
   background-color:		rgb(255, 255, 255);
   color:rgb(23, 51, 79);
   border-radius: 10px;
-}
+} */
 
 /* Show the dropdown menu on hover */
-.dropdown:hover .dropdowncontent{
+/* .dropdown:hover .dropdowncontent{
   display: block;
   display: flex;
   flex-direction: column;
   text-align: center;
   font-size: 18px;
   text-decoration: none !important;
-}
+} */
 
 /* Change the background color of the dropdown button when the dropdown content is shown */
-.dropdown:hover .dropbtn {
+/* .dropdown:hover .dropbtn {
   background-color:		rgb(255, 255, 255);
 
 
-}
-.fa-solid {
+} */
+/* .fa-solid {
   cursor: pointer;
-}
+} */
 
 /* dropdoen settings  ends --------------------- */
 
-.nav-links .logo{
+/* .nav-links .logo{
   font-size: 20px;
   font-weight: bold;
   text-align: center;
   padding: 10px 10px;
 
-}
-.nav-links .logo a{
+} */
+/* .nav-links .logo a{
   color: whitesmoke;
   text-decoration: none;
-}
-.nav-links li a{
+} */
+/* .nav-links li a{
   position: relative;
   color:#818181;
   font-size: 20px;
@@ -283,9 +270,9 @@ html {
   padding: 10px 10px;
   text-decoration: none;
   /* margin-top: 10px; */
-} 
+/* }  */ */
 
- .nav-links li a:before {
+ /* .nav-links li a:before {
   content: '';
   position: absolute;
   bottom: 0;
@@ -295,14 +282,14 @@ html {
   background: white;
   border-radius: 12px;
   transition: all 0.4s ease;
-} 
+}  */
 
-.nav-links li a:hover:before,
+/* .nav-links li a:hover:before,
 .nav-links li a:focus:before {
   width: 100%;
   left: 50%;
   transform: translateX(-50%);
-}
+} */
 
 .nav-links li a:focus {
   outline: none;
@@ -327,7 +314,7 @@ html {
 .sidenav a {
   padding: 8px 8px 8px 19px;
   text-decoration: none;
-  font-size: 18px;
+  font-size: medium;
   color: white;
   display: block;
   transition: 0.3s;
@@ -338,6 +325,11 @@ html {
   /* background-color:rgb(50, 140, 140); */
   background-color:		rgb(255, 255, 255);
   color:rgb(23, 51, 79);
+}
+
+.sidenav-links  a.active {
+  background-color:	white;
+  color:rgb(23,51,79) ;
 }
 
 .sidenav .sidenav-links{
@@ -714,7 +706,6 @@ hr .new1 {
 /* services page ------------------------------------------------------------  */
 .services{
   padding: 10px;
-
 }
 
 .container-fluid .heading{
@@ -724,8 +715,7 @@ hr .new1 {
   margin: 0;
   text-shadow: black;
   font-size: 45px;
-
- }
+}
 
 .services-box1{
   display: flex;
@@ -737,8 +727,6 @@ hr .new1 {
 .services-box1 img{
   height: 200px;
   width: 100%;
-
-
 }
 .services-box1 .service-box1{
   /* height: 300px;
@@ -750,7 +738,7 @@ hr .new1 {
   /* border: 1px solid black; */
   /* border-radius: 10px; */
   cursor: pointer;
-  transition: transform 0.5s ease;
+  transition: transform 0.5s ease-in-out;
 }
 .service-box1{
   display: flex;
@@ -766,13 +754,13 @@ hr .new1 {
 }
 .service-box1 img{
   padding: 10px;
-  outline: .1rem solid #ccc;
+  outline: .1rem solid #8a8989;
 
 }
 
 .service-box1 img:hover{
-  transform: scale(.9);
-  transition: all .2s linear ;
+  /* transform: scale(.9); */
+  /* transition: all .2s linear ; */
 }
 
 .services .services-box1 .service-box1 .btn{

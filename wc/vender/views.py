@@ -109,9 +109,19 @@ def vebderView(request, pk):
     context = {"vender":vender, 'service':service}
     return render(request, 'vendor/venderview.html', context)
 
+def SERVIVES(request):
+    return{
+        'SERVIVES':Service.objects.all()
+    }
+
+
+
 login_required(login_url='login')
 def services(request):
+
     return render(request, 'vendor/services.html')
+
+
 
 # companyServices and their details -----------------------------------------
 

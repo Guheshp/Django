@@ -23,16 +23,16 @@ urlpatterns = [
 
     path('changepassword/',views.ChangePassword, name='changepassword'),
 
-    path('user_profile/<str:pk>',views.UserProfile, name='user_profile'),
+    path('user_profile/<str:pk>/',views.UserProfile, name='user_profile'),
 
-    path('updateprofile/<str:pk>',views.UpdateProfile, name='updateprofile'),
+    path('updateprofile/<str:pk>/',views.UpdateProfile, name='updateprofile'),
 
     # path('activate/(?P<uidb64>[0-9A-Za-z_\-]+)/(?P<token>[0-9A-Za-z]{1,13}-[0-9A-Za-z]{1,20})/', views.activate, name='activate'),
     path('activate/<str:uidb64>/<str:token>/', views.activate, name='activate'),
 
-    path('acc_active_email_complete',views.acc_active_email_complete, name='acc_active_email_complete'),
+    path('acc_active_email_complete/',views.acc_active_email_complete, name='acc_active_email_complete'),
 
-    path('acc_active_email_invalid',views.acc_active_email_invalid, name='acc_active_email_invalid'),
+    path('acc_active_email_invalid/',views.acc_active_email_invalid, name='acc_active_email_invalid'),
 
 #  password reset  ---------------------------------------------------------
 

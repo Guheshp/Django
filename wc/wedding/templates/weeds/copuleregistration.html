@@ -7,18 +7,33 @@
 <body>
     <div class="container">
         <div class="row justify-content-center mb-3 underline">
-        <h1>couples registration</h1>
+        <!-- <h1>couples registration</h1> -->
         </div>
 
     </div>
 
-    <div class="container">
-
+    <div class="container ">
+        
         <div class="row  justify-content-center">
             <div class="col-md-5">
                 <div class="card">
-                    <form action="" method="POST">
+                    <form action="" method="POST" class="vendor-form">
+                        <h1>couples registration</h1><hr>
+
                         {% csrf_token %}
+
+                        <!-- {% if form.errors %}
+
+                        <div class="alert alert-danger">
+                                {% for field, error_list in form.errors.items %}
+                                    {% for error in error_list %}
+                                    <p>{{ error }}</p>
+                                    {% endfor %}
+                                {% endfor %}
+                        </div>
+
+                        {% endif %} -->
+
                         <div class="form-group m-3">
                             <label for="">Groom Name</label>
                             <input type="text" name="groomname" placeholder="Enter Groom Name" class="form-control" id="">
@@ -30,11 +45,17 @@
                         <div class="form-group m-3">
                             <label for="">Groom Date Of Birth</label>
                             <input type="date" name="groom_dob"  class="form-control" id="">
+                            {% if form.errors.groom_dob %}
+                            <div class="text-danger">{{ form.errors.groom_dob.as_text }}</div>
+                            {% endif %}
                         </div>
 
                         <div class="form-group m-3">
                             <label for="">Bride Date Of Birth</label>
                             <input type="date" name="bride_dob"  class="form-control" id="">
+                            {% if form.errors.bride_dob %}
+                            <div class="text-danger">{{ form.errors.bride_dob.as_text }}</div>
+                            {% endif %}
                         </div>
 
                         <div class="form-group m-3">

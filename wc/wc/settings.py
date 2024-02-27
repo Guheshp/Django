@@ -76,6 +76,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'vender.views.SERVIVES', #retrive all servie in all page 
             ],
         },
     },
@@ -153,15 +154,15 @@ MEDIA_URL = '/images/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 CONTACT_EMAIL = 'guheshpanjagall481@gmail.com'
-ADMIN_EMAILS = ['guheshpanjagall481@gmail.com','kavipanjagall@gmail.com' ]
+ADMIN_EMAILS = ['guheshpanjagall481@gmail.com']
+EMAIL_FROM = 'chilsiwedding@gmail.com'
 
 #kcgi pjbu osog lqyo
 
 #EMAIL CONFIGURATION
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_FROM = 'guheshpanjagall481@gmail.com'
-EMAIL_HOST_USER = 'guheshpanjagall481@gmail.com'
+EMAIL_HOST_USER = 'chilsiwedding@gmail.com'
 EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD')
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True

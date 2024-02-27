@@ -83,3 +83,17 @@ document.addEventListener('DOMContentLoaded', function() {
       toggleButtonLess.style.display = 'none';
   });
 });
+
+// side navbar active link 
+
+document.addEventListener("DOMContentLoaded", function() {
+  var currentUrl = window.location.pathname;
+  var navbarLinks = document.querySelectorAll('.sidenav-links a');
+
+  navbarLinks.forEach(function(link) {
+    var href = link.getAttribute('href');
+    if (currentUrl === href) {
+      link.classList.add('active');
+    }
+  });
+});

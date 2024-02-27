@@ -189,14 +189,11 @@ def UserProfile(request, pk):
 
 @login_required(login_url='login')
 @allowed_users(allowed_roles=['admin','vendor','customer'])
-@unauthenticated_user
 def UpdateProfile(request, pk):
    
-    user = CustomUser.objects.get(id=pk)
+    user = get_object_or_404(CustomUser, id=pk)
     # form = EditUserProfilrForm(instance = user)
     # form = EditAdminProfilrForm(instance = user)
-
-
     if request.method == 'POST':
             if request.user.is_superuser == True:
                 form = EditAdminProfilrForm(request.POST, instance=user)
@@ -288,7 +285,7 @@ def ChangePassword(request):
     context = {'form':form}
     return render(request, "acc/change-password.html", context)
 
-
+# contact us page 
 def contactview(request):
     if request.method == 'POST':
         form = ContactForm(request.POST)
@@ -308,19 +305,35 @@ def contactview(request):
                 'message': message,
             })
 
-                # Send email with user's email as the sender
-            send_mail(
-                email_subject,
-                email_message,
-                settings.EMAIL_FROM,  # Use the configured email from settings
-                [settings.CONTACT_EMAIL],  # Send email to the contact email address
-                fail_silently=False,  # Set this to True to see error messages ifsending fails
+            email = EmailMessage(
+                subject=email_subject,
+                body=email_message,
+                from_email=settings.EMAIL_FROM,
+                to=settings.ADMIN_EMAILS,
+                reply_to=[user_email]  # Set the Reply-To header
             )
+            email.send(fail_silently=False)
+
+            #reply to contact form email 
+            user_email_subject = 'Thank you for contacting us'
+
+            user_email_message = render_to_string('acc/contact_user_email_template.html', {
+                'user_email': user_email,
+            })
+
+            user_email = EmailMessage(
+                subject=user_email_subject,
+                body=user_email_message,
+                from_email=settings.EMAIL_FROM,
+                to=[user_email],
+            )
+            user_email.send(fail_silently=False)
 
             # Save the form data to the database
             form.save()
-
-            return render(request, 'acc/contactsuccess.html')
+            useremail = form.cleaned_data.get('user_email')
+            messages.success(request, f'{useremail} Thank you for contacting us!')
+            return redirect('contactview')
 
     else:
         form=ContactForm()

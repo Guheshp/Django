@@ -1,0 +1,28 @@
+{% extends 'acc/base.html' %}
+	
+{% block content %}
+
+ <div class="container card border border-5">
+
+    <h1 class="text-center py-3"></h1>
+
+    <form action="" method="POST" autocomplete="off">
+    {% csrf_token %}
+
+    <div class="alert alert-danger" role="alert">
+        Are You sure to Delete Couples!
+    </div>
+    <div class="row gutters">
+        <div class="col-xl-12">
+            <div class=" py-4 text-right">
+                <a  class="btn btn-outline-info p-2" href="{% url 'coupleview' couple.id%}">Cancle</a>
+                <button type="submit" class="btn btn-outline-danger p-2">Delete Couples &nbsp; <i class="fa-solid fa-user-group"></i></button>
+            </div>
+        </div>
+    </div>
+    </form>
+
+ </div>
+	
+		
+{% endblock %}

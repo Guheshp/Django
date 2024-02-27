@@ -11,9 +11,8 @@
 
             <div class="row gutters">
                 <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
-                    <h3 class="mb-2 sub-heading">{{groom_name}} and  {{bride_name}} already registred!</h3>
                         
-                    <p class="blockquote-footer">View Your Details </p>
+                    <p class="blockquote-footer">View Your Details <strong>{{couple.groomname |upper}} and {{couple.bridename |upper}}</strong></p>
                     <hr class="border ">
 
                 </div>
@@ -23,7 +22,7 @@
                         <label class="py-1 sub-heading">Groom Name</label>
                         <div class="card">
                             <div class="py-2 mx-3 ">
-                               <span>{{ registered_couples.groomname}}</span> 
+                               <span>{{ couple.groomname}}</span> 
                             </div>
                         </div>
                     </div>
@@ -34,7 +33,7 @@
                         <label class="py-1 sub-heading">Bride Name</label>
                         <div class="card">
                             <div class="py-2 mx-3 ">
-                               <span>{{ registered_couples.bridename}}</span> 
+                               <span>{{ couple.bridename}}</span> 
                             </div>
                         </div>
                     </div>
@@ -45,7 +44,7 @@
                         <label class="py-1 sub-heading">Groom DOB</label>
                         <div class="card">
                             <div class="py-2 mx-3 ">
-                               <span>{{ registered_couples.groom_dob}}</span> 
+                               <span>{{ couple.groom_dob}}</span> 
                             </div>
                         </div>
                     </div>
@@ -53,10 +52,10 @@
 
                 <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
                     <div class="">
-                        <label class="py-1 sub-heading">Bride DOB</label>
+                        <label class="py-1 sub-heading">Groom DOB</label>
                         <div class="card">
                             <div class="py-2 mx-3 ">
-                               <span>{{ registered_couples.bride_dob}}</span> 
+                               <span>{{ couple.bride_dob}}</span> 
                             </div>
                         </div>
                     </div>
@@ -64,32 +63,10 @@
                 
                 <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
                     <div class="">
-                        <label class="py-1 sub-heading">Groom Age</label>
-                        <div class="card">
-                            <div class="py-2 mx-3 ">
-                               <span>{{groom_age}}</span> 
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
-                    <div class="">
-                        <label class="py-1 sub-heading">Bride Age</label>
-                        <div class="card">
-                            <div class="py-2 mx-3 ">
-                               <span>{{bride_age}}</span> 
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
-                    <div class="">
                         <label class="py-1 sub-heading">Contact number</label>
                         <div class="card">
                             <div class="py-2 mx-3 ">
-                               <span>{{ registered_couples.phone_number}}</span> 
+                               <span>{{ couple.phone_number}}</span> 
                             </div>
                         </div>
                     </div>
@@ -100,7 +77,7 @@
                         <label class="py-1 sub-heading">Wedding Date</label>
                         <div class="card">
                             <div class="py-2 mx-3 ">
-                               <span>{{ registered_couples.Wedding_date}}</span> 
+                               <span>{{ couple.Wedding_date}}</span> 
                             </div>
                         </div>
                     </div>
@@ -110,8 +87,8 @@
             <div class="row gutters">
                 <div class="col-xl-12">
                     <div class=" py-2 text-right">
-                        <a class="btn btn-outline-info" href="{% url 'home'%}">Go back</a>
-                        <a class="btn btn-primary" href="{% url 'coupleupdate' registered_couples.id %}">Update</a>
+                        <a class="btn btn-outline-info" href="{% url 'home'%}">Cancle</a>
+                        <a class="btn btn-primary" href="{% url 'coupleupdate' couple.id %}">Update</a>
                     </div>
                 </div>
             </div>

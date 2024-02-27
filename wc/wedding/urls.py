@@ -9,7 +9,16 @@ urlpatterns = [
 
     path('coupleupdate/<str:pk>', views.coupleupdate, name='coupleupdate'),
 
-    #----------------------- couples  page--------------------------------
+    #----------------------- all couples page--------------------------------
+    path('coupleall/', views.coupleall, name='coupleall'),
+    
+    #-----------------------view couples in detail page--------------------------------
+
+    path('coupleview/<str:pk>', views.coupleview, name='coupleview'),
+
+    #-----------------------Delete couples page--------------------------------
+
+    path('coupledelete/<str:pk>', views.coupledelete, name='coupledelete'),
 
 
 ] 
