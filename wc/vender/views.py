@@ -114,8 +114,6 @@ def SERVIVES(request):
         'SERVIVES':Service.objects.all()
     }
 
-
-
 login_required(login_url='login')
 def services(request):
 
@@ -338,9 +336,9 @@ def reviewVender(request, pk):
     return render(request, 'vendor/decor_details.html', context)    
 
 
-@login_required(login_url='login')
-def venue(request):
-    return render(request, 'vendor/venue.html')
+# @login_required(login_url='login')
+# def venue(request):
+#     return render(request, 'vendor/venue.html')
 
 
 

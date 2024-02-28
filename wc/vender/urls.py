@@ -14,7 +14,7 @@ urlpatterns = [
     
     path('services/',views.services, name='services'),
 
-    path('venue/',views.venue, name='venue'),
+    # path('venue/',views.venue, name='venue'),
 
     # companyServices and their details -----------------------------------------
 

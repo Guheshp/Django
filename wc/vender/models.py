@@ -2,7 +2,6 @@ from django.db import models
 
 from django.db.models import Avg
 
-
 from django.contrib.auth import get_user_model
 
 CustomUser = get_user_model()
@@ -22,6 +21,7 @@ class Service(models.Model):
         ('Entertainment', 'Entertainment'),
     )
     service_name = models.CharField(max_length=200, null=True, choices=SERIVCES)
+
 
     def __str__(self):
         return self.service_name
