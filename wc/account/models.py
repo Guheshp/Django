@@ -30,6 +30,7 @@ class CustomUserManager(BaseUserManager):
         extra_fields.setdefault("is_active", True)
         extra_fields.setdefault("is_vendor", True)
         extra_fields.setdefault("is_customer", True)
+        extra_fields.setdefault("is_venuecoordinator", True)
         
         if extra_fields.get("is_staff") is not True:
             raise ValueError(_("Superuser must have is_staff=True."))
@@ -39,6 +40,10 @@ class CustomUserManager(BaseUserManager):
             raise ValueError(_("Superuser must have is_vendor=True."))
         if extra_fields.get("is_customer") is not True:
             raise ValueError(_("Superuser must have is_customer=True."))
+        if extra_fields.get("is_customer") is not True:
+            raise ValueError(_("Superuser must have is_customer=True."))
+        if extra_fields.get("is_venuecoordinator") is not True:
+            raise ValueError(_("Superuser must have is_venuecoordinator=True."))
         return self.create_user(email, password, phone, **extra_fields)
     
 
@@ -53,6 +58,7 @@ class CustomUser(AbstractUser):
 
     is_vendor = models.BooleanField(default=False)
     is_customer = models.BooleanField(default=False)
+    is_venuecoordinator = models.BooleanField(default=False)
 
 
 

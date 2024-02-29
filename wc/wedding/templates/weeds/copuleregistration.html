@@ -36,15 +36,15 @@
 
                         <div class="form-group m-3">
                             <label for="">Groom Name</label>
-                            <input type="text" name="groomname" placeholder="Enter Groom Name" class="form-control" id="">
+                            <input type="text" name="groomname" placeholder="Enter Groom Name" class="form-control" id="" required>
                         </div>
                         <div class="form-group m-3">
                             <label for="">Bride Name</label>
-                            <input type="text" name="bridename" placeholder="Enter Bride Name" class="form-control" id="">
+                            <input type="text" name="bridename" placeholder="Enter Bride Name" class="form-control" id="" required>
                         </div>
                         <div class="form-group m-3">
                             <label for="">Groom Date Of Birth</label>
-                            <input type="date" name="groom_dob"  class="form-control" id="">
+                            <input type="date" name="groom_dob"  class="form-control" id="" required>
                             {% if form.errors.groom_dob %}
                             <div class="text-danger">{{ form.errors.groom_dob.as_text }}</div>
                             {% endif %}
@@ -52,7 +52,7 @@
 
                         <div class="form-group m-3">
                             <label for="">Bride Date Of Birth</label>
-                            <input type="date" name="bride_dob"  class="form-control" id="">
+                            <input type="date" name="bride_dob"  class="form-control" id="" required>
                             {% if form.errors.bride_dob %}
                             <div class="text-danger">{{ form.errors.bride_dob.as_text }}</div>
                             {% endif %}
@@ -60,12 +60,12 @@
 
                         <div class="form-group m-3">
                             <label for="">Contact Number</label>
-                            <input type="tel" name="phone_number" placeholder="Enter Contact Number" class="form-control" id="">
+                            <input type="tel" name="phone_number" placeholder="Enter Contact Number" class="form-control" id="" required>
                         </div>
 
                         <div class="form-group m-3">
                             <label for="">Wedding Date</label>
-                            <input type="date" name="Wedding_date" placeholder="Enter Groom Name" class="form-control" id="">
+                            <input type="date" name="Wedding_date" placeholder="Enter Groom Name" class="form-control" id="" required>
                         </div>
                         <button class="btn btn-outline-success m-3">Submit</button>
                     </form>

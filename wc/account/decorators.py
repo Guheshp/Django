@@ -34,8 +34,10 @@ def admin_only(view_func):
                 return redirect('newvendor')
             elif group == 'customer':
                 return redirect('newcustomer')
+            elif group == 'venuecoordinator':
+                return redirect('newvenuecoordinator')
             elif group == 'admin':
                  return redirect('adminpage')
-        else:
-            return view_func(request, *args, **kwargs)   # Allow access for unauthenticated users
+        
+        return view_func(request, *args, **kwargs)   # Allow access for unauthenticated users
     return wrapper_func

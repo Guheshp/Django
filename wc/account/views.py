@@ -7,7 +7,14 @@ from django.contrib import messages
 from django.conf import settings
 from django.core.mail import send_mail
 
-from .forms import (createUserForm,CreateUserVenderForm, LoginForm, EditUserProfilrForm, EditAdminProfilrForm, PasswordChangeForm, ContactForm)
+from .forms import (createUserForm,
+                    CreateUserVenderForm,
+                    VenueUserVenderForm,
+                    LoginForm,
+                    EditUserProfilrForm,
+                    EditAdminProfilrForm,
+                    PasswordChangeForm,
+                    ContactForm)
 
 from django.contrib.auth import (authenticate,
                                 login as auth_login,
@@ -37,6 +44,8 @@ from django.contrib.auth.models import Group
 from .models import Contact
 
 from vender.models import Vendor,ServiceDetails
+
+from venue.models import Venue
 
 CustomUser = get_user_model()
 # Create your views here.
@@ -82,6 +91,8 @@ def registrationchoice(request):
             return redirect('register')  # Redirect to the user registration page
         elif selected_option == 'register_vendor':
             return redirect('VendorRegister')  # Redirect to the vendor registration page
+        elif selected_option == 'register_venuecordinator':
+            return redirect('venuecoordinatorregister')  # Redirect to the Venue coordinator registration page
     return render(request,'acc/registerationchoice.html')
 
 @unauthenticated_user
@@ -176,8 +187,57 @@ def VendorRegister(request):
     context = {'form': form}
     return render(request, 'acc/vendor_register.html', context)
 
+
+@unauthenticated_user
+def venuecoordinatorregister(request):
+    if request.method == 'POST':
+        form = VenueUserVenderForm(request.POST, request.FILES)
+        if form.is_valid():
+            user = form.save(commit=False)
+            is_venuecoordinator = form.cleaned_data.get('is_venuecoordinator', False)
+            user.is_active = False
+            user.save()
+
+            # Assign user to vendor group
+            group = Group.objects.get(name='venuecoordinator')
+            user.groups.add(group)
+
+            if is_venuecoordinator:
+                group = Group.objects.get(name="venuecoordinator")
+                user.groups.add(group)
+
+                # Send activation email
+                current_site = get_current_site(request)
+                mail_subject = 'Activate your account'
+                message = render_to_string('acc/acc_active_email.html', {
+                    'user': user,
+                    'domain': current_site.domain,
+                    'uid': urlsafe_base64_encode(force_bytes(user.pk)),
+                    'token': account_activation_token.make_token(user),
+                })
+                to_email = form.cleaned_data.get('email')
+                email = EmailMessage(mail_subject, message, to=[to_email])
+                email.send()
+
+                messages.success(request, f"{user.email} You have been registered as a Venue Coordinator, Please check your email to activate your account.")
+            else:
+                messages.error(request, "Something went wrong while registration ")
+
+            return redirect('login')
+        else:
+            # Form is invalid, so render the registration form template with form errors
+            for field, errors in form.errors.items():
+                for error in errors:
+                    messages.error(request, f'{field.capitalize()}: {error}')
+    else:
+        form = VenueUserVenderForm()
+    context = {'form': form}
+    return render(request, 'acc/venuer_register.html', context)
+
+
 @login_required(login_url='login')
-@allowed_users(allowed_roles=['admin','vendor','customer'])
+@allowed_users(allowed_roles=['admin','vendor','customer','venuecoordinator'])
+
 def UserProfile(request, pk):
 
     user = CustomUser.objects.get(id=pk)
@@ -188,7 +248,7 @@ def UserProfile(request, pk):
 
 
 @login_required(login_url='login')
-@allowed_users(allowed_roles=['admin','vendor','customer'])
+@allowed_users(allowed_roles=['admin','vendor','customer','venuecoordinator'])
 def UpdateProfile(request, pk):
    
     user = get_object_or_404(CustomUser, id=pk)
@@ -260,7 +320,7 @@ def Login(request):
 
 
 @login_required(login_url='login')
-@allowed_users(allowed_roles=['admin','vendor','customer'])
+@allowed_users(allowed_roles=['admin','vendor','customer','venuecoordinator'])
 def Logout(request):
 
     auth_logout(request)
@@ -271,7 +331,7 @@ def Logout(request):
 
 
 @login_required(login_url='login')
-@allowed_users(allowed_roles=['admin','vendor','customer'])
+@allowed_users(allowed_roles=['admin','vendor','customer','venuecoordinator'])
 def ChangePassword(request):
     if request.method == "POST":
         form = PasswordChangeForm(user=request.user, data=request.POST)
@@ -383,3 +443,8 @@ def vendorservice(request, pk):
 # if registered as newcustomer he will be directed to this page 
 def newcustomer(request):
     return render(request, 'acc/customerpage.html')
+
+def newvenuecoordinator(request):
+    # venues = Venue.objects.all()
+    # context = {'venues':venues}
+    return render(request, 'acc/venuecoordinator.html')

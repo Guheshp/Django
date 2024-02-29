@@ -1,0 +1,27 @@
+{% extends 'acc/base.html'%}
+{% load static %}
+{% block content %}
+<body>
+    
+<div class="container px-4 py-5" id="featured-3">
+    <h2 class="pb-2 border-bottom">Events</h2>
+    <div class="row g-4 py-2 row-cols-1">
+      {% for event in events%}
+      <div class="feature border py-2 col">
+        <h3 class="fs-2 text-body-emphasis">{{event}}</h3>
+         <strong>Event:</strong><span> {{event.name}}</span><br>
+         <strong>Venue:</strong><span> {{event.venue.name}}</span><br>
+         <strong>Date:</strong><span> {{event.date}}</span><br>
+         <strong>Time:</strong><span> {{event.time}}</span><br>
+         <strong>Description:</strong><span> {{event.description}}</span><br>
+
+        <a href="#" class="icon-link">
+          Call to action
+        </a>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</body>
+
+  {% endblock %}

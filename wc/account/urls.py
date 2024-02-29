@@ -11,6 +11,8 @@ urlpatterns = [
 
     path('VendorRegister/',views.VendorRegister, name='VendorRegister'),
 
+    path('venuecoordinatorregister/',views.venuecoordinatorregister, name='venuecoordinatorregister'),
+
     path('listuser/',views.ListUser, name='listuser'),
 
     path('querieslist/',views.querieslist, name='querieslist'),
@@ -49,6 +51,9 @@ urlpatterns = [
 
 # when vender registred redirect first to this page  ---------------------------------------------------------
     path('newvendor/', views.newvendor, name='newvendor'),
+
+# when venue Cordinator registred redirect first to this page  ---------------------------------------------------------
+    path('newvenuecoordinator/', views.newvenuecoordinator, name='newvenuecoordinator'),
 
     path('myservices/', views.myservices, name='myservices'),
 

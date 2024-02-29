@@ -30,6 +30,16 @@ class CreateUserVenderForm(UserCreationForm):
         fields = ['email', 'name', 'phone', 'password1', 'password2', 'is_vendor']
         # fields = ['email', 'name', 'phone', 'profile_Image', 'password1', 'password2', 'is_vendor']
 
+
+
+class VenueUserVenderForm(UserCreationForm):
+    
+    is_venuecoordinator = forms.BooleanField(label='Register as Venue Coordinator', required=True)
+    name = forms.CharField(label='Name', required=True) 
+
+    class Meta:
+        model = CustomUser
+        fields = ['email', 'name', 'phone', 'password1', 'password2', 'is_venuecoordinator']
 # class LoginForm(AuthenticationForm):
 
 #     username = forms.EmailField(widget=EmailInput())

@@ -1,0 +1,43 @@
+{% extends 'acc/base.html' %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+    
+
+    <div class="container mt-0">
+        <a href="{% url 'viewvenue' %}" class="btn btn-info "> All Venue  &nbsp; <i class="fa fa-arrow-left" aria-hidden="true"></i></a>
+        <h3 style="margin-top: 40px;">You Searched For: "{{ query }}"</h3>
+        {% if search %}
+        
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th scope="col">venue name</th>
+                        <!-- <th scope="col">Receipe Description</th>
+                        <th scope="col">Receipe Price</th>
+                        <th scope="col">Recipe Image</th>
+                        <th scope="col">View</th> -->
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for venue in search %}
+                        <tr>
+                            <td>{{ venue.name }}</td>
+                            <!-- <td></td>
+                            <td></td>
+                            <td>
+                                <img src="/images/#" alt="img" style="width: 100px;">
+                            </td>
+                            <td style="text-align: center;">
+                                <a href="#">&nbsp;<i class="fa fa-eye"
+                                        aria-hidden="true"></i></a>
+                            </td> -->
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        {% else %}
+            <p>No venue Found</p>
+        {% endif %}
+    </div>
+{% endblock %}

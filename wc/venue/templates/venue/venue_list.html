@@ -1,0 +1,71 @@
+{% extends 'acc/base.html'%}
+{% load static %}
+{% block content %}
+
+<body>
+    
+<div class="container">
+    <div class="row">
+        <div class="col-12 mb-3 mb-lg-5">
+            <div class="overflow-hidden card table-nowrap table-card">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <h5 class="mb-0">Venue list</h5>
+                    <a href="#!" class="btn btn-light btn-sm">View All</a>
+                </div>
+                <div class="table-responsive">
+                    <table class="table mb-0">
+                        <thead class="small text-uppercase bg-body text-muted">
+                            <tr>
+                                <th>Name</th>
+                                <th>Phone number</th>
+                                <th>Address</th>
+                                <th>City</th>
+                                <th>State</th>
+                                <th>Zipcode</th>
+                                <th>Capacity</th>
+                                <th class="text-end">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for venue in venue_list %}
+                            <tr class="align-middle">
+                                <td>
+                                    <div class="d-flex align-items-center">
+                                        <img src="{{venue.image.url}}" class="avatar sm rounded-pill me-3 flex-shrink-0" alt="{{venue.image.url}}">
+                                        <div>
+                                            <div class="h6 mb-0 lh-1">{{venue.name}}</div>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>{{venue.phone_number}}</td>
+                                <td> <span class="d-inline-block align-middle">{{venue.address}}</span></td>
+                                <td> <span class="d-inline-block align-middle">{{venue.city}}</span></td>
+                                <td><span>{{venue.state}}</span></td>
+                                <td>{{venue.zipcode}}</td>
+                                <td>{{venue.capacity}}</td>
+                                <td class="text-end">
+                                    <div class="drodown">
+                                        <a data-bs-toggle="dropdown" href="#" class="btn p-1" aria-expanded="false">
+                                  <i class="fa fa-bars" aria-hidden="true"></i>
+                                </a>
+                                        <div class="dropdown-menu dropdown-menu-end" style="">
+                                            <a href="#" class="dropdown-item">View Details</a>
+                                            <a href="#!" class="dropdown-item">Delete user</a>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                           
+                           {% endfor %}
+                           
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+
+{% endblock %}

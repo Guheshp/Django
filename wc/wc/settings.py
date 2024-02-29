@@ -78,6 +78,7 @@ TEMPLATES = [
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
                 'vender.views.SERVIVES', #retrive all servie in all page 
+                # 'venue.context_processors.venues',
             ],
         },
     },

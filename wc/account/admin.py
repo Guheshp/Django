@@ -6,11 +6,11 @@ from .models import CustomUser, Contact
 # Register your models here.
 
 class CustomUserAdmin(UserAdmin):
-    list_display = ("email", "phone", "profile_Image", "is_staff", "is_active","is_superuser",'is_vendor','is_customer', 'last_login', 'date_joined')
-    list_filter = ("email", "is_staff", "is_active",'is_vendor','is_customer') 
+    list_display = ("email", "phone", "profile_Image", "is_staff", "is_active","is_superuser",'is_vendor','is_customer','is_venuecoordinator','last_login', 'date_joined')
+    list_filter = ("email", "is_staff", "is_active",'is_vendor','is_customer','is_venuecoordinator') 
     fieldsets = (
         (None, {"fields": ("email","phone", "password")}),
-        ("Permissions", {"fields": ("is_staff", "is_active","is_superuser",'is_vendor','is_customer', "groups", "user_permissions")}),
+        ("Permissions", {"fields": ("is_staff", "is_active","is_superuser",'is_vendor','is_customer','is_venuecoordinator',"groups", "user_permissions")}),
       
     )
     add_fieldsets = (
@@ -18,7 +18,7 @@ class CustomUserAdmin(UserAdmin):
             "classes": ("wide",),
             "fields": (
                 "email","name","phone", "password1", "password2", "profile_Image", "is_staff",
-                "is_active","is_superuser",'is_vendor','is_customer',  "groups", "user_permissions"
+                "is_active","is_superuser",'is_vendor','is_customer','is_venuecoordinator', "groups", "user_permissions"
             )}
         ),
     )
