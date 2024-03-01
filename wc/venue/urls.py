@@ -5,7 +5,7 @@ urlpatterns = [
     path('',views.venue_list, name='venue_list'),
     path('event_list/',views.event_list, name='event_list'),
     path('addvenue/',views.addvenue, name='addvenue'),
-    path('viewvenue/',views.viewvenue, name='viewvenue'),
+    path('viewallvenue/',views.viewallvenue, name='viewallvenue'),
     path('showvenue/<str:pk>',views.showvenue, name='showvenue'),
     path('search/',views.search, name='search'),
 

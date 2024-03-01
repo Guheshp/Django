@@ -84,7 +84,7 @@ document.addEventListener('DOMContentLoaded', function() {
   });
 });
 
-// side navbar active link 
+// side navbar active link ---------------------------------------------------------------------
 
 document.addEventListener("DOMContentLoaded", function() {
   var currentUrl = window.location.pathname;
@@ -96,4 +96,17 @@ document.addEventListener("DOMContentLoaded", function() {
       link.classList.add('active');
     }
   });
+});
+
+
+// search functionality ---------------------------------------------------------------------
+document.getElementById('search_form').addEventListener('submit', function(event) {
+  var searchInput = document.getElementById('search_input').value.trim();
+  if (searchInput === '') {
+      document.getElementById('search_error').innerText = 'Please enter a Location.';
+      setTimeout(function() {
+        document.getElementById('search_error').innerText = '';
+      }, 3000);
+      event.preventDefault(); // Prevent form submission
+  }
 });

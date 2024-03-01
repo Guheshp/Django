@@ -47,7 +47,8 @@
                                 <li><a class="dropdown-item" href="{% url 'services'%}">View Services</a></li>
                             </ul>
                         </li>
-                        <li class="nav-item"><a href="#" class="nav-link px-2 link-body-emphasis">Customers</a></li>
+                        <li class="nav-item"><a href="{% url 'viewallvenue' %}" class="nav-link px-2 link-body-emphasis">Venues</a></li>
+
                         <li class="nav-item"><a href="#" class="nav-link px-2 link-body-emphasis">Products</a></li>
                        
                     {% endif %}
@@ -65,7 +66,7 @@
                           <li><a class="dropdown-item" href="{% url 'services'%}">View Services</a></li>
                       </ul>
                     </li>
-                    <li class="nav-item"><a href="{% url 'viewvenue' %}" class="nav-link px-2 link-body-emphasis">Venues</a></li>
+                    <li class="nav-item"><a href="{% url 'viewallvenue' %}" class="nav-link px-2 link-body-emphasis">Venues</a></li>
                     <li class="nav-item"><a href="#" class="nav-link px-2 link-body-emphasis">Products</a></li>
                 {% endif %}
 
@@ -143,7 +144,7 @@
         <a id="vender_register-link" href="{% url 'addvenue' %}">Add Venue</a>
 
         
-            <a id="vender_register-link" href="{% url 'viewvenue' %}">View Venue</a>
+            <a id="vender_register-link" href="{% url 'viewallvenue' %}">View Venue</a>
         
 
 

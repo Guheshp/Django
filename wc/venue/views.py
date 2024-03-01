@@ -47,12 +47,12 @@ def addvenue(request):
     return render(request, 'venue/addvenue.html', context)
 
 
-def viewvenue(request):
+def viewallvenue(request):
     venues = Venue.objects.all()
     context = {'venues':venues}
-    return render( request, 'venue/viewvenue.html', context)
+    return render( request, 'venue/viewallvenue.html', context)
 
-@login_required(login_url='login')
+# @login_required(login_url='login')
 def showvenue(request,pk):
     venue = Venue.objects.get(id=pk)
     venue_images = VenueImage.objects.filter(venue_id=pk)
@@ -60,7 +60,7 @@ def showvenue(request,pk):
     return render(request, 'venue/showvenue.html', context)
 
 def search(request):
-    if request.method == 'GET':
+    # if request.method == 'GET':
         query = request.GET.get('query')
 
         if query:

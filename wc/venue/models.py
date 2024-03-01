@@ -8,12 +8,14 @@ CustomUser = get_user_model()
 
 class Venue(models.Model):
     name = models.CharField(max_length=100)
+    booking_cost = models.FloatField(default=0)
     phone_number = PhoneNumberField()
     address = models.CharField(max_length=255)
     city = models.CharField(max_length=100)
     state = models.CharField(max_length=100)
     zipcode = models.CharField(max_length=50)
     capacity = models.PositiveIntegerField(default=0, null=0, blank=True)
+    venue_image = models.ImageField(upload_to='venue-Dp/', null=True)
 
 
     def __str__(self):
