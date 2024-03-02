@@ -1,0 +1,52 @@
+{% extends 'acc/base.html'%}
+{% load static %}
+{% block content %}
+<body>
+
+    <div class="container ">
+        
+        <div class="row  justify-content-center">
+            <div class="col-md-5">
+                <div class="card">
+                    <form action="" method="POST" class="vendor-form">
+                        <h1>Add Event</h1><hr>
+
+                        {% csrf_token %}
+
+                        <!-- <div class="form-group m-3">
+                            <label for="">Venue </label>
+                            <input type="text" name="venue" placeholder="Enter Venue" class="form-control" id="" required>
+                        </div> -->
+
+                        <div class="form-group m-3">
+                            <label for="">Event Name</label>
+                            <input type="text" name="name" placeholder="Enter event Name" class="form-control" id="" required>
+                        </div>
+
+                        <div class="form-group m-3">
+                            <label for="">Date of an Event</label>
+                            <input type="date" name="date" placeholder="Enter capacity" class="form-control" id="" required>
+                        </div>
+
+                        <div class="form-group m-3">
+                            <label for="">Time</label>
+                            <input type="time" name="time" placeholder="Enter Time"  class="form-control" id="" required>
+                        </div>
+
+                        <div class="form-group m-3">
+                            <label for="">Description</label>
+                            <textarea type="text" name="description" placeholder="Add Description" class="form-control" id="" required cols="30" rows="10"></textarea>
+                        </div>
+
+                        <button class="btn btn-outline-success m-3">Submit</button>
+                    </form>
+                </div>
+            </div>
+            
+
+        </div>
+    </div>
+
+
+</body>
+{% endblock %}

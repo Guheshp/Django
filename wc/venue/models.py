@@ -7,6 +7,7 @@ CustomUser = get_user_model()
 # Create your models here.
 
 class Venue(models.Model):
+    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, null=True)
     name = models.CharField(max_length=100)
     booking_cost = models.FloatField(default=0)
     phone_number = PhoneNumberField()

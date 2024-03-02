@@ -5,8 +5,9 @@
     
 
     <div class="container mt-0">
-        <a href="{% url 'viewallvenue' %}" class="btn btn-info "> All Venue  &nbsp; <i class="fa fa-arrow-left" aria-hidden="true"></i></a>
-        <h3 style="margin-top: 40px;">You Searched For: "{{ query }}"</h3>
+        <a href="{% url 'viewallvenue' %}" class="btn"><i class="fa fa-arrow-left" aria-hidden="true"></i> &nbsp; All Venue </a>
+        <h3 class="mt-3 text-center">You Searched For: "{{ query }}"</h3>
+        <hr>
         {% if search %}
         
             <div class="venue py-3">
@@ -26,25 +27,31 @@
                           </div>
                           
                           <div class="venue-name">
-                                <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                    <div class="modal-dialog">
-                                    <div class="modal-content">
-                                        <div class="modal-header">
-                                        <h1 class="modal-title fs-5" id="exampleModalLabel">Login</h1>
-                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                        </div>
-                                        <div class="modal-body">
-                                        <p>Should login to view this</p>
-                                        </div>
-                                        <div class="modal-footer">
-                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                        <a href="{% url 'login'%}" class="btn">Login</a>
-                                        </div>
+                            <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                <div class="modal-dialog">
+                                  <div class="modal-content">
+                                    <div class="modal-header">
+                                      <h1 class="modal-title fs-5" id="exampleModalLabel">Login</h1>
+                                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                     </div>
+                                    <div class="modal-body">
+                                      <p>Should login to view this</p>
                                     </div>
+                                    <div class="modal-footer">
+                                      <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                      <a href="{% url 'login' %}" class="btn">Login</a>
+                                    </div>
+                                  </div>
                                 </div>
-                                <div class="d-flex text-center" >
-                                    <a data-bs-target="#exampleModal" data-bs-toggle="modal" href="#">View Details</a>
+                              </div>
+                              
+                                 <div class="d-flex text-center" >
+                                  {% if user.is_authenticated %}
+                                  <a  href="#">ADD Events</a>
+                                  {%else%}
+                                  <a data-bs-target="#exampleModal" data-bs-toggle="modal" class="" href="#">Add Event</a>&nbsp;&nbsp;&nbsp;&nbsp;
+                                  {% endif %}
+                                    <a  href="{% url 'showvenue' venue.id%}">View Details</a>
                                 </div>
                           </div>
                       </div>
@@ -54,7 +61,8 @@
               </div>
         
         {% else %}
-            <p>No venue Found</p>
+            <p class="text-center">No venue Found</p>
+
         {% endif %}
     </div>
 {% endblock %}

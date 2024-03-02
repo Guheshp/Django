@@ -1,0 +1,70 @@
+{% extends 'acc/base.html'%}
+{% load static %}
+{% block content %}
+
+<body>
+
+
+  <div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-5">
+            <div class="">
+                <form id="search_form" class="d-flex flex-column align-items-center" method="get" action="{% url 'search' %}">
+                    <label for="search_input" class="m-3">Search by Location </label>
+                    <div class="input-group">
+                        <input class="form-control " type="text" id="search_input" name="query" placeholder="Search Venues by Location" aria-label="Search">
+                        <button class="btn btn-outline-success" type="submit">Search &nbsp;<i class="fa-solid fa-magnifying-glass"></i></button>
+                    </div>
+                </form>
+              <p id="search_error"></p>
+
+            </div>
+        </div>
+    </div>
+    </div>
+    
+   <div class=" text-center container-fluid" style="background-color:rgb(23, 51, 79); color: white;">
+  
+    <div class="card-header">
+      Venues
+    </div>
+
+   </div>
+
+	    <div class="venue py-3">
+        <div class="row container">
+          
+          <p class="lead text-body-secondary  py-2 text-center fw-bold">{{user_name}} Your venues and details </p>
+
+            {% for venue in user_venues%}
+
+            <div class="col-lg-4 p-4 venue_col">
+              
+              <div class="">
+                <div class="venue_image_container services-box1 ">
+                  <div class="venue-image"><img src="{{venue.venue_image.url}}" alt="{{venue.venue_image.url}}"></div>
+                </div>
+                <div><p class="venue-btn d-flex fw-bold m-0 mt-2" >{{venue.name}}</p></div>
+                  <div class="venue_text text-center">
+                    <p class="m-1 d-flex "><span class="fw-">Booking Cost:&nbsp;&nbsp;<i class="fa fa-indian-rupee-sign"></i></span>{{venue.booking_cost|floatformat:2}}</p>
+                    <p class="m-1 d-flex "><span class="fw-">Contact:</span>&nbsp;{{venue.phone_number}}</p>
+                    <p class="m-1 d-flex justify-content-start"><span class="fw-">Total Area:</span>&nbsp;{{venue.capacity}} <span><cite title="Source Title">&nbsp;/members per hall</cite></span></p>
+                  </div>
+                  
+                  <div class="venue-name">
+                    <!-- Modal -->
+                  
+                     <div class="d-flex text-center" >
+                      <a  href="{% url 'show_user_venue' venue.id%}">View Details</a>
+
+                    </div>
+                  </div>
+              </div>
+            </div>
+              {% endfor %}
+        </div>
+      </div>
+
+
+</body>
+{% endblock %}

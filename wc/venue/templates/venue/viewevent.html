@@ -1,0 +1,74 @@
+{% extends 'acc/base.html'%}
+{% load static %}
+{% block content %}
+
+<body>
+    
+   <div class=" text-center container-fluid" style="background-color:rgb(23, 51, 79); color: white;">
+  
+    <div class="card-header">
+      Venues
+    </div>
+
+   </div>
+
+	    <div class="venue py-3">
+        <div class="row container">
+          
+
+
+            {% for event in events%}
+                <p>{{event}}</p>
+              {% endfor %}
+        </div>
+      </div>
+         
+      
+              <div class="venue py-3">
+              <div class="row container">
+                
+      
+                {% for event in events%}
+      
+                  <div class="col-lg-4 p-4 venue_col">
+                    
+                    <div class="">
+                      <div class="venue_image_container services-box1 ">
+                        <!-- <div class="venue-image"><img src="{{event.venue_image.url}}" alt="{{venue.venue_image.url}}"></div> -->
+                      </div>
+                      <div><p class="venue-btn d-flex fw-bold m-0 mt-2" >{{event.name}}</p></div>
+                        <div class="venue_text text-center">
+
+                          <p class="m-1 d-flex "><span class="fw-">Date:</span>&nbsp;{{event.date}}</p>
+                          <p class="m-1 d-flex "><span class="fw-">Time:</span>&nbsp;{{event.time}}</p>
+
+                        </div>
+                        
+                        <div class="venue-name">
+                          <!-- Modal -->
+                        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                          <div class="modal-dialog">
+                            <div class="modal-content">
+                              <div class="modal-header">
+                                <h1 class="modal-title fs-5" id="exampleModalLabel">Login</h1>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                              </div>
+                              <div class="modal-body">
+                                <p>Should login to view this</p>
+                              </div>
+                              <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                <a href="{% url 'login' %}" class="btn">Login</a>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                       
+                        </div>
+                    </div>
+                  </div>
+                    {% endfor %}
+              </div>
+            </div>
+</body>
+{% endblock %}

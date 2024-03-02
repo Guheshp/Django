@@ -2,31 +2,55 @@
 {% load static %}
 {% block content %}
 <body>
-    
-<div class="container px-4 py-5" id="featured-3">
-    <h2 class="pb-2 border-bottom">Venues</h2>
-    <div class="row g-4 py-2 row-cols-1">
+  <main>
+    <section class="py-1 text-center container">
+      <div class="row py-lg-1">
+        <div class="col-lg-6 col-md-8 mx-auto">
+          <img style="height: 300px;" src="{{venue.venue_image.url}}" alt="">
 
-      <div class="feature border py-2 col">
-        <h3 class="fs-2 text-body-emphasis">{{venue}}</h3>
-         <strong>name:</strong><span> {{venue.name}}</span><br>
-         <strong>capacity:</strong><span> {{venue.capacity}}</span><br>
-         <strong>phone_number:</strong><span> {{venue.phone_number}}</span><br>
-         <strong>address:</strong><span> {{venue.address}}</span><br>
-         <strong>city:</strong><span> {{venue.city}}</span><br>
-         <strong>state:</strong><span> {{venue.state}}</span><br>
-         <strong>zipcode:</strong><span> {{venue.zipcode}}</span><br>
-         {% for venue_image in venue_images %}
-         <strong>image:</strong><span> <img src="{{ venue_image.image.url }}" alt=""></span><br>
-         {% endfor %}
+          <h1 class="fw-ligh ">{{venue}}</h1>
+          <h5 class="fw-light">Booking Price: <i class="fa fa-indian-rupee-sign"></i>{{venue.booking_cost}}</h5>
+          <h5 class="fw-light ">Total Area: {{venue.capacity}} <span><cite title="Source Title">&nbsp;/members per hall</cite></span></h5>
+         
+          <p class="lead text-body-secondary m-0">Contact: {{venue.phone_number}}</p>
+          <p class="lead text-body-secondary m-0">Address: {{venue.address}}</p>
+          <p class="lead text-body-secondary m-0"> {{venue.city}}, {{venue.state}}, {{venue.zipcode}}</p>
 
-        <a href="#" class="icon-link">
-          Call to action
-        </a>
+          <p>
+            <a href="{% url 'addevent' venue.id%}" class="btn btn-primary my-2">ADD EVENT</a>
+            <!-- <a href="#" class="btn btn-secondary my-2">عمل ثانوي</a> -->
+          </p>
+        </div>
       </div>
+    </section>
+<hr>
+  <div class="album py-1 bg-body-tertiary">
+    <div class="container">
+      <h1 class="fw-light text-center">Images</h1>
+      <hr>
 
+      <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+        {% for venue_image in venue_images %}
+        <div class="col">
+          <div class="card shadow-sm">
+            <img style="height: 300px;" src="{{venue_image.image.url}}" alt="">
+            <div class="card-body">
+              <p class="card-text text-center">hall name</p>
+              <div class="d-flex justify-content-between align-items-center">
+                <div class="btn-group">
+                  <!-- <button type="button" class="btn btn-sm btn-outline-secondary">عرض</button> -->
+                  <!-- <button type="button" class="btn btn-sm btn-outline-secondary">تعديل</button> -->
+                </div>
+                <!-- <small class="text-body-secondary">9 دقائق</small> -->
+              </div>
+            </div>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
     </div>
   </div>
+</main>
 </body>
 
   {% endblock %}
