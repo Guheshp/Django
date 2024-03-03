@@ -12,14 +12,14 @@
 
    </div>
 
-	    <div class="venue py-3">
+	    <div class=" py-3">
         <div class="row container">
           
 
-
+<!-- 
             {% for event in events%}
                 <p>{{event}}</p>
-              {% endfor %}
+              {% endfor %} -->
         </div>
       </div>
          
@@ -30,45 +30,68 @@
       
                 {% for event in events%}
       
-                  <div class="col-lg-4 p-4 venue_col">
+                  <div class="col-lg-9 p-4 border">
                     
                     <div class="">
-                      <div class="venue_image_container services-box1 ">
+                      <div class="venue_image_container ">
                         <!-- <div class="venue-image"><img src="{{event.venue_image.url}}" alt="{{venue.venue_image.url}}"></div> -->
                       </div>
-                      <div><p class="venue-btn d-flex fw-bold m-0 mt-2" >{{event.name}}</p></div>
+                      <div><p class="venue-btn d-flex fw-bold m-0 mt-2" >Event: {{event.name}}</p></div>
+                      <!-- <div><p class="venue-btn d-flex fw-bold m-0 mt-2" >{{event}}</p></div> -->
+                      <div><p class="venue-btn d-flex fw-bold m-0 mt-2" >Venue: {{event.venue.name}}</p></div>
+
                         <div class="venue_text text-center">
 
                           <p class="m-1 d-flex "><span class="fw-">Date:</span>&nbsp;{{event.date}}</p>
                           <p class="m-1 d-flex "><span class="fw-">Time:</span>&nbsp;{{event.time}}</p>
-
-                        </div>
+                          <strong>Event:</strong><span> {{event.venue.name}}</span><br>
+                          <strong>Event:</strong><span> {{event.venue.venue_image.url}}</span><br>
                         
-                        <div class="venue-name">
-                          <!-- Modal -->
-                        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                          <div class="modal-dialog">
-                            <div class="modal-content">
-                              <div class="modal-header">
-                                <h1 class="modal-title fs-5" id="exampleModalLabel">Login</h1>
-                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                              </div>
-                              <div class="modal-body">
-                                <p>Should login to view this</p>
-                              </div>
-                              <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                <a href="{% url 'login' %}" class="btn">Login</a>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                       
                         </div>
                     </div>
                   </div>
                     {% endfor %}
+                  <a href="">Book here </a>
+
               </div>
+
             </div>
+
+
+
+            <div class="container ">
+        
+              <div class="row  justify-content-center">
+                  <div class="col-md-5">
+                      <div class="card">
+                        {% for event in events%}
+                          <form action="{% url 'booking' event.id%}" method="POST" class="vendor-form">
+                        {% endfor %}
+                             
+                            <h5>Book Venue</h5><hr>
+
+      
+                              {% csrf_token %}
+                              <div class="form-group">
+                                <label for="mintopay">Check in</label>
+                                <input type="date" name="checkin" id="checkin" class="form-control" id="" required>
+                             </div>
+
+                             <div class="form-group ">
+                              <label for="maxtopay">Check out</label>
+                              <input type="date" name="checkout" id="checkout" class="form-control" id="" required>
+                           </div>
+
+                           <div class="row form-group">
+                            <div class="col-md-12">
+                              <input type="submit" value="Book" name="" id="">
+                            </div>
+                           </div>
+                        </form>
+                      </div>
+                    </div>
+                    </div>
+                  </div>
 </body>
+
 {% endblock %}

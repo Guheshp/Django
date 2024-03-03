@@ -150,7 +150,7 @@
        {% else %}
         <!-- Display content for common and authenticated users -->
         <a id="CouplesRegistrationlink-link" href="{% url 'CouplesRegistration' %}">Couples Registration</a>
-        <a id="CouplesRegistrationlink-link" href="{% url 'viewevent' %}">Venue</a>
+        <a id="CouplesRegistrationlink-link" href="{% url 'viewevent' %}">Events</a>
         <a id="services-link" href="{% url 'services' %}">Services</a>
         <a id="catering-link" href="{% url 'catering' %}">Cater</a>
         <a id="decor-link" href="{% url 'decor' %}">Decor & Production</a>
@@ -167,6 +167,8 @@
           <!-- Display content for unauthenticated users -->
           <a id="vender-register-link" href="{% url 'vender_register' %}">Vender Registration</a>
           <a id="CouplesRegistrationlink-link" href="{% url 'CouplesRegistration' %}">Couples Registration</a>
+        <!-- <a id="CouplesRegistrationlink-link" href="{% url 'viewevent' %}">Events</a> -->
+
           <a id="services-link" href="{% url 'services' %}">Services</a>
           <a id="catering-link" href="{% url 'catering' %}">Cater</a>
           <a id="decor-link" href="{% url 'decor' %}">Decor & Production</a>

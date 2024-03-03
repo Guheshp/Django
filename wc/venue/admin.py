@@ -2,7 +2,7 @@ from django.contrib import admin
 
 # Register your models here.
 
-from .models import Venue, Booking, Event, VenueImage
+from .models import Venue, Booking, Event, VenueImage, amenities
 
 @admin.register(Venue)
 class VenueAdmin(admin.ModelAdmin):
@@ -22,3 +22,4 @@ class BookingAdmin(admin.ModelAdmin):
     list_display = ['event', 'user']
 
 admin.site.register(VenueImage)
+admin.site.register(amenities)

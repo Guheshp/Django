@@ -10,8 +10,14 @@
 
           <h1 class="fw-ligh ">{{venue}}</h1>
           <h5 class="fw-light">Booking Price: <i class="fa fa-indian-rupee-sign"></i>{{venue.booking_cost}}</h5>
+          <p class="m-1  "><span class="fw-">Emenities:</span> 
+            {% for eme in venue.amenities.all %}
+            <!-- <ul style="list-style-type:none; margin:0; padding: 0;" > -->
+              <b style="display: inline-block;padding: 0; margin-right: 5px;">{{eme.amenity_name|truncatewords_html:2 }},</b>
+            {% endfor %}
+          </p>
           <h5 class="fw-light ">Total Area: {{venue.capacity}} <span><cite title="Source Title">&nbsp;/members per hall</cite></span></h5>
-         
+          <p class="lead text-body-secondary m-0 "><span class="fw-">Hall Count:</span>&nbsp;{{venue.hall_counts}}</p>
           <p class="lead text-body-secondary m-0">Contact: {{venue.phone_number}}</p>
           <p class="lead text-body-secondary m-0">Address: {{venue.address}}</p>
           <p class="lead text-body-secondary m-0"> {{venue.city}}, {{venue.state}}, {{venue.zipcode}}</p>

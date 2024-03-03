@@ -13,6 +13,8 @@ urlpatterns = [
     path('user_venues/',views.user_venues, name='user_venues'),
     path('addevent/<str:pk>/',views.addevent, name='addevent'),
     path('viewevent/',views.viewevent, name='viewevent'),
+    path('booking/<str:pk>',views.booking, name='booking'),
+    path('check_booking/<str:venue_id>',views.check_booking, name='check_booking'),
 
 
 

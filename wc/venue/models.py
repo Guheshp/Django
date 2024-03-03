@@ -6,9 +6,18 @@ CustomUser = get_user_model()
 
 # Create your models here.
 
+class amenities(models.Model):
+    amenity_name = models.CharField(max_length=100)
+
+    def __str__(self):
+        return self.amenity_name
+
+
 class Venue(models.Model):
     user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, null=True)
+    amenities = models.ManyToManyField(amenities, null=True)
     name = models.CharField(max_length=100)
+    hall_counts = models.IntegerField(default=0)
     booking_cost = models.FloatField(default=0)
     phone_number = PhoneNumberField()
     address = models.CharField(max_length=255)
@@ -39,14 +48,17 @@ class Event(models.Model):
         return f"{self.name} in {self.venue}"
     
 class Booking(models.Model):
+    venue = models.ForeignKey(Venue, on_delete = models.CASCADE, null=True)
     event = models.ForeignKey(Event, on_delete=models.CASCADE)
-    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
-    quantity = models.PositiveIntegerField()
-    booking_date = models.DateTimeField(auto_now_add=True)
+    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, null=True)
+    # quantity = models.PositiveIntegerField()
+    start_date = models.DateField(null=True)
+    end_date = models.DateField(null=True)
+    booking_type = models.CharField(max_length=100, choices=(('pre paid' , 'pre paid'), ('post paid' , 'post paid')), null=True)
 
     def __str__(self):
         return f"{self.user} - {self.event.name}"
-
+ 
 
 
 

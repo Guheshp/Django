@@ -1,12 +1,14 @@
 from django.shortcuts import render, redirect
-from .models import Venue, Event, Booking, VenueImage
+from .models import Venue, Event, Booking, VenueImage, amenities
 from django.urls import reverse
 
-from .forms import VenueAddForm, UpdateVenueForm, AddEventForm
-
+from .forms import VenueAddForm, UpdateVenueForm, AddEventForm, CheckAvailabilityForm
+from django.db.models import Q
 from django.contrib import messages
 from django.shortcuts import get_object_or_404
 from django.contrib.auth.decorators import login_required
+from django.http import HttpResponse,JsonResponse, HttpResponseRedirect
+from django.db import IntegrityError
 
 # Create your views here.
 
@@ -78,7 +80,51 @@ def updateVenue(request,pk):
 
 def viewallvenue(request):
     venues = Venue.objects.all().order_by('name')
-    context = {'venues':venues}
+    amenitie = amenities.objects.all().order_by('amenity_name')
+
+    sort_by = request.GET.get('sort_by')
+    search = request.GET.get('search')
+    Amenities = request.GET.getlist('amenities')
+
+    if sort_by == "Asc":
+        venues = venues.order_by('booking_cost')
+    elif sort_by == "Dsc":
+        venues = venues.order_by('-booking_cost')
+    
+    if search:
+        venues = venues.filter(
+            Q(name__icontains = search)|
+            Q(city__icontains = search)|
+            Q(hall_counts__icontains = search))
+        
+    if len(Amenities):
+        venues = venues.filter(amenities__amenity_name__in = Amenities).distinct()
+    
+    form = CheckAvailabilityForm()
+    if request.method == 'POST':
+        form = CheckAvailabilityForm(request.POST)
+        if form.is_valid():
+            date = form.cleaned_data['date']
+            # Query available venues based on the selected date
+            available_venues = venues.exclude(
+                id__in=Booking.objects.filter(
+                    Q(start_date__lte=date, end_date__gte=date) |
+                    Q(start_date__gte=date, end_date__lte=date)
+                ).values_list('venue_id', flat=True)
+            )
+            if available_venues:
+                messages.success(request, 'Venues are available on selected date.')
+            else:
+                messages.warning(request, 'No venues are available on selected date.')
+            return render(request, 'venue/viewallvenue.html', {'venues': available_venues, 'amenitie': amenitie, 'form': form})
+
+    
+    context = {'venues':venues,
+               'amenitie':amenitie,
+               'sort_by':sort_by,
+               'search':search,
+               'Amenities':Amenities,
+               'form': form, }
     return render( request, 'venue/viewallvenue.html', context)
 
 # @login_required(login_url='login')
@@ -115,7 +161,7 @@ def search(request):
             return render(request, 'venue/search-bar.html',{})
 
 
-@login_required(login_url='login')
+
 def addevent(request, pk):
     venue = Venue.objects.get(id=pk)
     if request.method == "POST":
@@ -135,9 +181,53 @@ def addevent(request, pk):
     context = {'form':form}
     return render(request, 'venue/addevent.html', context)
 
-
-@login_required(login_url="login")
 def viewevent(request):
     events = Event.objects.filter(user=request.user)
     context = {'events':events}
     return render(request, 'venue/viewevent.html', context)
+
+def booking(request, pk):
+    if request.method == "POST":
+        checkin = request.POST.get('checkin')
+        checkout = request.POST.get('checkout')
+        event = get_object_or_404(Event, id=pk)
+        venue = event.venue
+        
+        # Check if the venue is already booked for the selected dates
+        if not check_booking(checkin, checkout, venue.id):
+            messages.warning(request, 'Venue is already booked for these dates!')
+            return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+        
+        # Create a new booking
+        try:
+            Booking.objects.create(
+                venue=venue,
+                event=event,
+                user=request.user,
+                start_date=checkin,
+                end_date=checkout,
+                booking_type='pre paid'
+            )
+            messages.success(request, 'Your booking has been saved')
+        except IntegrityError:
+            messages.error(request, 'An error occurred while saving your booking')
+        
+        return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+
+    return redirect('home') 
+
+
+def check_booking(start_date, end_date, venue_id):
+    # Filter existing bookings that overlap with the provided dates
+    bookings_overlap = Booking.objects.filter(
+        venue__id=venue_id,
+        start_date__lte=end_date,
+        end_date__gte=start_date
+    )
+    
+    # If there are any overlapping bookings, return False
+    if bookings_overlap.exists():
+        return False
+    
+    return True
+ 

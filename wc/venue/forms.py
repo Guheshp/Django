@@ -19,3 +19,6 @@ class AddEventForm(forms.ModelForm):
     class Meta:
         model = Event
         fields = ['name', 'date', 'time', 'description']
+
+class CheckAvailabilityForm(forms.Form):
+    date = forms.DateField(label='Select Date', widget=forms.DateInput(attrs={'type': 'date'}))
