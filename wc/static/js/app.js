@@ -110,3 +110,20 @@ document.getElementById('search_form').addEventListener('submit', function(event
       event.preventDefault(); // Prevent form submission
   }
 });
+
+
+document.addEventListener('DOMContentLoaded', function() {
+  const bookBtn = document.querySelector('.book-btn');
+  const bookingForm = document.getElementById('bookingForm');
+  
+  bookBtn.addEventListener('click', function(event) {
+      event.preventDefault();
+      bookingForm.style.display = 'block';
+  });
+
+  const bookSubmitBtn = document.getElementById('bookSubmitBtn');
+  bookSubmitBtn.addEventListener('click', function(event) {
+      // Optionally, you can add validation logic here before submitting the form
+      // If validation fails, prevent the default behavior of form submission using event.preventDefault()
+  });
+});

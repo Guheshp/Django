@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect
 from .models import Venue, Event, Booking, VenueImage, amenities
+from wedding.models import Couples
 from django.urls import reverse
 
 from .forms import VenueAddForm, UpdateVenueForm, AddEventForm, CheckAvailabilityForm
@@ -78,9 +79,77 @@ def updateVenue(request,pk):
     context = {'form':form, 'venue':venue, 'venue_images':venue_images}
     return render(request, 'venue/updatevenue.html', context)
 
+# def viewallvenue(request):
+#     venues = Venue.objects.all().order_by('name')
+#     amenitie = amenities.objects.all().order_by('amenity_name')
+
+#     sort_by = request.GET.get('sort_by')
+#     search = request.GET.get('search')
+#     Amenities = request.GET.getlist('amenities')
+
+#     if sort_by == "Asc":
+#         venues = venues.order_by('booking_cost')
+#     elif sort_by == "Dsc":
+#         venues = venues.order_by('-booking_cost')
+    
+#     if search:
+#         venues = venues.filter(
+#             Q(name__icontains = search)|
+#             Q(city__icontains = search)|
+#             Q(hall_counts__icontains = search))
+    
+#     # if not Amenities:
+#     #     Amenities = []
+#     if len(Amenities):
+#         venues = venues.filter(amenities__amenity_name__in = Amenities).distinct()
+    
+#     form = CheckAvailabilityForm()
+#     date = None
+#     available_venues = None
+
+#     if request.method == 'POST':
+#         form = CheckAvailabilityForm(request.POST)
+#         if form.is_valid():
+#             date = form.cleaned_data['date']
+#             # Query available venues based on the selected date
+#             available_venues = venues.exclude(
+#                 id__in=Booking.objects.filter(
+#                     Q(start_date__lte=date, end_date__gte=date) |
+#                     Q(start_date__gte=date, end_date__lte=date)
+#                 ).values_list('venue_id', flat=True)
+#             )
+
+#             if available_venues:
+#                 messages.success(request, 'Venues are available on selected date.')
+#             else:
+#                 messages.warning(request, 'No venues are available on selected date.')
+            
+
+#         else:
+#             form = CheckAvailabilityForm()
+
+#         context={'venues': available_venues, 
+#         'amenitie': amenitie, 
+#         'form': form,
+#         'date': date, }
+#         return render(request, 'venue/viewallvenue.html',context)
+
+
+
+    
+#     context = {'venues':venues,
+#                'amenitie':amenitie,
+#                'sort_by':sort_by,
+#                'search':search,
+#                'Amenities':Amenities,
+#                  'date': date,}
+#     return render( request, 'venue/viewallvenue.html', context)
+# from django.contrib import messages
+
 def viewallvenue(request):
     venues = Venue.objects.all().order_by('name')
     amenitie = amenities.objects.all().order_by('amenity_name')
+    no_venues_message = None
 
     sort_by = request.GET.get('sort_by')
     search = request.GET.get('search')
@@ -93,18 +162,25 @@ def viewallvenue(request):
     
     if search:
         venues = venues.filter(
-            Q(name__icontains = search)|
-            Q(city__icontains = search)|
-            Q(hall_counts__icontains = search))
-        
-    if len(Amenities):
-        venues = venues.filter(amenities__amenity_name__in = Amenities).distinct()
+            Q(name__icontains=search) |
+            Q(city__icontains=search) |
+            Q(hall_counts__icontains=search)
+        )
     
+    if len(Amenities):
+        venues = venues.filter(amenities__amenity_name__in=Amenities).distinct()
+    
+    if not venues:
+        no_venues_message = 'No venues found.'
+
     form = CheckAvailabilityForm()
+    date = None
+
     if request.method == 'POST':
         form = CheckAvailabilityForm(request.POST)
         if form.is_valid():
             date = form.cleaned_data['date']
+            print(date)
             # Query available venues based on the selected date
             available_venues = venues.exclude(
                 id__in=Booking.objects.filter(
@@ -112,20 +188,29 @@ def viewallvenue(request):
                     Q(start_date__gte=date, end_date__lte=date)
                 ).values_list('venue_id', flat=True)
             )
+
             if available_venues:
-                messages.success(request, 'Venues are available on selected date.')
+                messages.success(request, f"Venues are available on {date} selected date.")
             else:
                 messages.warning(request, 'No venues are available on selected date.')
-            return render(request, 'venue/viewallvenue.html', {'venues': available_venues, 'amenitie': amenitie, 'form': form})
+        else:
+            messages.error(request, 'Please enter a valid date.')
 
-    
-    context = {'venues':venues,
-               'amenitie':amenitie,
-               'sort_by':sort_by,
-               'search':search,
-               'Amenities':Amenities,
-               'form': form, }
-    return render( request, 'venue/viewallvenue.html', context)
+    else:
+        available_venues = venues  # Show all venues if no date selected
+
+    context = {
+        'venues': available_venues,
+        'amenitie': amenitie,
+        'sort_by': sort_by,
+        'search': search,
+        'Amenities': Amenities,
+        'form': form,
+        'date': date,
+        'no_venues_message':no_venues_message,
+    }
+
+    return render(request, 'venue/viewallvenue.html', context)
 
 # @login_required(login_url='login')
 def showvenue(request,pk):
@@ -148,20 +233,19 @@ def show_user_venue(request,pk):
     context = {'venue':venue, 'venue_images':venue_images}
     return render(request, 'venue/show_user_venue.html', context)
    
-def search(request):
-    # if request.method == 'GET':
-        query = request.GET.get('query')
+# def search(request):
+#     # if request.method == 'GET':
+#         query = request.GET.get('query')
 
-        if query:
-            venues = Venue.objects.filter(name__icontains = query)#contains
-            return render(request, 'venue/search-bar.html', {'search':venues, 'query': query})
+#         if query:
+#             venues = Venue.objects.filter(name__icontains = query)#contains
+#             return render(request, 'venue/search-bar.html', {'search':venues, 'query': query})
             
-        else:  
-            print("Receipe not found")
-            return render(request, 'venue/search-bar.html',{})
+#         else:  
+#             print("Receipe not found")
+#             return render(request, 'venue/search-bar.html',{})
 
-
-
+@login_required(login_url='login')
 def addevent(request, pk):
     venue = Venue.objects.get(id=pk)
     if request.method == "POST":
@@ -173,7 +257,7 @@ def addevent(request, pk):
             event.venue = venue
             event.save()
             messages.success(request, "event added successfully!")
-            return redirect("home")
+            return redirect("viewevent")
         else:
             messages.error(request, 'somwthing went wronge while adding event!')
     else:
@@ -181,9 +265,17 @@ def addevent(request, pk):
     context = {'form':form}
     return render(request, 'venue/addevent.html', context)
 
-def viewevent(request):
+
+@login_required(login_url='login')
+def update_event(request, pk):
+    event = get_object_or_404(Event, id=pk)
+    context = {'event':event}
+    return render(request, 'venue/update_event.html', context)
+
+def viewevent(request,):
+    couples = Couples.objects.filter(user=request.user)
     events = Event.objects.filter(user=request.user)
-    context = {'events':events}
+    context = {'events':events, 'couples':couples}
     return render(request, 'venue/viewevent.html', context)
 
 def booking(request, pk):

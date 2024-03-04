@@ -41,7 +41,6 @@ class Event(models.Model):
     user = models.ForeignKey(CustomUser,null=True, on_delete = models.SET_NULL)
     name = models.CharField(max_length=100)
     date = models.DateField()
-    time = models.TimeField()
     description = models.TextField()
 
     def __str__(self):
