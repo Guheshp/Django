@@ -1,0 +1,147 @@
+{% extends 'acc/base.html'%}
+{% load static %}
+{% block content %}
+
+<body>
+    
+   <!-- <h1>{{events.id}}</h1>
+   <h1>{{events.venue.name}}</h1>
+   <img src="{{events.venue.venue_image.url}}" alt=""> -->
+   <div class="px-4">
+    <section id="couple-details" class="border ">
+      <div class="row my-2 p-2">
+        <div class="col">
+          {{event.id}}
+            <h4>Event Informations</h4>
+            <!-- <p class="h6 font-weight-bold">Room No: <span class="mr-pc">{{room_details.room_number}}</span></p> -->
+  
+                <div class="custom-control custom-checkbox">
+  
+                    <label class="font-weight-bold text-dark">Event:
+                      <span class="font-weight-light text-dark">{{events.name}}</span><br>
+                  <label class="font-weight-bold text-dark">Venue:
+                     <span class="font-weight-light text-dark">{{events.venue.name}}</span>
+                  </label>
+                 </label><br>
+                 <label class="font-weight-bold text-dark">Description:
+                  <span class="font-weight-light text-dark">
+                    <p>{{events.description}}</p>
+                  </span>
+                  
+               </label>
+              </div>
+        </div>
+
+        
+    </div>
+    
+  </div>
+  </div>
+  </div>
+  </section>
+
+  <hr>
+
+
+  <!-- -- ----------------- Venue Informations ---------------------------------------  -->
+<div class="px-4">
+    <section id="couple-details" class="border vendor-form">
+  
+  
+  
+      <div class="container pt-3 ">
+        <h4 class="mb-4">Venue Informations</h4>
+  
+        <div class="my-1">
+
+  
+           <div class="row mt-5"><hr>
+              <div class="col-8 ">
+                <div class="carousel-item active p-2">
+                  <img style="height: 300px;" src="{{events.venue.venue_image.url}}" class="d-block w-100"
+                      alt="{{event.venue.venue_image.url}}">
+                </div>
+              </div>
+  
+                  <div class="col-4 border p-2">
+                    <h5>Venue Details</h5>
+                      <div class="ml-5">
+                          <p>
+                              name: <span>{{events.venue.name}}</span>
+                          </p>
+                          <p>
+                              <span>Hall count:</span> <span>{{events.venue.hall_counts}}</span><br>
+                              <span> capacity:</span> <span>{{events.venue.capacity}}</span>
+                          </p>
+                          <p>
+                              <span>address: </span> <span>{{events.venue.address}}</span>
+                              <span>city:</i></span>{{events.venue.city}}<span>
+                              <span>state:</i></span>{{events.venue.state}}<span>
+                          </p>
+                      </div>
+                    <h4>Price: <span class="mr-pc">{{events.venue.booking_cost}}</span> /per day</h4>
+                  </div>
+            </div>
+        <div>
+
+    </section>
+  </div>
+  
+  <hr>
+  {% for booking in bookings %}
+  <div class="px-4">
+    <section id="couple-details" class="border vendor-form">
+      <div class="container pt-3 ">
+        <h4 class="mb-4">Booking Informations</h4>
+       
+            <div class="form-group">
+                <label class="text-dark font-weight-bold" for="mintopay">Booked From</label>
+                <input class="form-control  border-dark" value="{{ booking.start_date }}" style="width: 500px;">
+            </div>
+            <div class="form-group">
+                <label class="text-dark font-weight-bold" for="mintopay">Booked To</label>
+                <input class="form-control border-dark" value="{{ booking.end_date }}" style="width: 500px;">
+            </div>
+        
+  </div>
+    </section>
+  </div>
+  {% endfor %}
+
+  {% if bookings %}
+  <div class="px-4">
+    <section id="couple-details" class="border vendor-form">
+      <div class="container pt-3 ">
+  <a href="">payment</a><br>
+  {% for booking in bookings %}
+  <a href="{% url 'deletebooking' booking.id%}">Cancle booking</a>
+   {%endfor%}
+  {%else%}
+  <div class="row gutters py-3">
+    <div class="col-xl-12">
+      <!-- <p class="text-center text-dark font-weight-bold">Check Your Information Carefully and to book -></p> -->
+        <div class=" py-2 text-center">
+            <span class="text-center text-dark font-weight-bold">To book event  <i class="fa-solid fa-arrow-right"></i>&nbsp;</span>
+            <a class="Btn p-3" href="{% url 'finalbook' events.id%}"> Next </a>
+        </div>
+    </div>
+  </div>
+
+</div>
+</section>
+</div>
+  {% endif %}
+
+
+ 
+
+
+</div>
+
+</body>
+
+
+{% endblock %}
+
+
+

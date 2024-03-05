@@ -3,7 +3,12 @@ from .models import Venue, Event, Booking, VenueImage, amenities
 from wedding.models import Couples
 from django.urls import reverse
 
-from .forms import VenueAddForm, UpdateVenueForm, AddEventForm, CheckAvailabilityForm
+from .forms import (VenueAddForm, 
+                    UpdateVenueForm,
+                    AddEventForm,
+                    UpdateEventForm,
+                    CheckAvailabilityForm,
+                    CancelVenueForm)
 from django.db.models import Q
 from django.contrib import messages
 from django.shortcuts import get_object_or_404
@@ -79,72 +84,7 @@ def updateVenue(request,pk):
     context = {'form':form, 'venue':venue, 'venue_images':venue_images}
     return render(request, 'venue/updatevenue.html', context)
 
-# def viewallvenue(request):
-#     venues = Venue.objects.all().order_by('name')
-#     amenitie = amenities.objects.all().order_by('amenity_name')
 
-#     sort_by = request.GET.get('sort_by')
-#     search = request.GET.get('search')
-#     Amenities = request.GET.getlist('amenities')
-
-#     if sort_by == "Asc":
-#         venues = venues.order_by('booking_cost')
-#     elif sort_by == "Dsc":
-#         venues = venues.order_by('-booking_cost')
-    
-#     if search:
-#         venues = venues.filter(
-#             Q(name__icontains = search)|
-#             Q(city__icontains = search)|
-#             Q(hall_counts__icontains = search))
-    
-#     # if not Amenities:
-#     #     Amenities = []
-#     if len(Amenities):
-#         venues = venues.filter(amenities__amenity_name__in = Amenities).distinct()
-    
-#     form = CheckAvailabilityForm()
-#     date = None
-#     available_venues = None
-
-#     if request.method == 'POST':
-#         form = CheckAvailabilityForm(request.POST)
-#         if form.is_valid():
-#             date = form.cleaned_data['date']
-#             # Query available venues based on the selected date
-#             available_venues = venues.exclude(
-#                 id__in=Booking.objects.filter(
-#                     Q(start_date__lte=date, end_date__gte=date) |
-#                     Q(start_date__gte=date, end_date__lte=date)
-#                 ).values_list('venue_id', flat=True)
-#             )
-
-#             if available_venues:
-#                 messages.success(request, 'Venues are available on selected date.')
-#             else:
-#                 messages.warning(request, 'No venues are available on selected date.')
-            
-
-#         else:
-#             form = CheckAvailabilityForm()
-
-#         context={'venues': available_venues, 
-#         'amenitie': amenitie, 
-#         'form': form,
-#         'date': date, }
-#         return render(request, 'venue/viewallvenue.html',context)
-
-
-
-    
-#     context = {'venues':venues,
-#                'amenitie':amenitie,
-#                'sort_by':sort_by,
-#                'search':search,
-#                'Amenities':Amenities,
-#                  'date': date,}
-#     return render( request, 'venue/viewallvenue.html', context)
-# from django.contrib import messages
 
 def viewallvenue(request):
     venues = Venue.objects.all().order_by('name')
@@ -233,17 +173,6 @@ def show_user_venue(request,pk):
     context = {'venue':venue, 'venue_images':venue_images}
     return render(request, 'venue/show_user_venue.html', context)
    
-# def search(request):
-#     # if request.method == 'GET':
-#         query = request.GET.get('query')
-
-#         if query:
-#             venues = Venue.objects.filter(name__icontains = query)#contains
-#             return render(request, 'venue/search-bar.html', {'search':venues, 'query': query})
-            
-#         else:  
-#             print("Receipe not found")
-#             return render(request, 'venue/search-bar.html',{})
 
 @login_required(login_url='login')
 def addevent(request, pk):
@@ -269,26 +198,46 @@ def addevent(request, pk):
 @login_required(login_url='login')
 def update_event(request, pk):
     event = get_object_or_404(Event, id=pk)
-    context = {'event':event}
+
+    form = UpdateEventForm(instance=event)
+    if request.method == "POST":
+        form = UpdateEventForm( request.POST, instance=event)
+        if form.is_valid():
+            form.save()
+            event_name = form.cleaned_data.get('name')
+
+            messages.success(request, f"{event_name} is updated successfully!")
+            return redirect("viewevent")
+    else:
+        form = UpdateEventForm(instance=event)
+
+    context = {'event':event, 'form':form}
     return render(request, 'venue/update_event.html', context)
 
 def viewevent(request,):
     couples = Couples.objects.filter(user=request.user)
-    events = Event.objects.filter(user=request.user)
-    context = {'events':events, 'couples':couples}
+    events = Event.objects.filter(user=request.user).order_by('-id')
+    bookings = Booking.objects.filter(user=request.user)
+
+    context = {'events':events, 'couples':couples, 'bookings':bookings}
     return render(request, 'venue/viewevent.html', context)
 
+@login_required(login_url='login')
 def booking(request, pk):
     if request.method == "POST":
         checkin = request.POST.get('checkin')
         checkout = request.POST.get('checkout')
         event = get_object_or_404(Event, id=pk)
         venue = event.venue
-        
+
+        if checkout < checkin:
+                messages.error(request, 'End date must be after the start date')
+                return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
         # Check if the venue is already booked for the selected dates
         if not check_booking(checkin, checkout, venue.id):
             messages.warning(request, 'Venue is already booked for these dates!')
             return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+            
         
         # Create a new booking
         try:
@@ -298,15 +247,42 @@ def booking(request, pk):
                 user=request.user,
                 start_date=checkin,
                 end_date=checkout,
+                is_booked=True,
                 booking_type='pre paid'
-            )
+            )  
             messages.success(request, 'Your booking has been saved')
+            return redirect('viewevent')
+
         except IntegrityError:
             messages.error(request, 'An error occurred while saving your booking')
         
         return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
 
     return redirect('home') 
+
+
+@login_required(login_url='login')
+def deletebooking(request, pk):
+    booking = get_object_or_404(Booking, id=pk)
+    event = booking.event
+    venue = event.venue
+
+    if request.method == "POST":
+        form = CancelVenueForm(request.POST)
+        if form.is_valid():
+            cancel = form.save(commit=False)
+            cancel.user = request.user
+            cancel.venue = venue
+            cancel.event = event
+            cancel.save()
+            booking.delete()
+        messages.success(request, 'Booking canceled successfully!')
+        return redirect("viewevent")
+    else:
+        form = CancelVenueForm()
+    
+    context = {"booking":booking, "form": form}
+    return render(request, "venue/deletebooking.html", context)
 
 
 def check_booking(start_date, end_date, venue_id):
@@ -323,3 +299,16 @@ def check_booking(start_date, end_date, venue_id):
     
     return True
  
+
+def Info(request, pk):
+    # couples = Couples.objects.filter(user=request.user)
+    # events = Event.objects.filter(user=request.user)
+    events = get_object_or_404(Event, id=pk)
+    bookings = Booking.objects.filter(event=events, user=request.user)
+    context = {'events':events, 'bookings':bookings}
+    return render (request, 'venue/information.html', context)
+
+def finalbook(request, pk):
+    events = get_object_or_404(Event, id=pk)
+    context = {'events':events}
+    return render (request, 'venue/finalbook.html', context)

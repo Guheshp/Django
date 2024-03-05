@@ -15,8 +15,11 @@ urlpatterns = [
     path('update_event/<str:pk>/',views.update_event, name='update_event'),
     path('viewevent/',views.viewevent, name='viewevent'),
     path('booking/<str:pk>',views.booking, name='booking'),
+    path('deletebooking/<str:pk>',views.deletebooking, name='deletebooking'),
     path('check_booking/<str:venue_id>',views.check_booking, name='check_booking'),
-
+    path('Info/<str:pk>/',views.Info, name='Info'),
+    path('finalbook/<str:pk>/',views.finalbook, name='finalbook'),
+    
 
 
 ]

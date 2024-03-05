@@ -51,12 +51,23 @@ class Booking(models.Model):
     event = models.ForeignKey(Event, on_delete=models.CASCADE)
     user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, null=True)
     # quantity = models.PositiveIntegerField()
+    is_booked = models.BooleanField(default=False)
     start_date = models.DateField(null=True)
     end_date = models.DateField(null=True)
     booking_type = models.CharField(max_length=100, choices=(('pre paid' , 'pre paid'), ('post paid' , 'post paid')), null=True)
 
     def __str__(self):
         return f"{self.user} - {self.event.name}"
+    
+class CancelVenue(models.Model):
+    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
+    venue = models.ForeignKey(Venue, on_delete=models.CASCADE)
+    event = models.ForeignKey(Event, on_delete = models.CASCADE)
+    reason = models.CharField(max_length=250)
+
+    def __str__(self):
+        return f"{self.venue} for reason {self.reason}"
+
  
 
 

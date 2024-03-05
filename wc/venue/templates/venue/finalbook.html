@@ -1,0 +1,63 @@
+{% extends 'acc/base.html'%}
+{% load static %}
+{% block content %}
+<body>
+    
+
+        
+         <div class="px-4">
+            <section id="couple-details" class="border vendor-form ">
+              <div class="my-2 p-4">
+                <!-- <h2>Book On Your Date</h2> -->
+
+                <h4 class="fs-2 text-body-emphasis text-center">Book Venue {{events.venue.name}} for an event {{events.name}} </h4>
+               
+          
+                              <form id="my-form" action="{% url 'booking' events.id %}" method="POST">
+
+                                
+                                  {% csrf_token %}
+                                  
+                                <div class="form-group">
+                                    <label class="text-dark font-weight-bold" for="mintopay">Check in</label>
+                                    <input type="date" name="checkin" id="checkin" class="form-control border-dark" id="" required>
+                                </div>
+          
+                                <div class="form-group ">
+                                  <label class="text-dark font-weight-bold" for="maxtopay">Check out</label>
+                                  <input type="date" name="checkout" id="checkout" class="form-control border-dark" id="" required>
+                                </div>
+          
+                                <div class="row form-group">
+                                  <div class="col-md-12">
+                                    <input class="Btn button" type="submit" value="Book" name="">
+                                  </div>
+                                </div>
+                            
+                              </form>
+          
+          </div>
+          
+          </section>
+          
+          </div>
+
+<hr>
+        <!-- <div id="payment-section" class="px-4" style="display: none;">
+
+            <section  id="couple-details" class="border vendor-form ">
+                <h1>payment</h1>
+         
+            </section>
+          
+        </div>   -->
+
+        <!-- <script>
+            document.getElementById("my-form").addEventListener("submit", function(event) {
+                event.preventDefault(); // Prevent the form from submitting normally
+                document.getElementById("payment-section").style.display = 'block'; // Show the payment section
+            });
+        </script> -->
+</body>
+
+  {% endblock %}

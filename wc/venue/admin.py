@@ -2,7 +2,7 @@ from django.contrib import admin
 
 # Register your models here.
 
-from .models import Venue, Booking, Event, VenueImage, amenities
+from .models import Venue, Booking, Event, VenueImage, amenities, CancelVenue
 
 @admin.register(Venue)
 class VenueAdmin(admin.ModelAdmin):
@@ -23,3 +23,4 @@ class BookingAdmin(admin.ModelAdmin):
 
 admin.site.register(VenueImage)
 admin.site.register(amenities)
+admin.site.register(CancelVenue)

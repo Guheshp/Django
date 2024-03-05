@@ -100,7 +100,10 @@ def deleteVender(request, pk):
         return redirect("venderviewall")
     
     context = {"vender":vender}
+    
     return render(request, 'vendor/delete_vender.html', context)
+
+
 
 @login_required(login_url='login')
 def vebderView(request, pk):
