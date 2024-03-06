@@ -1,17 +1,14 @@
 from django import forms
 
-from .models import Venue, Event, Booking, CancelVenue
+from .models import Venue, Event, Booking, CancelVenue, amenities
 
-class VenueAddForm(forms.ModelForm):
-    class Meta:
-        model = Venue
-        fields = ['name', 'capacity','booking_cost', 'phone_number', 'address', 'city', 'state', 'zipcode', 'venue_image']
     
-class UpdateVenueForm(forms.ModelForm):
-
+class AmenityForm(forms.ModelForm):
     class Meta:
-        model = Venue
-        fields = ['name', 'capacity','booking_cost', 'phone_number', 'address', 'city', 'state', 'zipcode', 'venue_image']
+        model = amenities
+        fields = ['amenity_name']
+
+
 
 
 class AddEventForm(forms.ModelForm):

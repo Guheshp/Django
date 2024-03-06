@@ -2,7 +2,7 @@
 {% load static %}
 {% block content %}
 <body>
-
+    {% if not submitted %}
     <div class="container ">
         
         <div class="row  justify-content-center">
@@ -17,19 +17,30 @@
                             <label for="">Venue Name</label>
                             <input type="text" name="name" placeholder="Enter Venue Name" class="form-control" id="" required>
                         </div>
-
+<!-- 
                         <div class="form-group m-3">
+                            <label for="">Amenities</label>
+                            <input type="text" name="amenities"  placeholder="Enter capacity" class="form-control" id="" required>
+                            <select name="amenities" id="amenities" class="form-control" multiple>
+                                <option value="">Choose</option>
+                            </select>
+                        </div> -->
+
+
+
+                        
+                        <!-- <div class="form-group m-3">
                             <label for="">Capacity</label>
                             <input type="number" name="capacity" placeholder="Enter capacity" class="form-control" id="" required>
-                        </div>
+                        </div> -->
 
-                        <div class="form-group m-3">
+                        <!-- <div class="form-group m-3">
                             <label for="">Booking Cost</label>
                             <input type="number" name="booking_cost" placeholder="Enter capacity" class="form-control" id="" required>
-                        </div>
+                        </div> -->
 
                         <div class="form-group m-3">
-                            <label for="">Contact Number</label>
+                            <label for="">Owner Contact Number</label>
                             <input type="tel" name="phone_number" placeholder="Enter your Contact Number"  class="form-control" id="" required>
                         </div>
 
@@ -53,24 +64,35 @@
                             <input type="number" name="zipcode" placeholder="Enter ZipCode" class="form-control" id="" required>
                         </div>
 
-                        <div class="form-group m-3">
+                        <!-- <div class="form-group m-3">
                             <label for="formFileSm" class="form-label">Display Photo</label>
                             <input class="form-control" type="file"  name="venue_image" id="formFileDisabled">
-                        </div>
+                        </div> -->
 
-                        <div class="form-group m-3">
+                        <!-- <div class="form-group m-3">
                             <label for="formFileSm" class="form-label">Upload Images</label>
                             <input class="form-control" type="file" multiple name="image" id="formFileDisabled">
-                        </div>
+                        </div> -->
                         <button class="btn btn-outline-success m-3">Submit</button>
                     </form>
                 </div>
             </div>
-            
+         
 
         </div>
     </div>
+    {% else %}
+    <div class="col-md-7">
 
-
+            <h2>Entered Data:</h2>
+            <p>Venue Name: {{ request.POST.name }}</p>
+            <!-- Display other fields similarly -->
+    
+            <!-- Success message -->
+            <div class="alert alert-success" role="alert">
+                {{ messages }}
+            </div>
+        {% endif %}
+    </div>
 </body>
 {% endblock %}

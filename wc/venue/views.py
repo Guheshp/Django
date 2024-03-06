@@ -3,8 +3,10 @@ from .models import Venue, Event, Booking, VenueImage, amenities
 from wedding.models import Couples
 from django.urls import reverse
 
-from .forms import (VenueAddForm, 
-                    UpdateVenueForm,
+from .forms import (
+
+                    AmenityForm,
+
                     AddEventForm,
                     UpdateEventForm,
                     CheckAvailabilityForm,
@@ -32,57 +34,98 @@ def event_list(request):
     return render(request, 'venue/events_list.html', context)
 
 
+
+# @login_required(login_url='login')
+# def addvenue(request):
+
+#     if request.method == 'POST':
+#         form = VenueInfoForm(request.POST)
+#         if form.is_valid():
+#             venue = form.save(commit=False)
+#             venue.user = request.user 
+#             venue.save() 
+#             venue_name = form.cleaned_data.get('name')
+#             messages.success(request, f"{venue_name} information saved successfully!")
+
+#             return redirect('add_amenity')
+#         else:
+#             messages.error(request, 'Form submission failed. Please check the data you entered.')
+#     else:
+#         form = VenueInfoForm()
+#     context = {'form': form}
+#     return render(request, 'venue/addvenue.html', context)
+
+# @login_required(login_url='login')
+# def addvenue2(request):
+#     if request.method == 'POST':
+#         form = VenueInfoForm2(request.POST, request.FILES)
+#         if form.is_valid():
+#             venue = form.save(commit=False)
+#             venue.user = request.user 
+#             venue.save() 
+#             images = request.FILES.getlist('image')
+#             for image in images:
+#                 VenueImage.objects.create(venue=venue, image=image)
+#             messages.success(request, f"information saved successfully!")
+
+#             return redirect('home')
+#         else:
+#             messages.error(request, 'Form submission failed. Please check the data you entered.')
+#     else:
+#         form = VenueInfoForm2()
+#     context = {'form': form}
+#     return render(request, 'venue/addvenue2.html', context)
+
+
 @login_required(login_url='login')
-def addvenue(request):
+def add_amenity(request):
     if request.method == 'POST':
-        
-        form = VenueAddForm(request.POST, request.FILES)
-
+        form = AmenityForm(request.POST)
         if form.is_valid():
-            venue = form.save(commit=False)
-            venue.user = request.user 
-            venue.save() 
-            images = request.FILES.getlist('image')  # Retrieve the list of uploaded images
+            amenity_names = request.POST.getlist('amenity_name')
+            for amenity_name in amenity_names:
+                # Create a new form instance for each amenity name
+                form_instance = AmenityForm({'amenity_name': amenity_name})
+                if form_instance.is_valid():
+                    amenity_instance = form_instance.save(commit=False)
+                    amenity_instance.user = request.user
+                    amenity_instance.save()
+                # else:
 
-            for image in images:
-                VenueImage.objects.create(venue=venue, image=image)
-            messages.success(request, 'Your Venue submitted successfully!')
-            return redirect('home')
-        else:
-            messages.error(request, 'Form submission failed. Please check the data you entered.')
+            return redirect('addvenue2')
+
     else:
-        form = VenueAddForm()
-
+        form = AmenityForm()
     context = {'form':form}
-    return render(request, 'venue/addvenue.html', context)
+    return render(request, 'venue/add_amenity.html',context)
 
-@login_required(login_url='login')
-def updateVenue(request,pk):
-    venue = get_object_or_404(Venue, id=pk)
-    venue_images = venue.image.all()  # Retrieve all images associated with the venue
+# @login_required(login_url='login')
+# def updateVenue(request,pk):
+#     venue = get_object_or_404(Venue, id=pk)
+#     venue_images = venue.image.all()  # Retrieve all images associated with the venue
 
-    if request.method == "POST":
-        form = UpdateVenueForm(request.POST, request.FILES, instance=venue)
-        if form.is_valid():
-            update_venue = form.save(commit=False)
-            update_venue.user = request.user
-            if 'venue_image' in request.FILES:
-                update_venue.venue_image = request.FILES['venue_image']
-            if 'image' in request.FILES:
-                # Update existing images or add new ones if necessary
-                for image in request.FILES.getlist('image'):
-                    venue.image.create(image=image)
-            update_venue.save()
-            messages.success(request, 'updated successfully!')
-            venueview_url = reverse('user_venues')
-            return redirect(venueview_url)
-        else:
-            messages.error(request, 'something went wronge')
+#     if request.method == "POST":
+#         form = UpdateVenueForm(request.POST, request.FILES, instance=venue)
+#         if form.is_valid():
+#             update_venue = form.save(commit=False)
+#             update_venue.user = request.user
+#             if 'venue_image' in request.FILES:
+#                 update_venue.venue_image = request.FILES['venue_image']
+#             if 'image' in request.FILES:
+#                 # Update existing images or add new ones if necessary
+#                 for image in request.FILES.getlist('image'):
+#                     venue.image.create(image=image)
+#             update_venue.save()
+#             messages.success(request, 'updated successfully!')
+#             venueview_url = reverse('user_venues')
+#             return redirect(venueview_url)
+#         else:
+#             messages.error(request, 'something went wronge')
 
-    else:
-        form = UpdateVenueForm(instance=venue)
-    context = {'form':form, 'venue':venue, 'venue_images':venue_images}
-    return render(request, 'venue/updatevenue.html', context)
+#     else:
+#         form = UpdateVenueForm(instance=venue)
+#     context = {'form':form, 'venue':venue, 'venue_images':venue_images}
+#     return render(request, 'venue/updatevenue.html', context)
 
 
 
@@ -177,6 +220,8 @@ def show_user_venue(request,pk):
 @login_required(login_url='login')
 def addevent(request, pk):
     venue = Venue.objects.get(id=pk)
+    amenitie = amenities.objects.all().order_by('amenity_name')
+
     if request.method == "POST":
 
         form = AddEventForm(request.POST)
@@ -191,7 +236,7 @@ def addevent(request, pk):
             messages.error(request, 'somwthing went wronge while adding event!')
     else:
         form = AddEventForm()
-    context = {'form':form}
+    context = {'form':form, 'amenitie':amenitie}
     return render(request, 'venue/addevent.html', context)
 
 
@@ -229,6 +274,9 @@ def booking(request, pk):
         checkout = request.POST.get('checkout')
         event = get_object_or_404(Event, id=pk)
         venue = event.venue
+        booking_type = request.POST.get('booking_type')
+
+
 
         if checkout < checkin:
                 messages.error(request, 'End date must be after the start date')
@@ -248,7 +296,7 @@ def booking(request, pk):
                 start_date=checkin,
                 end_date=checkout,
                 is_booked=True,
-                booking_type='pre paid'
+                booking_type=booking_type
             )  
             messages.success(request, 'Your booking has been saved')
             return redirect('viewevent')
@@ -281,7 +329,7 @@ def deletebooking(request, pk):
     else:
         form = CancelVenueForm()
     
-    context = {"booking":booking, "form": form}
+    context = {"booking":booking, "form": form, "event":event}
     return render(request, "venue/deletebooking.html", context)
 
 
@@ -299,7 +347,7 @@ def check_booking(start_date, end_date, venue_id):
     
     return True
  
-
+@login_required(login_url='login')
 def Info(request, pk):
     # couples = Couples.objects.filter(user=request.user)
     # events = Event.objects.filter(user=request.user)
@@ -308,7 +356,14 @@ def Info(request, pk):
     context = {'events':events, 'bookings':bookings}
     return render (request, 'venue/information.html', context)
 
+
+@login_required(login_url='login')
 def finalbook(request, pk):
     events = get_object_or_404(Event, id=pk)
     context = {'events':events}
     return render (request, 'venue/finalbook.html', context)
+
+
+@login_required(login_url='login')
+def payment(request):
+    return render(request, 'venue/payment.html')

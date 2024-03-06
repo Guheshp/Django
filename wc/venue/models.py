@@ -12,29 +12,54 @@ class amenities(models.Model):
     def __str__(self):
         return self.amenity_name
 
+class restrictions(models.Model):
+    restriction_name = models.CharField(max_length=100)
+
+    def __str__(self):
+        return self.restriction_name
 
 class Venue(models.Model):
     user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, null=True)
-    amenities = models.ManyToManyField(amenities, null=True)
-    name = models.CharField(max_length=100)
-    hall_counts = models.IntegerField(default=0)
-    booking_cost = models.FloatField(default=0)
-    phone_number = PhoneNumberField()
-    address = models.CharField(max_length=255)
-    city = models.CharField(max_length=100)
-    state = models.CharField(max_length=100)
-    zipcode = models.CharField(max_length=50)
-    capacity = models.PositiveIntegerField(default=0, null=0, blank=True)
-    venue_image = models.ImageField(upload_to='venue-Dp/', null=True)
-
+    amenitie = models.ManyToManyField(amenities)
+    restriction = models.ManyToManyField(restrictions)
+    name = models.CharField(max_length=100, null=True)
+    address_line_1 = models.CharField(max_length=255, null=True)
+    address_line_2 = models.CharField(max_length=255, blank=True)
+    city = models.CharField(max_length=100, null=True)
+    state = models.CharField(max_length=100, null=True)
+    pincode = models.CharField(max_length=6, null=True) 
+    capacity = models.IntegerField(default=0)
+    note = models.TextField(null=True)
+    description = models.TextField(null=True)
 
     def __str__(self):
         return self.name
     
 class VenueImage(models.Model):
-    venue = models.ForeignKey(Venue, related_name='image', on_delete=models.CASCADE)
+    venue = models.ForeignKey(Venue, on_delete=models.CASCADE,  related_name='image')
     image = models.ImageField(upload_to='venue-images/')
 
+class ContactInformation(models.Model):
+    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE)  # Link to user account
+    email = models.EmailField(unique=True)  # Unique email for contact
+    phone_number = PhoneNumberField()
+
+    def __str__(self):
+        return self.email  # Display email in admin panel
+    
+class ServiceCategory(models.Model):
+    name = models.CharField(max_length=100) 
+
+    def __str__(self):
+        return self.name 
+    
+class Service(models.Model):
+    venue = models.ForeignKey(Venue, on_delete=models.CASCADE)
+    category = models.ForeignKey('ServiceCategory', on_delete=models.CASCADE, blank=True, null=True)
+    max_capacity = models.IntegerField(default=0)
+
+    def __str__(self):
+        return self.venue 
 
 class Event(models.Model):
     venue = models.ForeignKey(Venue, on_delete = models.CASCADE)

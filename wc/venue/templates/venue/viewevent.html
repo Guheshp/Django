@@ -13,7 +13,8 @@
     <div class="row my-2 p-2">
       <div class="col">
         <!-- {{event.id}} -->
-          <h4>Event Informations</h4>
+       
+          <h4 class="p-2">  {{ forloop.counter }}. Event {{event}} details.</h4>
           <!-- <p class="h6 font-weight-bold">Room No: <span class="mr-pc">{{room_details.room_number}}</span></p> -->
 
               <div class="custom-control custom-checkbox">
@@ -39,7 +40,7 @@
 
       <div class="row gutters">
         <div class="col-xl-12">
-            <div class="d-flex justify-content-end float-right gap-3 py-2 text-right">
+            <div id="viewevent" class="d-flex justify-content-end float-right gap-3 py-2 text-right">
               {% if event.is_booked %}
               {%else%}
 
@@ -49,7 +50,7 @@
 
 
                 {%else%}
-                <a class="btn" href="{% url 'update_event' event.id%}">Update</a>
+                <a class="btn"  href="{% url 'update_event' event.id%}">Update</a>
                 {%endif%}
                 {%endif%}
 
@@ -57,8 +58,12 @@
                     <a class="btn text-success" href="{% url 'Info' event.id %}"><i class="fa-solid fa-check"></i>Booked</a> 
                     {% else %}
                         {% if event.booking_set.exists %}
-                            <h5 class="text-success m-0 p-2"><i class="fa-solid fa-check"></i> Booked</h5>
-                            <a class="btn border border-info" href="{% url 'Info' event.id %}">View and payment</a>
+                        {% for book in bookings%}
+
+                            <h5 class="text-success m-0 p-2">{{book.booking_type}}</h5>
+
+                            {%endfor%}
+                            <a class="bTn" href="{% url 'Info' event.id %}">View and payment</a>
 
                         {% else %}
                             <a class="btn" href="{% url 'Info' event.id %}">Book</a>
@@ -68,7 +73,7 @@
             </div>
         </div>
     </div>
-  </div><hr>
+  </div>
 
          
 

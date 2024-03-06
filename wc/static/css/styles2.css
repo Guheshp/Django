@@ -534,4 +534,34 @@ body{margin-top:20px;
 
 
 }
+/* bTn--------------------------------------------------------------- */
 
+#payment a{
+  text-decoration: none !important;
+}
+#viewevent a{
+  text-decoration: none !important;
+
+}
+.bTn{
+  /* background-color: #0F1111; */
+  padding: 10px;
+  font-size: 15px;
+  border: 1px solid rgb(23, 51, 79);
+  color:rgb(23, 51, 79);
+  border-radius: 8px;
+}
+.bTn:hover{
+  color: #fff;
+  background-color: rgb(23, 51, 79);
+}
+.BOrder{
+  border: 1px solid rgb(23, 51, 79);
+  border-radius: 8px;
+
+
+}
+
+#addAmenitiesInfo {
+  display: none;
+}

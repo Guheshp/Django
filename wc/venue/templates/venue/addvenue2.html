@@ -1,0 +1,90 @@
+{% extends 'acc/base.html'%}
+{% load static %}
+{% block content %}
+<body>
+
+    <div class="container ">
+                <!-- <div id="showFormButton" class="text-center">
+                <h1 class="underline">Add Additional Information</h1>
+
+                    <button class="bTn" >Add Additional Info</button>
+                </div> -->
+
+        <div class="row  justify-content-center">
+            <div class="col-md-5">
+                <div class="card" id="additionalInfoContainer">
+                    <form action="" method="POST" class="vendor-form" id="additionalInfoForm" enctype="multipart/form-data">
+                        <h3>Add more venue Details</h3><hr>
+
+                        {% csrf_token %}
+
+                        
+
+
+
+                        
+                        <!-- <div class="form-group m-3">
+                            <label for="">Capacity</label>
+                            <input type="number" name="capacity" placeholder="Enter capacity" class="form-control" id="" required>
+                        </div> -->
+
+                        <div class="form-group m-3">
+                            <label for="">Booking Cost</label>
+                            <input type="number" name="booking_cost" placeholder="Enter capacity" class="form-control" id="" required>
+                        </div>
+                     
+                        <div class="form-group m-3">
+                            <label for="formFileSm" class="form-label">Display Photo</label>
+                            <input class="form-control" type="file"  name="venue_image" id="formFileDisabled">
+                        </div>
+
+                        <div class="form-group m-3">
+                            <label for="formFileSm" class="form-label">Upload Images</label>
+                            <input class="form-control" type="file" multiple name="image" id="formFileDisabled">
+                        </div>
+                        <button class="btn btn-outline-success m-3">Submit</button>
+                    </form>
+                </div>
+            </div>
+         
+
+        </div>
+    </div>
+    <script>
+        // Get references to the form and the button
+        const additionalInfoContainer = document.getElementById('additionalInfoContainer');
+        const showFormButton = document.getElementById('showFormButton');
+
+    
+        showFormButton.addEventListener('click', function() {
+            // Display the form container
+            additionalInfoContainer.style.display = 'block';
+            // Hide the button
+            showFormButton.style.display = 'none';
+        });
+    
+        // Function to show the button and hide the form container
+        function hideFormAndShowButton() {
+            // Hide the form container
+            additionalInfoContainer.style.display = 'none';
+            // Show the button
+            showFormButton.style.display = 'block';
+        }
+        document.getElementById('additionalInfoForm').addEventListener('submit', function(event) {
+            // Prevent the form from submitting (just for this example)
+            event.preventDefault();
+            // Call the function to show the button and hide the form
+            hideFormAndShowButton();
+    
+            // Create a new button element
+            const newButton = document.createElement('button');
+            newButton.textContent = 'Another Button';
+            newButton.id = 'anotherButton';
+            
+            // Append the new button to the document body
+            document.body.appendChild(newButton);
+        });
+
+    </script>
+</body>
+{% endblock %}

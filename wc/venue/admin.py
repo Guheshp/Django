@@ -2,13 +2,13 @@ from django.contrib import admin
 
 # Register your models here.
 
-from .models import Venue, Booking, Event, VenueImage, amenities, CancelVenue
+from .models import  Booking, Event, VenueImage, amenities, CancelVenue
 
-@admin.register(Venue)
-class VenueAdmin(admin.ModelAdmin):
-    list_display = ['name','user','booking_cost','city','state','capacity']
-    ordering = ('-name',)
-    search_fields = ('name', 'city')
+# @admin.register(Venue)
+# class VenueAdmin(admin.ModelAdmin):
+#     list_display = ['name','user','booking_cost','city','state','capacity']
+#     ordering = ('-name',)
+#     search_fields = ('name', 'city')
 
 @admin.register(Event)
 class EventAdmin(admin.ModelAdmin):
