@@ -2,11 +2,82 @@
 {% load static %}
 {% block content %}
 <body>
-    {% if not submitted %}
+
+    <section>
+        <div class="horizintal-bar ">
+            <div class="container">
+                <div class="d-flex gap-2 justify-content-center py-1">
+                   <a href="{% url 'addvenue_info'%}"><button class="bTn d-inline-flex align-items-center" type="submit">
+                       ADD VENUE INFORMATIONS
+                      </button></a>
+                      
+                    <a href="{% url 'add_amenity' %}"><button class="bTn d-inline-flex align-items-center" type="button">
+                        ADD AMENITIES
+
+                    </button></a>
+                    <button class="bTn d-inline-flex align-items-center" type="button">
+                        ADD RESTRICTIONS
+
+                      </button>
+
+                      <button class="bTn d-inline-flex align-items-center" type="button">
+                        VENUE IMAGES
+                      </button>
+                      <button class="bTn d-inline-flex align-items-center" type="submit">
+                        CONTACT INFORMATIONS
+                      </button>
+                    <a href=""><button class="bTn d-inline-flex align-items-center" type="button">
+                        ADD SERVICES
+                      </button></a>
+                      
+                  </div>
+            </div>
+        </div>
+
+
+        <div class="horizintal-bar ">
+            <div class="container">
+                <div class="d-flex gap-2 justify-content-center py-1">
+                    {% if venueinfo_exists%}
+                    {% for v in venue %}
+                   <a href="{% url 'viewvenue_info' v.id%}"><button class="bTn d-inline-flex align-items-center" type="submit">
+                      {{v.name}}
+                      </button></a>
+                      {%endfor%}
+                      {% else %}
+                      <p>not</p>
+                      {% endif %}
+                      
+                    <!-- <button class="bTn d-inline-flex align-items-center" type="button">
+                        ADD AMENITIES
+
+                    </button>
+                    <button class="bTn d-inline-flex align-items-center" type="button">
+                        ADD RESTRICTIONS
+
+                      </button>
+
+                      <button class="bTn d-inline-flex align-items-center" type="button">
+                        VENUE IMAGES
+                      </button>
+                      <button class="bTn d-inline-flex align-items-center" type="submit">
+                        CONTACT INFORMATIONS
+                      </button>
+                    <a href=""><button class="bTn d-inline-flex align-items-center" type="button">
+                        ADD SERVICES
+                      </button></a> -->
+                      
+                  </div>
+            </div>
+        </div>
+    </section>
+
+
+    
     <div class="container ">
         
-        <div class="row  justify-content-center">
-            <div class="col-md-5">
+        <div class="row  justify-content-center mt-5">
+            <div class="col-md-8">
                 <div class="card">
                     <form action="" method="POST" class="vendor-form" enctype="multipart/form-data">
                         <h1>Add Venue</h1><hr>
@@ -81,18 +152,6 @@
 
         </div>
     </div>
-    {% else %}
-    <div class="col-md-7">
 
-            <h2>Entered Data:</h2>
-            <p>Venue Name: {{ request.POST.name }}</p>
-            <!-- Display other fields similarly -->
-    
-            <!-- Success message -->
-            <div class="alert alert-success" role="alert">
-                {{ messages }}
-            </div>
-        {% endif %}
-    </div>
 </body>
 {% endblock %}

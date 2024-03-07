@@ -5,7 +5,7 @@
 <body>
 
 
-  <div class="container">
+  <!-- <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-5">
             <div class="">
@@ -21,47 +21,166 @@
             </div>
         </div>
     </div>
-    </div>
+    </div> -->
     
-   <div class=" text-center container-fluid" style="background-color:rgb(23, 51, 79); color: white;">
+   <!-- <div class=" text-center container-fluid" style="background-color:rgb(23, 51, 79); color: white;">
   
     <div class="card-header">
       Venues
     </div>
 
-   </div>
+   </div> -->
+   <section id="header" class="jumbotron text-center">
+                 <h1 class="display-3">Venues</h1>
+                 <p class="lead">{{user_name}} Your venues and details .</p>
+                 <!-- <a href="" class="btn btn-primary">Click</a>
+                 <a href="" class="btn btn-secondary">Click</a> -->
+                 <!-- ---------------------------------------------------------- -->
+
+<link rel="stylesheet" type="text/css" href="https://pixinvent.com/stack-responsive-bootstrap-4-admin-template/app-assets/css/bootstrap-extended.min.css">
+
+<link rel="stylesheet" type="text/css" href="https://pixinvent.com/stack-responsive-bootstrap-4-admin-template/app-assets/css/colors.min.css">
+
+
+
+<div class="grey-bg container-fluid">
+  <section id="minimal-statistics">
+    <!-- <div class="row">
+      <div class="col-12 mt-3 mb-1">
+        <h4 class="text-uppercase">Minimal Statistics Cards</h4>
+        <p>Statistics on minimal cards.</p>
+      </div>
+    </div> -->
+    <div class="row">
+      <div class="col-xl-3 col-sm-6 col-12"> 
+        <div class="card">
+          <div class="card-content">
+            <div class="card-body">
+              <div class="media d-flex">
+                <div class="align-self-center">
+                  <!-- <i class="icon-pencil primary font-large-2 float-left"></i> -->
+                  <i class="fa-solid fa-message primary font-large-2 float-left"></i>
+                </div>
+                <div class="media-body text-right">
+                  <h3>0</h3>
+                  <span>Tota Messages</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-xl-3 col-sm-6 col-12">
+        <div class="card">
+          <div class="card-content">
+            <div class="card-body">
+              <div class="media d-flex">
+                <div class="align-self-center">
+                  <i class="fa-solid fa-indian-rupee-sign success font-large-2 float-left"></i>
+
+                </div>
+                <div class="media-body text-right">
+                  <h3>0</h3>
+                  <span>Advance Paid</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-xl-3 col-sm-6 col-12">
+        <div class="card">
+          <div class="card-content">
+            <div class="card-body">
+              <div class="media d-flex">
+                <div class="align-self-center">
+                  <!-- <i class="icon-graph success font-large-2 float-left"></i> -->
+                  <i class="fa-solid fa-indian-rupee-sign danger font-large-2 float-left"></i>
+                </div>
+                <div class="media-body text-right">
+                  <h3>0</h3>
+                  <span>Payment Pending</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-xl-3 col-sm-6 col-12">
+        <div class="card">
+          <div class="card-content">
+            <div class="card-body">
+              <div class="media d-flex">
+                <div class="align-self-center">
+                  <i class="fas fa-map-marker-alt primary font-large-2 float-left"></i>
+
+                </div>
+                <div class="media-body text-right">
+                  <h3>0</h3>
+                  <span>Venue Booked</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  
+    
+  
+      
+     
+    </div>
+  </section>
+  
+  </div>
+</section>
+</div>
+  </section>
 
 	    <div class="venue py-3">
         <div class="row container">
           
-          <p class="lead text-body-secondary  py-2 text-center fw-bold">{{user_name}} Your venues and details </p>
+          <p class="lead text-body-secondary  py-2 text-center fw-bold"></p>
 
-            {% for venue in user_venues%}
-
-            <div class="col-lg-4 p-4 venue_col">
-              
-              <div class="">
-                <div class="venue_image_container services-box1 ">
-                  <div class="venue-image"><img src="{{venue.venue_image.url}}" alt="{{venue.venue_image.url}}"></div>
-                </div>
-                <div><p class="venue-btn d-flex fw-bold m-0 mt-2" >{{venue.name}}</p></div>
-                  <div class="venue_text text-center">
-                    <p class="m-1 d-flex "><span class="fw-">Booking Cost:&nbsp;&nbsp;<i class="fa fa-indian-rupee-sign"></i></span>{{venue.booking_cost|floatformat:2}}</p>
-                    <p class="m-1 d-flex "><span class="fw-">Contact:</span>&nbsp;{{venue.phone_number}}</p>
-                    <p class="m-1 d-flex justify-content-start"><span class="fw-">Total Area:</span>&nbsp;{{venue.capacity}} <span><cite title="Source Title">&nbsp;/members per hall</cite></span></p>
-                  </div>
-                  
-                  <div class="venue-name">
-                    <!-- Modal -->
-                  
-                     <div class="d-flex text-center" >
-                      <a  href="{% url 'show_user_venue' venue.id%}">View Details</a>
-
+            <section id="gallery" class="gallerys vendor-form">
+              <div class="container">
+                <div class="row">
+                  {% for venue in user_venues %}
+                  <div class="col-lg-4 mb-4 mt">
+                    
+                    <div class="card">
+                      <div>
+                          <a href="{% url 'show_user_venue' venue.id%}">
+                          <img  src="{{ venue.photo.url }}" alt="{{ venue.photo.url }}" class="card-img-top">
+                          </a>
+                        </div>
+                      <div class="card-body">
+                        <!-- <img  src="{{ venue.photo.url }}" alt="{{ venue.photo.url }}" class="card-img-top"> -->
+                        <h5 class="card-title m-0">{{ venue.name }} <span><a href="" class="btn btn-outline-danger btn-sm float-right"><i class="far fa-heart"></i></a></span></h5>
+                        <p class="small"><i class="fa-solid fa-location-dot"></i> &nbsp;{{ venue.address_line_1 }} | {{ venue.city }}</p>
+                        <p class="card-text small">{{ venue.description|truncatewords:19 }}</p>
+                        <div class="d-flex justify-content-between">
+                          <div>
+                            <p class="small d-block">Starting at <b><i class="fa fa-indian-rupee-sign"></i>{{ venue.price }}</b>  <span>for</span> <br><span><b>{{ venue.capacity }}</b> guests.</span></p>
+                          </div>
+                          <a href="" class="bTn">Price Venue</a>
+                        </div>
+                      </div>
+                      
                     </div>
                   </div>
+                  {% endfor %}
+                </div>
+                
+              </div>
+            </section>
+            
+
               </div>
             </div>
-              {% endfor %}
+            </section>
+            
         </div>
       </div>
 

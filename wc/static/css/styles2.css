@@ -559,9 +559,57 @@ body{margin-top:20px;
   border: 1px solid rgb(23, 51, 79);
   border-radius: 8px;
 
+}
+
+
+
+.gallerys .bTn{
+  /* padding: 10px; */
+  text-align: center;
+}
+.gallerys a{
+  text-decoration: none !important;
+  text-align: center;
+  font-size: 15px;
+  max-height: 45px;
 
 }
 
-#addAmenitiesInfo {
-  display: none;
+
+
+/* slider venue userview */
+
+.carousel-inner img {
+  width: 100%
+}
+
+.carousel-item img {
+  width: 320px;
+  height: 240px !important
+}
+
+#myCarousel .carousel-indicators {
+  position: static;
+  margin-top: 0px
+}
+
+#myCarousel .carousel-indicators>li {
+  width: 100px
+}
+
+#myCarousel .carousel-indicators li img {
+  display: block;
+  opacity: 0.5
+}
+
+#myCarousel .carousel-indicators li.active img {
+  opacity: 1
+}
+
+#myCarousel .carousel-indicators li:hover img {
+  opacity: 0.75
+}
+
+.horizintal-bar{
+  background-color: rgb(23, 51, 79);
 }

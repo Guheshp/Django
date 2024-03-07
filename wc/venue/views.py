@@ -1,10 +1,10 @@
 from django.shortcuts import render, redirect
-from .models import Venue, Event, Booking, VenueImage, amenities
+from .models import Venue, Event, Booking, VenueImage, amenities, Service,VenueAmenities, VenueRestrictions
 from wedding.models import Couples
 from django.urls import reverse
 
-from .forms import (
-
+from .forms import (VenueInfoForm,
+                    UpdateVenueInfoForm,
                     AmenityForm,
 
                     AddEventForm,
@@ -35,25 +35,89 @@ def event_list(request):
 
 
 
-# @login_required(login_url='login')
-# def addvenue(request):
+@login_required(login_url='login')
+def addvenue(request):
 
-#     if request.method == 'POST':
-#         form = VenueInfoForm(request.POST)
-#         if form.is_valid():
-#             venue = form.save(commit=False)
-#             venue.user = request.user 
-#             venue.save() 
-#             venue_name = form.cleaned_data.get('name')
-#             messages.success(request, f"{venue_name} information saved successfully!")
+    venueinfo_exists = Venue.objects.filter(user=request.user).exists()
+    venue = Venue.objects.filter(user=request.user)
 
-#             return redirect('add_amenity')
-#         else:
-#             messages.error(request, 'Form submission failed. Please check the data you entered.')
-#     else:
-#         form = VenueInfoForm()
-#     context = {'form': form}
-#     return render(request, 'venue/addvenue.html', context)
+    context = {
+            'venueinfo_exists':venueinfo_exists,
+            "venue":venue,
+        }
+
+    # if request.method == 'POST':
+    #     form = VenueInfoForm(request.POST)
+    #     if form.is_valid():
+    #         venue = form.save(commit=False)
+    #         venue.user = request.user 
+    #         venue.save() 
+    #         venue_name = form.cleaned_data.get('name')
+    #         messages.success(request, f"{venue_name} information saved successfully!")
+
+    #         return redirect('add_amenity')
+    #     else:
+    #         messages.error(request, 'Form submission failed. Please check the data you entered.')
+    # else:
+    #     form = VenueInfoForm()
+    # context = {'form': form}
+    return render(request, 'venue/addvenue.html', context)
+
+
+@login_required(login_url='login')
+def addvenue_info(request):
+    form = VenueInfoForm()
+    if request.method == "POST":
+        form = VenueInfoForm(request.POST, request.FILES)
+        if form.is_valid():
+            infoform = form.save(commit=False)
+            infoform.user = request.user
+            infoform.save()
+            venue_name = form.cleaned_data.get('name')
+            messages.success(request, f"{venue_name} saved successfully!")
+            return redirect('addvenue')
+        else:
+            messages.error(request, "something went wronge in adding venue information!")
+   
+        return render(request, 'venue/venueinfo_exists.html', context)
+
+    else:
+        form=VenueInfoForm()
+    context = {"form":form}
+    return render(request, 'venue/addvenue_info.html', context)
+
+@login_required(login_url='login')
+def updatevenue_info(request, pk):
+    venue = Venue.objects.get(id=pk)
+    if request.method == "POST":
+
+        form = UpdateVenueInfoForm(request.POST, request.FILES, instance=venue)
+        if form.is_valid():
+            update_venue = form.save(commit=False)
+            update_venue.user = request.user
+            if 'photo' in request.FILES:
+                update_venue.venue_image = request.FILES['photo']
+            update_venue.save()
+            venue_name = form.cleaned_data.get('name')
+            messages.success(request, f"{venue_name} updated successfully!")
+            venueinfoview_url = reverse('viewvenue_info', args=[venue.pk])
+            return redirect(venueinfoview_url)
+        else:
+            messages.error(request, "something went wronge in updateing venue!")
+    else:
+        form = UpdateVenueInfoForm(instance=venue)
+    
+    context = {'form':form,
+               'venue':venue}
+    return render(request, 'venue/updatevenue_info.html', context)
+
+@login_required(login_url='login')
+def viewvenue_info(request,pk):
+    venue_info = Venue.objects.get(id=pk)
+    context = {'venue_info':venue_info}
+    return render(request, 'venue/viewvenue_info.html', context)
+
+
 
 # @login_required(login_url='login')
 # def addvenue2(request):
@@ -79,24 +143,28 @@ def event_list(request):
 
 @login_required(login_url='login')
 def add_amenity(request):
+    venue = Venue.objects.filter(user=request.user)
     if request.method == 'POST':
         form = AmenityForm(request.POST)
         if form.is_valid():
-            amenity_names = request.POST.getlist('amenity_name')
+            venue_id = form.cleaned_data.get('venue')  # Retrieve the selected venue ID from the form
+            amenity_names = form.cleaned_data.get('amenitie')  # Retrieve selected amenities from the form
+            venue = Venue.objects.get(id=venue_id)  # Get the venue instance based on the selected ID
             for amenity_name in amenity_names:
-                # Create a new form instance for each amenity name
-                form_instance = AmenityForm({'amenity_name': amenity_name})
-                if form_instance.is_valid():
-                    amenity_instance = form_instance.save(commit=False)
-                    amenity_instance.user = request.user
-                    amenity_instance.save()
-                # else:
-
-            return redirect('addvenue2')
+                amenity_instance, created = VenueAmenities.objects.get_or_create(venue=venue, amenitie=amenity_name)
+                if created:
+                    messages.success(request, f"Amenity '{amenity_name}' added successfully to venue '{venue.name}'!")
+                else:
+                    messages.info(request, f"Amenity '{amenity_name}' already exists for venue '{venue.name}'.")
+            return redirect('add_amenity')
 
     else:
         form = AmenityForm()
-    context = {'form':form}
+
+    context = {
+        'form': form,
+        'venue': venue,
+    }
     return render(request, 'venue/add_amenity.html',context)
 
 # @login_required(login_url='login')
@@ -212,8 +280,16 @@ def user_venues(request):
 @login_required(login_url='login')
 def show_user_venue(request,pk):
     venue = Venue.objects.get(id=pk)
+    service = Service.objects.filter(venue=venue)
     venue_images = VenueImage.objects.filter(venue_id=pk)
-    context = {'venue':venue, 'venue_images':venue_images}
+    venueAmenities = VenueAmenities.objects.filter(venue=venue)
+    venueRestrictions = VenueRestrictions.objects.filter(venue=venue)
+
+    context = {'venue':venue,
+            'venue_images':venue_images,
+            'service':service,
+            'venueAmenities':venueAmenities, 
+            'venueRestrictions':venueRestrictions}
     return render(request, 'venue/show_user_venue.html', context)
    
 

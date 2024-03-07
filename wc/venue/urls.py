@@ -4,7 +4,12 @@ from . import views
 urlpatterns = [
     path('',views.venue_list, name='venue_list'),
     path('event_list/',views.event_list, name='event_list'),
-    # path('addvenue/',views.addvenue, name='addvenue'),
+    path('addvenue/',views.addvenue, name='addvenue'),
+
+    path('addvenue_info/',views.addvenue_info, name='addvenue_info'),
+    path('viewvenue_info/<str:pk>/',views.viewvenue_info, name='viewvenue_info'),
+    path('updatevenue_info/<str:pk>/',views.updatevenue_info, name='updatevenue_info'),
+
     path('add_amenity/',views.add_amenity, name='add_amenity'),
     # path('addvenue2/',views.addvenue2, name='addvenue2'),
     # path('updateVenue/<str:pk>/',views.updateVenue, name='updateVenue'),

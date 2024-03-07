@@ -2,55 +2,212 @@
 {% load static %}
 {% block content %}
 <body>
-  <main>
+  <!-- <main>
     <section class="py-1 text-center container">
-      <div class="row py-lg-1">
-        <div class="col-lg-6 col-md-8 mx-auto">
-          <img style="height: 300px;" src="{{venue.venue_image.url}}" alt="">
+      <div class="row ">
+        <div class="col-lg-9 col-md-6 mx-2" style="background-color: bisque;">
+            <p>hjgsd</p>
 
-          <h1 class="fw-ligh ">{{venue}}</h1>
-          <h5 class="fw-light">Booking Price: <i class="fa fa-indian-rupee-sign"></i>{{venue.booking_cost}}</h5>
-          <h5 class="fw-light ">Total Area: {{venue.capacity}} <span><cite title="Source Title">&nbsp;/members per hall</cite></span></h5>
-         
-          <p class="lead text-body-secondary m-0">Contact: {{venue.phone_number}}</p>
-          <p class="lead text-body-secondary m-0">Address: {{venue.address}}</p>
-          <p class="lead text-body-secondary m-0"> {{venue.city}}, {{venue.state}}, {{venue.zipcode}}</p>
-
-          <p>
-            <a href="{% url 'updateVenue' venue.id%}" class="btn btn-primary my-2">Update</a>
-            <!-- <a href="#" class="btn btn-secondary my-2">عمل ثانوي</a> -->
-          </p>
         </div>
       </div>
     </section>
-<hr>
-  <div class="album py-1 bg-body-tertiary">
-    <div class="container">
-      <h1 class="fw-light text-center">Images</h1>
-      <hr>
+  </main> -->
+  <main>
 
-      <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
-        {% for venue_image in venue_images %}
-        <div class="col">
-          <div class="card shadow-sm">
-            <img style="height: 300px;" src="{{venue_image.image.url}}" alt="">
-            <div class="card-body">
-              <p class="card-text text-center">hall name</p>
-              <div class="d-flex justify-content-between align-items-center">
-                <div class="btn-group">
-                  <!-- <button type="button" class="btn btn-sm btn-outline-secondary">عرض</button> -->
-                  <!-- <button type="button" class="btn btn-sm btn-outline-secondary">تعديل</button> -->
+    <section class="py-1  container">
+      <!-- <h1>Venue Name {{venue.name}}</h1> -->
+      <div class="row">
+        <div class="col-lg-11 col-md-6 mx-md-auto mx-lg-">
+          <!-- slider Starting -->
+          <!-- <div class="slider" style="height: 600px;">
+            <img class="slide" src="{% static 'images/home1back.jpeg.png'%}"  alt="home1back" >
+            <img class="slide" src="{% static 'images/home2back.jpeg'%}"   alt="home2back">
+            <img class="slide" src="{% static 'images/home3back.jpeg'%}"  alt="home3back">
+            
+
+            <div class="slider-button">
+
+                <button onclick="goPrev()"><i class="fa-solid fa-arrow-left"></i></button>
+                <button onclick="goNext()"><i class="fa-solid fa-arrow-right"></i></button>
+            </div>
+        </div>
+          slider end -->
+
+          <div class="container vendor-form">
+            <h2 class="py-2 fw-bold"> Venue Details</h2>
+
+            <div class="row ">
+              <div class="col-md-5">
+                <div class="h-100 p-4 text-bg-dark border-end">
+
+                  <div class="title ">
+                      <b>Name: <span class="small"></span></b>
+                      <p class="ml-5 small">{{venue.name}}</p>
+                  </div>
+                  <div class="venue-capacity py-2 ">
+                    <b> <i class="fa-solid fa-users-between-lines"> &nbsp;</i>Guest Capacity:</b>
+                    <p class="ml-5 small">- Accommodates up to {{venue.capacity}} guests.</p>
+                 </div>
+
+                 <div class="venue-capacity py-2 ">
+                  <b> <i class="fa-regular fa-rectangle-list"></i> &nbsp;</i>Services:</b>
+                  {% for s in service%}
+                  <p class="ml-5 small mt-0 mb-0">- {{s}}</p>
+                  {% if s.outdoor%}
+                  <p class="ml-5 small mt-0 mb-0">- Outdoor</p>
+                  {% if s.indoor%}
+                  <p class="ml-5 small mt-0 mb-0">- Indoor</p>
+                  {%else%}
+
+                  {%endif%}
+                  {%else%}
+
+                  {%endif%}
+                    
+               {%endfor%} 
+               </div>
+               
+              <div class="venue-capacity py-2 ">
+                <b> <i class="fa-solid fa-location-dot"></i> Location:</b>
+                <p class="ml-5 small mt-0 mb-0">{{venue.address_line_1}}</p>
+                <p class="ml-5 small mt-0 mb-0">{{venue.address_line_2}}</p>
+                <p class="ml-5 small mt-0 mb-0">{{venue.city}}</p>
+                <p class="ml-5 small mt-0 mb-0">{{venue.state}}, {{venue.pincode}}</p>
+
+              </div>
+              </div>
+                
+              </div>
+              
+              <div class="col-md-6">
+                <div class="h-100 p-4 bg-body-tertiary ml-4">
+                  <b>Description</b>
+                  <p class=" small mt-3 mb-0">{{venue.description}}</p>
+                  <!-- <button class="btn btn-outline-secondary" type="button">Example button</button> -->
                 </div>
-                <!-- <small class="text-body-secondary">9 دقائق</small> -->
+              </div>
+            
+            </div>
+
+<hr>
+            <b></b>
+            <h3 class="py-2 fw-bold">Additional Details</h3>
+
+            <div class="col-md-11">
+              <b>Services Option:</b>
+
+              <div class="h-100 p-4 bg-body-tertiary">
+                {% for s in service %}
+                <b class="ml- mt-0 mb-2">venue provide  {{ s }} and thier details :</b>
+
+                
+                {% for category in s.category.all %}
+                    {% if category.name == "Ceremony" %}
+                    <br><br><b class="">Ceremony:</b>
+                    {% if s.outdoor %}
+                        <p class="ml-4 small mt-0 mb-0">Outdoor:</p>
+                        <p class="ml-5 small mt-0 mb-0">Max Outdoor capacity: {{ s.max_capacity_outdoor }}</p>
+                        {%else%}
+                        <p>no</p>
+                    {% endif %}
+
+                        {% if s.indoor %}
+                        <p class="ml-4 small mt-0 mb-0">indoor:</p>
+                        <p class="ml-5 small mt-0 mb-0">Max indoor capacity: {{ s.max_capacity_indoor }}</p>
+
+                        {%else%}
+                        <p>no</p>
+                    {% endif %}
+                    {% endif %}
+
+                {% endfor %}
+
+                {% for category in s.category.all %}
+                {% if category.name == "Reception" %}
+                <b>Reception:</b>
+                {% if s.outdoor %}
+                    <p class="ml-4 small mt-0 mb-0">Outdoor:</p>
+                    <p class="ml-5 small mt-0 mb-0">Max Outdoor capacity: {{ s.max_capacity_outdoor }}</p>
+                    {%else%}
+                    <p>no</p>
+                {% endif %}
+
+                    {% if s.indoor %}
+                    <p class="ml-4 small mt-0 mb-0">indoor:</p>
+                    <p class="ml-5 small mt-0 mb-0">Max indoor capacity: {{ s.max_capacity_indoor }}</p>
+
+                    {%else%}
+                    <p>no</p>
+                {% endif %}
+                {% endif %}
+
+            {% endfor %}
+        
+            
+                
+            {% endfor %}
+                <!-- <p class=" small mt-3 mb-0">{{venue.note}}</p> -->
               </div>
             </div>
+
+<hr>
+
+            <div class="col-md-11">
+              <div class="h-100 p-4 bg-body-tertiary">
+                <b>Notice:</b>
+                <p class=" small mt-3 mb-0">{{venue.note}}</p>
+              </div>
+            </div>
+          
+<hr>
+     
+      <div class="row ">
+        <b class="ml-5">Amenities and Restrictions</b>
+
+        <div class="col-md-5">
+
+          <div class="h-100 p-4 text-bg-dark">
+           <div class="venue-capacity py-2 ">
+            <!-- <b>Amenities:</b> -->
+            <div class="venue-capacity py-2 ">
+              <p class=" fw- ml-5">Amenities</p>
+              {% for v  in venueAmenities%}
+              <p class="ml-5 mt-2  small">{{v.get_amenitie_names|linebreaksbr}}</p>
+              {% endfor %}
+             
+            </div>
+         </div>
+         
+        
+        </div>  
+        </div>
+        
+        <div class="col-md-6">
+          <div class="h-100 p-4 bg-body-tertiary ml-4">
+            <div class="venue-capacity ">
+              <!-- <b>Restrictions:</b> -->
+
+              <div class="venue-capacity py-2 ">
+                <p class=" fw- ml-5">Restrictions</p>
+                {% for r  in venueRestrictions%}
+                <p class="ml-5 mt-2  small">{{r.get_restrictions_names|linebreaksbr}}</p>
+                {% endfor %}
+               
+              </div>
           </div>
         </div>
-        {% endfor %}
+    
+        <hr>
+
       </div>
-    </div>
-  </div>
-</main>
+          </div>                 
+        </div>
+
+    </section>
+  </main>
+
+  
+  
 </body>
 
   {% endblock %}

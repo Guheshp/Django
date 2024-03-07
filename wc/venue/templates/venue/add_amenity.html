@@ -5,29 +5,44 @@
 
     <div class="container ">
 
-        <div id="showFormButton" class="text-center">
+        <!-- <div id="showFormButton" class="text-center">
             <h1 class="underline">Add Additional Information</h1>
 
                 <button class="bTn" >Add Additional Info</button>
             </div>
-            </div>
+            </div> -->
         
         <div class="row  justify-content-center">
             <div class="col-md-5">
 
 
-                <div class="card " id="addAmenitiesInfo">
+                <div class="card " id="">
                    <h5 class="text-center">Amenities</h5> 
-                   <form id="amenityForm" method="POST">
+                   <!-- <form id="amenityForm" method="POST">
                     {% csrf_token %}
                     
                     <div id="amenitiesContainer" class="form-group">
-                        <!-- Initial amenity input field -->
+                        Initial amenity input field
                         <div class="input-group amenity-input-container">
-                            <input type="text" name="amenity_name" class="form-control amenity-input" placeholder="Enter amenity" required>
+                            <input type="text" name="amenity_name" class="form-control amenity-input" placeholder="Enter amenity">
                             <div class="input-group-append">
                                 <button type="button" class="btn btn-outline-secondary remove-amenity">Remove</button>
                             </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-8 m-0">
+                        <div class="form-group text-center">
+                            <label for="exampleFormControlSelect1">Amenities</label>
+                            <input type="text" name="amenity_name" class="form-control amenity-input" placeholder="Enter amenity" required>
+
+                            <select name="amenities" class="form-control" id="" multiple>
+
+                                <option value="">Choose</option>
+                                {% for eme in amenitie %}
+                                <option value="{{ eme.amenity_name }}">{{ eme.amenity_name }}</option>
+                                {% endfor %}
+                            </select>
                         </div>
                     </div>
                     
@@ -35,7 +50,26 @@
                     <button  type="button" class="bTn" id="addAmenity">Add Another Amenity</button>
                     <button type="submit" class="bTn">Save Amenities</button>
                 </div>
+                </form> -->
+                <form id="amenityForm" method="POST">
+                    {% csrf_token %}
+                    <div id="amenitiesContainer" class="form-group">
+                        <!-- Initial amenity input field -->
+                        <div class="input-group amenity-input-container">
+                            <input type="text" name="amenitie" class="form-control amenity-input" placeholder="Enter amenity">
+                            <div class="input-group-append">
+                                <button type="button" class="btn btn-outline-secondary remove-amenity">Remove</button>
+                            </div>
+                        </div>
+                    </div>
+                
+                    
+                    <div class="py-4 text-center"> 
+                        <button type="button" class="btn btn-primary" id="addAmenity">Add Another Amenity</button>
+                        <button type="submit" class="btn btn-success">Save Amenities</button>
+                    </div>
                 </form>
+                
                 </div>
             </div>
          
@@ -106,3 +140,23 @@
     </script>
 </body>
 {% endblock %}
+
+<!-- <div class="col-md-8 m-0">
+                        <div class="form-group text-center">
+                            <label for="existingAmenities">Existing Amenities</label>
+                            <select name="existing_amenities" class="form-control" id="existingAmenities" multiple>
+                                <option value="">Choose</option>
+                                {% for amenity in amenitie %}
+                                <option value="{{ amenity.amenity_name }}">{{ amenity.amenity_name }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div> -->
+                    
+                    <!-- <div class="col-md-8 m-0">
+                        <div class="form-group text-center">
+                            <label for="newAmenity">Add New Amenity</label>
+                            <input type="text" name="new_amenity" class="form-control" id="newAmenity" placeholder="Enter new amenity">
+                        </div>
+                    </div> -->
+                    
