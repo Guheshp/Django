@@ -1,12 +1,10 @@
 from django.shortcuts import render, redirect
-from .models import Venue, Event, Booking, VenueImage, amenities, Service,VenueAmenities, VenueRestrictions
+from .models import Venue, Event, Booking, VenueImage, Service, VenueRestrictions, Amenities
 from wedding.models import Couples
 from django.urls import reverse
 
 from .forms import (VenueInfoForm,
                     UpdateVenueInfoForm,
-                    AmenityForm,
-
                     AddEventForm,
                     UpdateEventForm,
                     CheckAvailabilityForm,
@@ -63,6 +61,20 @@ def addvenue(request):
     # context = {'form': form}
     return render(request, 'venue/addvenue.html', context)
 
+def VENUE(request):
+    venueinfo_exists = Venue.objects.filter(user=request.user).exists()
+    venue = Venue.objects.filter(user=request.user)
+
+    context = {'venue':venue,
+            'venueinfo_exists':venueinfo_exists, 
+            }
+    return render(request, 'venue/VENUE.html', context)
+
+def AMENITIES(request):
+    venueamenities_exist = Amenities.objects.filter(user = request.user).exists()
+    venue = Venue.objects.filter(user=request.user)
+    context = {'venueamenities_exist':venueamenities_exist, 'venue':venue}
+    return render(request, 'venue/AMENITIES.html', context)
 
 @login_required(login_url='login')
 def addvenue_info(request):
@@ -139,33 +151,97 @@ def viewvenue_info(request,pk):
 #         form = VenueInfoForm2()
 #     context = {'form': form}
 #     return render(request, 'venue/addvenue2.html', context)
-
+@login_required(login_url='login')
+def Amenity(request):
+    venue = Venue.objects.filter(user=request.user)
+    context = {'venue':venue}
+    return render(request, 'venue/Amenity.html', context)
 
 @login_required(login_url='login')
-def add_amenity(request):
-    venue = Venue.objects.filter(user=request.user)
+def add_amenity(request, pk):
+    venue = Venue.objects.get(user=request.user, id=pk) 
     if request.method == 'POST':
-        form = AmenityForm(request.POST)
-        if form.is_valid():
-            venue_id = form.cleaned_data.get('venue')  # Retrieve the selected venue ID from the form
-            amenity_names = form.cleaned_data.get('amenitie')  # Retrieve selected amenities from the form
-            venue = Venue.objects.get(id=venue_id)  # Get the venue instance based on the selected ID
-            for amenity_name in amenity_names:
-                amenity_instance, created = VenueAmenities.objects.get_or_create(venue=venue, amenitie=amenity_name)
-                if created:
-                    messages.success(request, f"Amenity '{amenity_name}' added successfully to venue '{venue.name}'!")
-                else:
-                    messages.info(request, f"Amenity '{amenity_name}' already exists for venue '{venue.name}'.")
-            return redirect('add_amenity')
+        amenity_names = request.POST.getlist('amenity_name')  # Get list of amenity names from form
+        
+        user = request.user  # Get the current logged-in user
+        for name in amenity_names:
+            if name.strip():  # Ensure amenity name is not empty
+                Amenities.objects.create(user=user,venue=venue, amenity_name=name.strip())  # Create amenity object
+        messages.success(request, "Amenities added")        
+        return redirect('addvenue')
+    
+    return render(request, 'venue/add_amenity.html', {'venue':[venue]})
 
-    else:
-        form = AmenityForm()
+@login_required(login_url='login')
+def viewAmenities(request,pk):
+    venue = get_object_or_404(Venue, id=pk)
+    Amenitie = get_object_or_404(Amenities, id=pk)
+    ameneties = Amenities.objects.filter(venue=venue)
+    context = {'ameneties':ameneties, 'Amenitie':Amenitie}
+    return render(request, 'venue/viewAmenities.html', context)
 
-    context = {
-        'form': form,
-        'venue': venue,
-    }
-    return render(request, 'venue/add_amenity.html',context)
+def Update_amenities(request,pk):
+    Amenitie = get_object_or_404(Amenities, id=pk)
+    venueamenities_exist = Amenities.objects.filter(id=pk, user = request.user).exists()
+    venue = Venue.objects.filter(user=request.user)
+    context = {'venueamenities_exist':venueamenities_exist, 'venue':venue}
+    return render(request, 'venue/Update_amenities.html', context)
+
+# def add_amenities_to_venue(request, pk):
+#     venue = get_object_or_404(Venue, id=pk, user=request.user)
+#     amenities = Amenities.objects.filter(user=request.user)
+    
+#     if request.method == "POST":
+#         form = VenueAmenitiesForm(user=request.user, data=request.POST)
+#         if form.is_valid():
+#             selected_amenities = form.cleaned_data.get('amenitie')
+#             if selected_amenities:
+#                 for amenity in selected_amenities:
+#                     venue_amenity = form.save(commit=False)
+#                     venue_amenity.venue = venue
+#                     venue_amenity.amenitie = amenity
+#                     venue_amenity.save()
+
+#                 messages.success(request, "Amenities added to venue successfully.")
+#                 return redirect('addvenue')
+#             else:
+#                 messages.error(request, "Please select at least one amenity.")
+#     else:
+#         form = VenueAmenitiesForm(user=request.user)
+
+
+#     context = {
+#         'form': form,
+#         'amenities': amenities,
+#     }
+#     return render(request, 'venue/add_amenities_to_venue.html', context)
+
+
+
+
+
+
+
+
+
+
+    # def add_amenity(request):
+    # if request.method == 'POST':
+    #     form = AmenityForm(request.POST)
+    #      amenity_names = request.POST.getlist('amenity_name')
+    #         for amenity_name in amenity_names:
+    #             # Create a new form instance for each amenity name
+    #             form_instance = AmenityForm({'amenity_name': amenity_name})
+    #             if form_instance.is_valid():
+    #                 amenity_instance = form_instance.save(commit=False)
+    #                 amenity_instance.user = request.user
+    #                 amenity_instance.save()
+    #             # else:
+
+    #         return redirect('addvenue2')
+    #    form = AmenityForm()
+    # context = {'form':form}
+    # return render(request, 'venue/add_amenity.html',context)
 
 # @login_required(login_url='login')
 # def updateVenue(request,pk):
@@ -196,10 +272,9 @@ def add_amenity(request):
 #     return render(request, 'venue/updatevenue.html', context)
 
 
-
 def viewallvenue(request):
     venues = Venue.objects.all().order_by('name')
-    amenitie = amenities.objects.all().order_by('amenity_name')
+    # amenitie = amenities.objects.all().order_by('amenity_name')
     no_venues_message = None
 
     sort_by = request.GET.get('sort_by')
@@ -252,7 +327,7 @@ def viewallvenue(request):
 
     context = {
         'venues': available_venues,
-        'amenitie': amenitie,
+        # 'amenitie': amenitie,
         'sort_by': sort_by,
         'search': search,
         'Amenities': Amenities,
@@ -282,7 +357,8 @@ def show_user_venue(request,pk):
     venue = Venue.objects.get(id=pk)
     service = Service.objects.filter(venue=venue)
     venue_images = VenueImage.objects.filter(venue_id=pk)
-    venueAmenities = VenueAmenities.objects.filter(venue=venue)
+    venueAmenities = Amenities.objects.filter(venue=venue)
+    # venueAmenities = VenueAmenities.objects.filter(venue=venue)
     venueRestrictions = VenueRestrictions.objects.filter(venue=venue)
 
     context = {'venue':venue,

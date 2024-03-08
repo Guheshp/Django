@@ -10,11 +10,16 @@
                    <a href="{% url 'addvenue_info'%}"><button class="bTn d-inline-flex align-items-center" type="submit">
                        ADD VENUE INFORMATIONS
                       </button></a>
-                      
-                    <a href="{% url 'add_amenity' %}"><button class="bTn d-inline-flex align-items-center" type="button">
-                        ADD AMENITIES
+                      <!-- {% for v in venue %}
+                    <a href="{% url 'add_amenity' v.id%}"><button class="bTn d-inline-flex align-items-center" type="button">
+                        ADD aminity 
+                        {%endfor%}
+                    </button></a> -->
 
+                    <a href="{% url 'Amenity'%}"><button class="bTn d-inline-flex align-items-center" type="button">
+                        ADD AMENITIES
                     </button></a>
+
                     <button class="bTn d-inline-flex align-items-center" type="button">
                         ADD RESTRICTIONS
 
@@ -35,38 +40,20 @@
         </div>
 
 
-        <div class="horizintal-bar ">
+        <div class="horizintal-bar mt-3">
             <div class="container">
                 <div class="d-flex gap-2 justify-content-center py-1">
-                    {% if venueinfo_exists%}
-                    {% for v in venue %}
-                   <a href="{% url 'viewvenue_info' v.id%}"><button class="bTn d-inline-flex align-items-center" type="submit">
-                      {{v.name}}
-                      </button></a>
-                      {%endfor%}
-                      {% else %}
-                      <p>not</p>
-                      {% endif %}
-                      
-                    <!-- <button class="bTn d-inline-flex align-items-center" type="button">
-                        ADD AMENITIES
 
-                    </button>
-                    <button class="bTn d-inline-flex align-items-center" type="button">
-                        ADD RESTRICTIONS
-
-                      </button>
-
-                      <button class="bTn d-inline-flex align-items-center" type="button">
-                        VENUE IMAGES
-                      </button>
-                      <button class="bTn d-inline-flex align-items-center" type="submit">
-                        CONTACT INFORMATIONS
-                      </button>
-                    <a href=""><button class="bTn d-inline-flex align-items-center" type="button">
-                        ADD SERVICES
-                      </button></a> -->
-                      
+                </button>
+                <a href="{% url 'VENUE' %}"><button class="bTn d-inline-flex align-items-center" type="button">
+                    UPDATE VENUE INFORMATIONS
+                </button></a>
+                    
+                </button>
+                <a href="{% url 'AMENITIES' %}"><button class="bTn d-inline-flex align-items-center" type="button">
+                    UPDATE VENUE AMENITIES
+                </button></a>
+                       
                   </div>
             </div>
         </div>

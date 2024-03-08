@@ -1,0 +1,48 @@
+{% extends 'acc/base.html'%}
+{% load static %}
+{% block content %}
+
+<div class="container">
+                               
+    <div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body text-center">
+                <h5 class="card-title m-b-0">Venue Amenities</h5>
+            </div>
+                <div class="table-responsive">
+                    <table class="table">
+                        <thead class="">
+                            <tr>
+                                <th scope="col">SL no</th>
+                                <th scope="col">Venue</th>
+                                <th scope="col">Amenities</th>
+                                <!-- <th scope="col">Engine version</th> -->
+                            </tr>
+                        </thead>
+                        <tbody class="customtable">
+                            {%for em in ameneties%}
+                            <tr>
+                                <td>{{forloop.counter}}</td>
+                                <td>{{em.venue}}</td>
+                                <td>{{em.amenity_name}}</td>
+                                <!-- <td>76</td> -->
+                            </tr>
+                            {%endfor%}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="row gutters">
+                <div class="col-xl-12">
+                    <div class=" py-2 text-center">
+                        <!-- <a class="bTn" href="#">Go back</a> -->
+                        <a class="bTn mb-3" href="{% url 'Update_amenities' Amenitie.id%}">Update</a>
+                    </div>
+                </div>
+            </div>
+    </div>
+</div>
+</div> 
+
+{% endblock %}

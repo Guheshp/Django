@@ -8,9 +8,18 @@ urlpatterns = [
 
     path('addvenue_info/',views.addvenue_info, name='addvenue_info'),
     path('viewvenue_info/<str:pk>/',views.viewvenue_info, name='viewvenue_info'),
+
+    path('VENUE/',views.VENUE, name='VENUE'),
+    path('AMENITIES/',views.AMENITIES, name='AMENITIES'),
+
     path('updatevenue_info/<str:pk>/',views.updatevenue_info, name='updatevenue_info'),
 
-    path('add_amenity/',views.add_amenity, name='add_amenity'),
+    path('Amenity/',views.Amenity, name='Amenity'),
+    path('add_amenity/<str:pk>/',views.add_amenity, name='add_amenity'),
+    path('viewAmenities/<str:pk>/',views.viewAmenities, name='viewAmenities'),
+    path('Update_amenities/<str:pk>',views.Update_amenities, name='Update_amenities'),
+
+    # path('add_amenities_to_venue/<str:pk>',views.add_amenities_to_venue, name='add_amenities_to_venue'),
     # path('addvenue2/',views.addvenue2, name='addvenue2'),
     # path('updateVenue/<str:pk>/',views.updateVenue, name='updateVenue'),
     path('viewallvenue/',views.viewallvenue, name='viewallvenue'),

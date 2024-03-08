@@ -6,11 +6,7 @@ CustomUser = get_user_model()
 
 # Create your models here.
 
-class amenities(models.Model):
-    amenity_name = models.CharField(max_length=100)
 
-    def __str__(self):
-        return self.amenity_name
 
 class Restrictions(models.Model):
     restriction_name = models.CharField(max_length=100)
@@ -35,23 +31,19 @@ class Venue(models.Model):
     def __str__(self):
         return self.name
     
-class VenueAmenities(models.Model):
-    venue = models.ForeignKey(Venue, on_delete=models.CASCADE,  related_name='amenity_name')
-    amenitie = models.ManyToManyField(amenities)
-
-    def get_amenitie_names(self):
-        # amenities = "\n".join([str(amenitie) for amenitie in self.amenitie.all()])
-        # return amenities
-        amenities = []
-        for index, amenitie in enumerate(self.amenitie.all(), start=1):
-            amenities.append(f"{index}. {amenitie}")
-        amenities = "\n".join(amenities)
-        return amenities 
-
-    get_amenitie_names.short_description = "amenitie"
+class Amenities(models.Model):
+    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, null=True)
+    venue = models.ForeignKey(Venue, on_delete=models.CASCADE, null=True)
+    amenity_name = models.CharField(max_length=100)
 
     def __str__(self):
-       return f"{self.venue} and its amenities:\n{self.get_amenitie_names()}"
+        return f"{self.user} amenities are {self.amenity_name}"
+    
+# class VenueAmenities(models.Model):
+#     venue = models.ForeignKey(Venue, on_delete=models.CASCADE,  related_name='amenity_name')
+#     amenitie = models.ForeignKey(Amenities,  on_delete=models.CASCADE, null=True)
+#     def __str__(self):
+#        return self.amenitie
     
 
 class VenueRestrictions(models.Model):

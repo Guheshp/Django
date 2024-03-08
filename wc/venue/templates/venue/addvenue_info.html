@@ -2,7 +2,18 @@
 {% load static %}
 {% block content %}
 <body>
-    
+    <section id="header" class="jumbotron text-center">
+        <h1 class="display-3">Venue Informations</h1>
+        
+        {%for v in venue%}
+        <p class="lead m-0">Adding amenities to venue </p>
+        <a class="small" href="#">{{v.name|linebreaks}}</a>
+        {% endfor%}
+        
+        <p class="lead"> <b> "Complete your venue profile!"</b> The more information you provide, the easier it will be for potential renters to find and book your space.</p>
+      
+        <!-- ---------------------------------------------------------- -->
+    </section>
     <div class="container ">
         
         <div class="row justify-content-center mt-5">

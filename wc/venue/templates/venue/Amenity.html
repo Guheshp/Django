@@ -1,0 +1,29 @@
+{% extends 'acc/base.html'%}
+{% load static %}
+{% block content %}
+<section id="header" class="jumbotron text-center">
+    <h1 class="display-3">Amenities</h1>
+    <p class="lead m-0">Adding amenities to venue </p>
+    
+    {%for v in venue%}
+    <a class="small" href="#">{{v.name|linebreaks}}</a>
+    {% endfor%}
+    
+    <p class="lead"> Increase your bookings! Amenities are a major deciding factor for renters. The more amenities you list, the more attractive your venue becomes."</p>
+  
+    <!-- ---------------------------------------------------------- -->
+</section>
+<div class="container py-5 border bg-light">
+
+    <div class="text-center text-dark "><b class="display-5">ADD AMENITIES TO</b>
+
+        <div class="amenity d-flex justify-content-center align-items-center mt-5">
+        {% for v in venue %}
+        <a href="{% url 'add_amenity' v.id%}"><button class="bTn mb-3" type="button" style="margin-left: 10px;">
+            ADD AMENITIES To {{v.name}}
+            {%endfor%}
+        </button></a>
+    </div>
+</div>
+</div>
+{%endblock%}

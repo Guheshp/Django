@@ -1,0 +1,19 @@
+{% extends 'acc/base.html'%}
+{% load static %}
+{% block content %}
+<body>
+
+  {% if venueamenities_exist %}
+  {% for v in venue %}
+    <a href="{% url 'viewAmenities' v.id%}"><button class="bTn d-inline-flex align-items-center" type="submit">
+  {{v.name}}
+  </button></a>
+  {%endfor%}
+  {% else %}
+  <p>not</p>
+  {%endif%}
+
+  
+
+</body>
+{%endblock%}

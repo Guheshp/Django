@@ -2,6 +2,19 @@
 {% load static %}
 {% block content %}
 <body>
+    <section id="header" class="jumbotron text-center">
+        <h1 class="display-3">Amenities</h1>
+        
+        {%for v in venue%}
+        <p class="lead m-0">Adding amenities to venue </p>
+        <a class="small" href="#">{{v.name|linebreaks}}</a>
+        {% endfor%}
+        
+        <p class="lead"> Increase your bookings! Amenities are a major deciding factor for renters. The more amenities you list, the more attractive your venue becomes."</p>
+      
+        <!-- ---------------------------------------------------------- -->
+    </section>
+
 
     <div class="container ">
 
@@ -13,150 +26,66 @@
             </div> -->
         
         <div class="row  justify-content-center">
-            <div class="col-md-5">
-
-
-                <div class="card " id="">
-                   <h5 class="text-center">Amenities</h5> 
-                   <!-- <form id="amenityForm" method="POST">
+            <div class="col-md-12 py-5 border">
+                <form id="amenityForm" method="post">
                     {% csrf_token %}
-                    
-                    <div id="amenitiesContainer" class="form-group">
-                        Initial amenity input field
-                        <div class="input-group amenity-input-container">
-                            <input type="text" name="amenity_name" class="form-control amenity-input" placeholder="Enter amenity">
-                            <div class="input-group-append">
-                                <button type="button" class="btn btn-outline-secondary remove-amenity">Remove</button>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col-md-8 m-0">
-                        <div class="form-group text-center">
-                            <label for="exampleFormControlSelect1">Amenities</label>
-                            <input type="text" name="amenity_name" class="form-control amenity-input" placeholder="Enter amenity" required>
-
-                            <select name="amenities" class="form-control" id="" multiple>
-
-                                <option value="">Choose</option>
-                                {% for eme in amenitie %}
-                                <option value="{{ eme.amenity_name }}">{{ eme.amenity_name }}</option>
-                                {% endfor %}
-                            </select>
-                        </div>
-                    </div>
-                    
-                    <div class="py-4 text-center"> 
-                    <button  type="button" class="bTn" id="addAmenity">Add Another Amenity</button>
-                    <button type="submit" class="bTn">Save Amenities</button>
-                </div>
-                </form> -->
-                <form id="amenityForm" method="POST">
-                    {% csrf_token %}
-                    <div id="amenitiesContainer" class="form-group">
+                    <div id="amenityFields">
                         <!-- Initial amenity input field -->
+                        <h4>Add Amenities</h4>
                         <div class="input-group amenity-input-container">
-                            <input type="text" name="amenitie" class="form-control amenity-input" placeholder="Enter amenity">
+                            <input type="text" name="amenity_name" class="form-control amenity-input border-dark" placeholder="Enter Amenity">
                             <div class="input-group-append">
-                                <button type="button" class="btn btn-outline-secondary remove-amenity">Remove</button>
+                                <button type="button" class="btn btn-outline-secondary remove-amenity ">Remove</button>
                             </div>
                         </div>
+                        <div id="errorMessage" style="color: red; display: none;"></div>
                     </div>
-                
-                    
-                    <div class="py-4 text-center"> 
-                        <button type="button" class="btn btn-primary" id="addAmenity">Add Another Amenity</button>
-                        <button type="submit" class="btn btn-success">Save Amenities</button>
-                    </div>
+                    <button class="bTn mt-2 " type="button" id="addAmenity">Add Another Amenity</button>
+                    <button class="bTn mt-2 ml-2" type="submit" id="" >Save Amenities</button>
                 </form>
-                
                 </div>
             </div>
-         
-
         </div>
-    </div>
+       
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            // Add event listener to the "Add Another Amenity" button
             document.getElementById('addAmenity').addEventListener('click', function() {
-                // Clone the last amenity input field and append it to the container
-                const lastAmenityContainer = document.querySelector('.amenity-input-container:last-of-type');
-                const newAmenityContainer = lastAmenityContainer.cloneNode(true);
-                document.getElementById('amenitiesContainer').appendChild(newAmenityContainer);
-                
-                // Clear the value of the new amenity input field
-                newAmenityContainer.querySelector('.amenity-input').value = '';
-                
-                // Show the "Remove" button for the new amenity
-                newAmenityContainer.querySelector('.remove-amenity').style.display = 'inline-block';
+                var div = document.createElement('div');
+                div.classList.add('input-group', 'amenity-input-container');
+                div.innerHTML = `
+                    <input type="text" name="amenity_name" class="form-control amenity-input border-dark mt-2" placeholder="Enter Amenity">
+                    <div class="input-group-append">
+                        <button type="button" class="btn btn-outline-secondary remove-amenity mt-2">Remove</button>
+                    </div> `;
+                document.getElementById('amenityFields').appendChild(div);
             });
-            
-            // Add event listener to dynamically added "Remove" buttons
-            document.addEventListener('click', function(event) {
+        
+            document.getElementById('amenityFields').addEventListener('click', function(event) {
                 if (event.target.classList.contains('remove-amenity')) {
                     event.target.closest('.amenity-input-container').remove();
                 }
             });
+        
+            document.getElementById('amenityForm').addEventListener('submit', function(event) {
+                // Show the save button before form submission
+                var amenityInputs = document.querySelectorAll('.amenity-input');
+                var amenityNames = Array.from(amenityInputs).map(input => input.value.trim());
+                if (amenityNames.some(name => name !== '')) {
+                    // Show the save button before form submission
+                    document.getElementById('saveAmenities').style.display = 'block';
+                } else {
+                    // Prevent form submission and show an error message
+                    event.preventDefault();
+                    document.getElementById('errorMessage').textContent = 'Please enter at least one amenity.';
+                    document.getElementById('errorMessage').style.display = 'block';
+                }
+            });
         });
         </script>
+        
 
-    <script>
-        // Get references to the form and the button
-        const addAmenitiesInfo = document.getElementById('addAmenitiesInfo');
-        const showFormButton = document.getElementById('showFormButton');
-
-    
-        showFormButton.addEventListener('click', function() {
-            // Display the form container
-            addAmenitiesInfo.style.display = 'block';
-            // Hide the button
-            showFormButton.style.display = 'none';
-        });
-    
-        // Function to show the button and hide the form container
-        function hideFormAndShowButton() {
-            // Hide the form container
-            addAmenitiesInfo.style.display = 'none';
-            // Show the button
-            showFormButton.style.display = 'block';
-        }
-        document.getElementById('additionalInfoForm').addEventListener('submit', function(event) {
-            // Prevent the form from submitting (just for this example)
-            event.preventDefault();
-            // Call the function to show the button and hide the form
-            hideFormAndShowButton();
-    
-            // Create a new button element
-            const newButton = document.createElement('button');
-            newButton.textContent = 'Another Button';
-            newButton.id = 'anotherButton';
-            
-            // Append the new button to the document body
-            document.body.appendChild(newButton);
-        });
-
-    </script>
+   
 </body>
 {% endblock %}
 
-<!-- <div class="col-md-8 m-0">
-                        <div class="form-group text-center">
-                            <label for="existingAmenities">Existing Amenities</label>
-                            <select name="existing_amenities" class="form-control" id="existingAmenities" multiple>
-                                <option value="">Choose</option>
-                                {% for amenity in amenitie %}
-                                <option value="{{ amenity.amenity_name }}">{{ amenity.amenity_name }}</option>
-                                {% endfor %}
-                            </select>
-                        </div>
-                    </div> -->
-                    
-                    <!-- <div class="col-md-8 m-0">
-                        <div class="form-group text-center">
-                            <label for="newAmenity">Add New Amenity</label>
-                            <input type="text" name="new_amenity" class="form-control" id="newAmenity" placeholder="Enter new amenity">
-                        </div>
-                    </div> -->
-                    

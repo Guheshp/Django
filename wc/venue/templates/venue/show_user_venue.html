@@ -172,7 +172,7 @@
             <div class="venue-capacity py-2 ">
               <p class=" fw- ml-5">Amenities</p>
               {% for v  in venueAmenities%}
-              <p class="ml-5 mt-2  small">{{v.get_amenitie_names|linebreaksbr}}</p>
+              <p class="ml-5 mt-  small">- {{v.amenity_name|linebreaksbr}}</p>
               {% endfor %}
              
             </div>
