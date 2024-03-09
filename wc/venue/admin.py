@@ -9,7 +9,6 @@ from .models import( Venue,
                     Amenities,
                     Restrictions,
                     CancelVenue,
-                    VenueRestrictions,
                     ServiceCategory,
                     Service,
                     ContactInformation)
@@ -36,11 +35,9 @@ class BookingAdmin(admin.ModelAdmin):
 class ServiceAdmin(admin.ModelAdmin):
     list_display = ['venue','get_category_names','max_capacity','outdoor', 'indoor', 'max_capacity_outdoor', 'max_capacity_indoor']
 
-@admin.register(VenueRestrictions)
-class VenueRestrictionsAdmin(admin.ModelAdmin):
-    list_display = ['venue','get_restrictions_names']
-
-
+@admin.register(Restrictions)
+class RestrictionsAdmin(admin.ModelAdmin):
+    list_display = ['user','venue','restriction_name']
 
 
 @admin.register(ContactInformation)
@@ -60,5 +57,5 @@ class AmenitiesAdmin(admin.ModelAdmin):
 admin.site.register(ServiceCategory)
 # admin.site.register(VenueAmenities)
 # admin.site.register(VenueRestrictions)
-admin.site.register(Restrictions)
+
 admin.site.register(CancelVenue)

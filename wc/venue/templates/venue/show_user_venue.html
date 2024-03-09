@@ -190,7 +190,7 @@
               <div class="venue-capacity py-2 ">
                 <p class=" fw- ml-5">Restrictions</p>
                 {% for r  in venueRestrictions%}
-                <p class="ml-5 mt-2  small">{{r.get_restrictions_names|linebreaksbr}}</p>
+                <p class="ml-5 mt-2  small">- {{r.restriction_name|linebreaksbr}}</p>
                 {% endfor %}
                
               </div>

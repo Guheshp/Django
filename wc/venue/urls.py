@@ -8,16 +8,17 @@ urlpatterns = [
 
     path('addvenue_info/',views.addvenue_info, name='addvenue_info'),
     path('viewvenue_info/<str:pk>/',views.viewvenue_info, name='viewvenue_info'),
-
-    path('VENUE/',views.VENUE, name='VENUE'),
-    path('AMENITIES/',views.AMENITIES, name='AMENITIES'),
-
     path('updatevenue_info/<str:pk>/',views.updatevenue_info, name='updatevenue_info'),
 
-    path('Amenity/',views.Amenity, name='Amenity'),
     path('add_amenity/<str:pk>/',views.add_amenity, name='add_amenity'),
     path('viewAmenities/<str:pk>/',views.viewAmenities, name='viewAmenities'),
-    path('Update_amenities/<str:pk>',views.Update_amenities, name='Update_amenities'),
+    path('Update_amenities/<int:pk>/',views.Update_amenities, name='Update_amenities'),
+    path('Delete_amenities/<str:pk>/',views.Delete_amenities, name='Delete_amenities'),
+
+    path('add_restrictions/<str:pk>/',views.add_restrictions, name='add_restrictions'),
+    path('viewrestrictions/<str:pk>/',views.viewrestrictions, name='viewrestrictions'),
+    path('Update_restrictions/<int:pk>/',views.Update_restrictions, name='Update_restrictions'),
+    path('Delete_restrictions/<str:pk>/',views.Delete_restrictions, name='Delete_restrictions'),
 
     # path('add_amenities_to_venue/<str:pk>',views.add_amenities_to_venue, name='add_amenities_to_venue'),
     # path('addvenue2/',views.addvenue2, name='addvenue2'),

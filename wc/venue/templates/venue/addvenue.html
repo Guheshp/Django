@@ -7,23 +7,31 @@
         <div class="horizintal-bar ">
             <div class="container">
                 <div class="d-flex gap-2 justify-content-center py-1">
+                    {% if venueinfo_exists%}
+                    <p>yes venue_info exist</p>
+                    {%else%}
                    <a href="{% url 'addvenue_info'%}"><button class="bTn d-inline-flex align-items-center" type="submit">
                        ADD VENUE INFORMATIONS
                       </button></a>
+                      {%endif%}
+
                       <!-- {% for v in venue %}
                     <a href="{% url 'add_amenity' v.id%}"><button class="bTn d-inline-flex align-items-center" type="button">
                         ADD aminity 
                         {%endfor%}
                     </button></a> -->
 
-                    <a href="{% url 'Amenity'%}"><button class="bTn d-inline-flex align-items-center" type="button">
+                    {% for v in venue %}
+                    <a href="{% url 'add_amenity' v.id%}"><button class="bTn d-inline-flex align-items-center" type="button">
                         ADD AMENITIES
+                        {%endfor%}
                     </button></a>
 
-                    <button class="bTn d-inline-flex align-items-center" type="button">
-                        ADD RESTRICTIONS
-
-                      </button>
+                    {% for v in venue %}
+                    <a href="{% url 'add_restrictions' v.id%}"><button class="bTn d-inline-flex align-items-center" type="button">
+                        ADD RESTRICTIONS 
+                    {%endfor%}
+                    </button></a>
 
                       <button class="bTn d-inline-flex align-items-center" type="button">
                         VENUE IMAGES
@@ -45,14 +53,32 @@
                 <div class="d-flex gap-2 justify-content-center py-1">
 
                 </button>
-                <a href="{% url 'VENUE' %}"><button class="bTn d-inline-flex align-items-center" type="button">
+                {% if venueinfo_exists %}
+                {% for v in venue %}
+                <a href="{% url 'viewvenue_info' v.id%}"><button class="bTn d-inline-flex align-items-center" type="button">
                     UPDATE VENUE INFORMATIONS
                 </button></a>
-                    
+                {%endfor%}
+                    {%endif%}
+
+
                 </button>
-                <a href="{% url 'AMENITIES' %}"><button class="bTn d-inline-flex align-items-center" type="button">
-                    UPDATE VENUE AMENITIES
+
+                {% for v in venue %}
+                <a href="{% url 'viewAmenities' v.id%}"><button class="bTn d-inline-flex align-items-center" type="button">
+                   Update Amenities
                 </button></a>
+                {%endfor%}
+
+
+                {% for v in venue %}
+                <a href="{% url 'viewrestrictions' v.id%}"><button class="bTn d-inline-flex align-items-center" type="button">
+                   Update RESTRICTIONS
+                </button></a>
+                {%endfor%}
+
+
+
                        
                   </div>
             </div>

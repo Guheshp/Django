@@ -3,14 +3,14 @@
 {% block content %}
 <body>
     <section id="header" class="jumbotron text-center">
-        <h1 class="display-3">Amenities</h1>
+        <h1 class="display-3">Restriction</h1>
         
         {%for v in venue%}
-        <p class="lead m-0">Adding amenities to venue </p>
+        <p class="lead m-0">Adding Restriction to venue </p>
         <a class="small" href="#">{{v.name|linebreaks}}</a>
         {% endfor%}
         
-        <p class="lead"> Increase your bookings! Amenities are a major deciding factor for renters. The more amenities you list, the more attractive your venue becomes."</p>
+        <p class="lead">Restrictions can help ensure the safety of guests, staff, and the venue itself.  By outlining restrictions on access and behavior, you can create a more secure environment for everyone involved in the event.</p>
       
         <!-- ---------------------------------------------------------- -->
     </section>
@@ -31,17 +31,17 @@
                     {% csrf_token %}
                     <div id="amenityFields">
                         <!-- Initial amenity input field -->
-                        <h4>Add Amenities</h4>
+                        <h4>Add Restriction</h4>
                         <div class="input-group amenity-input-container">
-                            <input type="text" name="amenity_name" class="form-control amenity-input border-dark" placeholder="Enter Amenity" required>
+                            <input type="text" name="restriction_name" class="form-control amenity-input border-dark" placeholder="Enter Restriction" required>
                             <div class="input-group-append">
                                 <button type="button" class="btn btn-outline-secondary remove-amenity ">Remove</button>
                             </div>
                         </div>
                         <div id="errorMessage" style="color: red; display: none;"></div>
                     </div>
-                    <button class="bTn mt-2 " type="button" id="addAmenity">Add Another Amenity</button>
-                    <button class="bTn mt-2 ml-2" type="submit" id="" >Save Amenities</button>
+                    <button class="bTn mt-2 " type="button" id="addAmenity">Add Another Restriction</button>
+                    <button class="bTn mt-2 ml-2" type="submit" id="" >Save Restriction</button>
                 </form>
                 </div>
             </div>
@@ -54,7 +54,7 @@
             var div = document.createElement('div');
             div.classList.add('input-group', 'amenity-input-container');
             div.innerHTML = `
-                <input type="text" name="amenity_name" class="form-control amenity-input border-dark mt-2" placeholder="Enter Amenity">
+                <input type="text" name="restriction_name" class="form-control amenity-input border-dark mt-2" placeholder="Enter Restrictions">
                 <div class="input-group-append">
                     <button type="button" class="btn btn-outline-secondary remove-amenity mt-2">Remove</button>
                 </div> `;
@@ -77,7 +77,7 @@
             } else {
                 // Prevent form submission and show an error message
                 event.preventDefault();
-                document.getElementById('errorMessage').textContent = 'Please enter at least one amenity.';
+                document.getElementById('errorMessage').textContent = 'Please enter at least one Restrictions.';
                 document.getElementById('errorMessage').style.display = 'block';
             }
         });

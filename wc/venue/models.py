@@ -6,14 +6,6 @@ CustomUser = get_user_model()
 
 # Create your models here.
 
-
-
-class Restrictions(models.Model):
-    restriction_name = models.CharField(max_length=100)
-
-    def __str__(self):
-        return self.restriction_name
-
 class Venue(models.Model):
     user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, null=True)
     name = models.CharField(max_length=100, null=True)
@@ -39,32 +31,14 @@ class Amenities(models.Model):
     def __str__(self):
         return f"{self.user} amenities are {self.amenity_name}"
     
-# class VenueAmenities(models.Model):
-#     venue = models.ForeignKey(Venue, on_delete=models.CASCADE,  related_name='amenity_name')
-#     amenitie = models.ForeignKey(Amenities,  on_delete=models.CASCADE, null=True)
-#     def __str__(self):
-#        return self.amenitie
+
+class Restrictions(models.Model):
+    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, null=True)
+    venue = models.ForeignKey(Venue, on_delete=models.CASCADE, null=True )
+    restriction_name = models.CharField(max_length=100)
     
-
-class VenueRestrictions(models.Model):
-    venue = models.ForeignKey(Venue, on_delete=models.CASCADE,  related_name='restrictions_name')
-    restrictions = models.ManyToManyField(Restrictions)
-
-    def get_restrictions_names(self):
-        # return ", ".join([str(restrictions) for restrictions in self.restrictions.all()])
-    
-        restrictions_list = []
-        for index, restriction in enumerate(self.restrictions.all(), start=1):
-            restrictions_list.append(f"{index}. {restriction}")
-        restrictions_all = "\n".join(restrictions_list)
-        return restrictions_all
-
-
-    get_restrictions_names.short_description = "restrictions"
-
     def __str__(self):
-        return f"{self.venue} and its amenities {self.restrictions}"
-
+        return f"{self.user} restriction are {self.restriction_name}"
 
 class VenueImage(models.Model):
     venue = models.ForeignKey(Venue, on_delete=models.CASCADE,  related_name='image')
