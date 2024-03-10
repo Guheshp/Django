@@ -1,0 +1,28 @@
+{% extends 'acc/base.html' %}
+	
+{% block content %}
+
+ <div class="container card border border-5">
+
+    <h1 class="text-center py-3"></h1><hr>
+
+    <form action="#" method="POST" autocomplete="off">
+            {% csrf_token %}
+
+    <div class="alert alert-danger" role="alert">
+        <p>Are you sure you want to delete this image?</p>
+    </div>
+    <div class="row gutters">
+        <div class="col-xl-12">
+            <div class=" py-4 text-right">
+                <a  class="bTn p-2" href="{{request.META.HTTP_REFERER}}">Cancle</a>
+                <button type="submit" class="btn btn-outline-danger p-2">Delete Image</button>
+            </div>
+        </div>
+    </div>
+    </form>
+
+ </div>
+	
+		
+{% endblock %}

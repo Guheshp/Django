@@ -15,6 +15,10 @@ urlpatterns = [
     path('Update_amenities/<int:pk>/',views.Update_amenities, name='Update_amenities'),
     path('Delete_amenities/<str:pk>/',views.Delete_amenities, name='Delete_amenities'),
 
+    path('add_images/<str:pk>/',views.add_images, name='add_images'),
+    path('view_image/<str:pk>/',views.view_image, name='view_image'),
+    path('Delete_image/<str:pk>/',views.Delete_image, name='Delete_image'),
+
     path('add_restrictions/<str:pk>/',views.add_restrictions, name='add_restrictions'),
     path('viewrestrictions/<str:pk>/',views.viewrestrictions, name='viewrestrictions'),
     path('Update_restrictions/<int:pk>/',views.Update_restrictions, name='Update_restrictions'),

@@ -7,6 +7,8 @@ from .forms import (VenueInfoForm,
                     UpdateVenueInfoForm,
                     UpdateAmenitiesForm,
                     UpdateRestrictionsForm,
+                    UploadImageForm,
+                    UpdateImageForm,
                     AddEventForm,
                     UpdateEventForm,
                     CheckAvailabilityForm,
@@ -220,6 +222,61 @@ def Delete_restrictions(request, pk):
         return redirect("addvenue")
     context = {'restrictions':restrictions}
     return render(request, 'venue/Delete_restrictions.html', context)
+
+
+@login_required(login_url='login')
+def add_images(request, pk):
+    venue = Venue.objects.get(user=request.user, id=pk) 
+    if request.method == 'POST':
+        form = UploadImageForm(request.POST, request.FILES)
+        if form.is_valid():
+            images = request.FILES.getlist('image')
+            for image in images:
+                VenueImage.objects.create(venue=venue, image=image)
+            messages.success(request, f"information saved successfully!")
+            return redirect('addvenue')
+    else:
+        form =   UploadImageForm()    
+    context = {'form':form}  
+    return render (request, 'venue/add_images.html', context)
+
+
+@login_required(login_url='login')
+def view_image(request, pk):
+    venue = Venue.objects.get(user=request.user, id=pk) 
+
+    venue_images = venue.image.all()  # Retrieve all images associated with the venue
+
+    if request.method == "POST":
+        form = UpdateImageForm(request.POST, request.FILES, instance=venue)
+        if form.is_valid():
+            update_venue = form.save(commit=False)
+            update_venue.user = request.user
+            if 'image' in request.FILES:
+                # Update existing images or add new ones if necessary
+                for image in request.FILES.getlist('image'):
+                    venue.image.create(image=image)
+            update_venue.save()
+            messages.success(request, 'updated images successfully!')
+            return redirect('addvenue')
+        else:
+            messages.error(request, 'something went wronge')
+    else:
+        form = UpdateImageForm(instance=venue)
+
+    context = {'form':form,'venue':venue, 'venue_images':venue_images}
+    return render(request, 'venue/view_image.html', context)
+
+@login_required(login_url='login')
+def Delete_image(request, pk):
+    image = get_object_or_404(VenueImage, id=pk)
+    if request.method == 'POST':
+        image.delete()
+        messages.success(request, 'image deleted successfully!')
+        return redirect("addvenue")
+    context = {'image':image}
+    return render(request, 'venue/Delete_image.html', context)
+
 # def add_amenities_to_venue(request, pk):
 #     venue = get_object_or_404(Venue, id=pk, user=request.user)
 #     amenities = Amenities.objects.filter(user=request.user)

@@ -1,0 +1,36 @@
+<h1>images</h1>
+{% extends 'acc/base.html'%}
+{% load static %}
+{% block content %}
+<body>
+
+    <div class="container ">
+        
+        <div class="row  justify-content-center">
+            <div class="col-md-5">
+                <div class="card">
+                    <form action="" method="POST" class="vendor-form" enctype="multipart/form-data">
+                        <h1>Update Images</h1><hr>
+
+                        {% csrf_token %}
+                        <!-- {{form}} -->
+                        <div class="form-group m-3">
+                            <label for="formFileSm" class="form-label">Upload Images</label>
+                            <input class="form-control" type="file" multiple name="image" id="formFileDisabled">
+                            {% for venue_image in venue_images %}
+                                <div>
+                                    <a href="{{ venue_image.image.url }}" target="_blank">
+                                        <img src="{{ venue_image.image }}" alt="{{ venue_image.image.url }}"> <a href="{% url 'Delete_image' venue_image.id %}"><p class="text-danger">delete</p></a>
+                                    </a>
+                                </div>
+                            {% endfor %}
+                        </div>
+
+                        <button class="bTn">Submit</button>
+                        <a  class="bTn p-2 mt-2" href="{{request.META.HTTP_REFERER}}">Cancle</a>
+        </div>
+    </div>
+
+
+</body>
+{% endblock %}

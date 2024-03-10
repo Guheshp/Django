@@ -13,30 +13,21 @@
     </section>
   </main> -->
   <main>
+    
 
-    <section class="py-1  container">
+    <section class="py-1  container ">
+
       <!-- <h1>Venue Name {{venue.name}}</h1> -->
       <div class="row">
-        <div class="col-lg-11 col-md-6 mx-md-auto mx-lg-">
+        <div class="col-lg-11 col-md-6 mx-md-auto mx-lg- vendor-form">
+          
           <!-- slider Starting -->
-          <!-- <div class="slider" style="height: 600px;">
-            <img class="slide" src="{% static 'images/home1back.jpeg.png'%}"  alt="home1back" >
-            <img class="slide" src="{% static 'images/home2back.jpeg'%}"   alt="home2back">
-            <img class="slide" src="{% static 'images/home3back.jpeg'%}"  alt="home3back">
+          
+          
+          <div class="container ">
             
-
-            <div class="slider-button">
-
-                <button onclick="goPrev()"><i class="fa-solid fa-arrow-left"></i></button>
-                <button onclick="goNext()"><i class="fa-solid fa-arrow-right"></i></button>
-            </div>
-        </div>
-          slider end -->
-
-          <div class="container vendor-form">
-            <h2 class="py-2 fw-bold"> Venue Details</h2>
-
             <div class="row ">
+              <h2 class="py-2 fw-bold"> Venue Details</h2>
               <div class="col-md-5">
                 <div class="h-100 p-4 text-bg-dark border-end">
 
@@ -91,9 +82,9 @@
 
 <hr>
             <b></b>
-            <h3 class="py-2 fw-bold">Additional Details</h3>
+            <h3 class="py-2 fw-bold">Venue Images</h3>
 
-            <div class="col-md-11">
+            <!-- <div class="col-md-11">
               <b>Services Option:</b>
 
               <div class="h-100 p-4 bg-body-tertiary">
@@ -145,12 +136,28 @@
         
             
                 
-            {% endfor %}
+            {% endfor %} -->
                 <!-- <p class=" small mt-3 mb-0">{{venue.note}}</p> -->
-              </div>
-            </div>
+              <!-- </div>
+            </div> -->  <div class="slider " style="width: 100%;">
+          {% for im in venue_images%}
+          <img class="slide" src="{{im.image.url}}"  alt="home1back" >
+          {%endfor%}
+
+          <!-- <img class="slide" src="{% static 'images/home2back.jpeg'%}"   alt="home2back">
+          <img class="slide" src="{% static 'images/home3back.jpeg'%}"  alt="home3back"> -->
+          
+
+          <div class="slider-button">
+
+              <button onclick="goPrev()"><i class="fa-solid fa-arrow-left"></i></button>
+              <button onclick="goNext()"><i class="fa-solid fa-arrow-right"></i></button>
+          </div>
+      </div>
+        <!-- slider end -->
 
 <hr>
+            
 
             <div class="col-md-11">
               <div class="h-100 p-4 bg-body-tertiary">
