@@ -66,6 +66,15 @@
                 <p class="ml-5 small mt-0 mb-0">{{venue.state}}, {{venue.pincode}}</p>
 
               </div>
+              <div class="venue-capacity py-2 ">
+                <b><i class="fa-solid fa-address-book"></i> Contact Us:</b>
+                {% for c in contactinfo%}
+
+                <p class="ml-5 small mt-0 mb-0">{{c.email}}</p>
+                <p class="ml-5 small mt-0 mb-0">{{c.phone_number}}</p>
+
+                {%endfor%}
+              </div>
               </div>
                 
               </div>

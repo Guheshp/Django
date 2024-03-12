@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from .models import Venue, Event, Booking, VenueImage, Service,Restrictions, Amenities
+from .models import Venue, Event, Booking, VenueImage, Service,Restrictions, Amenities, ContactInformation
 from wedding.models import Couples
 from django.urls import reverse
 
@@ -9,6 +9,8 @@ from .forms import (VenueInfoForm,
                     UpdateRestrictionsForm,
                     UploadImageForm,
                     UpdateImageForm,
+                    ContactInformationForm,
+                    UpdateContactInformationForm,
                     AddEventForm,
                     UpdateEventForm,
                     CheckAvailabilityForm,
@@ -44,11 +46,13 @@ def addvenue(request):
     venue = Venue.objects.filter(user=request.user)
     # venueamenities_exist = Amenities.objects.filter(venue__in=venue).exists()
     # venuerestrictions_exist= Restrictions.objects.filter(venue__in=venue)
+    contact_exist= ContactInformation.objects.filter(venue__in=venue)
     context = {
             'venueinfo_exists':venueinfo_exists,
             "venue":venue,
             # 'venueamenities_exist':venueamenities_exist,
             # 'venuerestrictions_exist':venuerestrictions_exist,
+            'contact_exist':contact_exist,
         }
     return render(request, 'venue/addvenue.html', context)
 
@@ -277,89 +281,36 @@ def Delete_image(request, pk):
     context = {'image':image}
     return render(request, 'venue/Delete_image.html', context)
 
-# def add_amenities_to_venue(request, pk):
-#     venue = get_object_or_404(Venue, id=pk, user=request.user)
-#     amenities = Amenities.objects.filter(user=request.user)
-    
-#     if request.method == "POST":
-#         form = VenueAmenitiesForm(user=request.user, data=request.POST)
-#         if form.is_valid():
-#             selected_amenities = form.cleaned_data.get('amenitie')
-#             if selected_amenities:
-#                 for amenity in selected_amenities:
-#                     venue_amenity = form.save(commit=False)
-#                     venue_amenity.venue = venue
-#                     venue_amenity.amenitie = amenity
-#                     venue_amenity.save()
+def contact_info(request, pk):
+    venue = get_object_or_404(Venue, id=pk)
+    if request.method == 'POST':
+        form = ContactInformationForm(request.POST)
+        if form.is_valid():
+            contact=form.save(commit=False)
+            contact.user = request.user
+            contact.venue = venue
+            contact.save()
+            contact_email = form.cleaned_data.get('email')
+            messages.success(request, f"{contact_email} information saved successfully!")
+            return redirect('addvenue')
+    else:
+        form=ContactInformationForm()
+    context= {'form':form}
+    return render(request, 'venue/contact_info.html', context)
 
-#                 messages.success(request, "Amenities added to venue successfully.")
-#                 return redirect('addvenue')
-#             else:
-#                 messages.error(request, "Please select at least one amenity.")
-#     else:
-#         form = VenueAmenitiesForm(user=request.user)
-
-
-#     context = {
-#         'form': form,
-#         'amenities': amenities,
-#     }
-#     return render(request, 'venue/add_amenities_to_venue.html', context)
-
-
-
-
-
-
-
-
-
-
-    # def add_amenity(request):
-    # if request.method == 'POST':
-    #     form = AmenityForm(request.POST)
-    #      amenity_names = request.POST.getlist('amenity_name')
-    #         for amenity_name in amenity_names:
-    #             # Create a new form instance for each amenity name
-    #             form_instance = AmenityForm({'amenity_name': amenity_name})
-    #             if form_instance.is_valid():
-    #                 amenity_instance = form_instance.save(commit=False)
-    #                 amenity_instance.user = request.user
-    #                 amenity_instance.save()
-    #             # else:
-
-    #         return redirect('addvenue2')
-    #    form = AmenityForm()
-    # context = {'form':form}
-    # return render(request, 'venue/add_amenity.html',context)
-
-# @login_required(login_url='login')
-# def updateVenue(request,pk):
-#     venue = get_object_or_404(Venue, id=pk)
-#     venue_images = venue.image.all()  # Retrieve all images associated with the venue
-
-#     if request.method == "POST":
-#         form = UpdateVenueForm(request.POST, request.FILES, instance=venue)
-#         if form.is_valid():
-#             update_venue = form.save(commit=False)
-#             update_venue.user = request.user
-#             if 'venue_image' in request.FILES:
-#                 update_venue.venue_image = request.FILES['venue_image']
-#             if 'image' in request.FILES:
-#                 # Update existing images or add new ones if necessary
-#                 for image in request.FILES.getlist('image'):
-#                     venue.image.create(image=image)
-#             update_venue.save()
-#             messages.success(request, 'updated successfully!')
-#             venueview_url = reverse('user_venues')
-#             return redirect(venueview_url)
-#         else:
-#             messages.error(request, 'something went wronge')
-
-#     else:
-#         form = UpdateVenueForm(instance=venue)
-#     context = {'form':form, 'venue':venue, 'venue_images':venue_images}
-#     return render(request, 'venue/updatevenue.html', context)
+def updatecontact_info(request, pk):
+    # venue = get_object_or_404(Venue, id=pk)
+    contact = get_object_or_404(ContactInformation)
+    if request.method == "POST":
+        form = UpdateContactInformationForm(request.POST, instance=contact)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'updated successfully!')
+            return redirect("addvenue")
+    else:
+        form = UpdateContactInformationForm(instance=contact)
+    context = {'form':form, 'contact':contact}
+    return render(request, 'venue/updatecontact_info.html', context)
 
 
 def viewallvenue(request):
@@ -450,13 +401,15 @@ def show_user_venue(request,pk):
     venueAmenities = Amenities.objects.filter(venue=venue)
     venueAmenities = Amenities.objects.filter(venue=venue)
     venueRestrictions = Restrictions.objects.filter(venue=venue)
+    contactinfo = ContactInformation.objects.filter(venue=venue)
     # venueAmenities = VenueAmenities.objects.filter(venue=venue)
 
     context = {'venue':venue,
             'venue_images':venue_images,
             'service':service,
             'venueAmenities':venueAmenities, 
-            'venueRestrictions':venueRestrictions}
+            'venueRestrictions':venueRestrictions,
+            'contactinfo':contactinfo}
     return render(request, 'venue/show_user_venue.html', context)
    
 

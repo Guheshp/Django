@@ -19,6 +19,9 @@ urlpatterns = [
     path('view_image/<str:pk>/',views.view_image, name='view_image'),
     path('Delete_image/<str:pk>/',views.Delete_image, name='Delete_image'),
 
+    path('contact_info/<str:pk>/',views.contact_info, name='contact_info'),
+    path('updatecontact_info/<str:pk>/',views.updatecontact_info, name='updatecontact_info'),
+
     path('add_restrictions/<str:pk>/',views.add_restrictions, name='add_restrictions'),
     path('viewrestrictions/<str:pk>/',views.viewrestrictions, name='viewrestrictions'),
     path('Update_restrictions/<int:pk>/',views.Update_restrictions, name='Update_restrictions'),

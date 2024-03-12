@@ -1,0 +1,37 @@
+{% extends 'acc/base.html'%}
+{% load static %}
+{% block content %}
+<body>
+    
+    <div class="container ">
+        
+        <div class="row justify-content-center mt-5">
+            <div class="col-md-8">
+                <div class="card">
+                    <form action="" method="POST" class="vendor-form" enctype="multipart/form-data">
+                        <h1 class="text-center">Update Contact Informations</h1><hr>
+
+                        {% csrf_token %}
+
+                        <div class="form-group text-dark font-weight-bold m-3">
+                            <label for="">Email:</label>
+                            <input type="email" name="email"  value="{{contact.email}}" class="form-control border-dark" id="" required>
+                        </div>
+
+                        <div class="form-group text-dark font-weight-bold m-3">
+                            <label for="">City:</label>
+                            <input type="tel" name="phone_number" value="{{contact.phone_number}}" class="form-control border-dark" id="" required>
+                        </div>
+
+                       
+                        <button class="btn btn-outline-success m-3">Submit</button>
+                    </form>
+                </div>
+            </div>
+         
+
+        </div>
+    </div>
+
+</body>
+{% endblock %}

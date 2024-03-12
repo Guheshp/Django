@@ -1,0 +1,47 @@
+{% extends 'acc/base.html'%}
+{% load static %}
+{% block content %}
+<body>
+    <section id="header" class="jumbotron text-center">
+        <h1 class="display-3">Contact Informations</h1>
+        
+        {%for v in venue%}
+        <p class="lead m-0">Adding contact info </p>
+        <a class="small" href="#">{{v.name|linebreaks}}</a>
+        {% endfor%}
+        
+        <p class="lead"> <b> "Complete your venue profile!"</b> The more information you provide, the easier it will be for potential renters to find and book your space.</p>
+      
+        <!-- ---------------------------------------------------------- -->
+    </section>
+    <div class="container ">
+        
+        <div class="row justify-content-center mt-5">
+            <div class="col-md-8">
+                <div class="card">
+                    <form action="" method="POST" class="vendor-form" enctype="multipart/form-data">
+                        <h1 class="text-center">Add Contact Informstions!</h1><hr>
+
+                        {% csrf_token %}
+                        
+                        <div class="form-group text-dark font-weight-bold m-3">
+                            <label for="">Email:</label>
+                            <input type="email" name="email" placeholder="Enter email" class="form-control border-dark" id="" required>
+                        </div>
+
+                        <div class="form-group text-dark font-weight-bold m-3">
+                            <label for="">Phone Number:</label>
+                            <input type="tel" name="phone_number" placeholder="Enter Phone number" class="form-control border-dark" id="" required>
+                        </div>
+
+                        <button class="btn btn-outline-success m-3">Submit</button>
+                    </form>
+                </div>
+            </div>
+         
+
+        </div>
+    </div>
+
+</body>
+{% endblock %}

@@ -38,10 +38,16 @@
                         ADD IMAGES
                     {%endfor%}
                       </button></a>
+                    {% if contact_exist%}
+                    <p>contact exist</p>
+                    {% else %}
+                      {% for v in venue %}
+                      <a href="{% url 'contact_info' v.id%}"><button class="bTn d-inline-flex align-items-center" type="submit">
+                        CONTACT INFORMATIONS 
+                        {%endfor%}
+                        {%endif%}
+                      </button></a>
 
-                      <button class="bTn d-inline-flex align-items-center" type="submit">
-                        CONTACT INFORMATIONS
-                      </button>
                     <a href=""><button class="bTn d-inline-flex align-items-center" type="button">
                         ADD SERVICES
                       </button></a>
@@ -86,6 +92,15 @@
                    Update Images
                 </button></a>
                 {%endfor%}
+
+
+                {% for v in venue %}
+                <a href="{% url 'updatecontact_info' v.id%}"><button class="bTn d-inline-flex align-items-center" type="button">
+                   Contact Informations
+                </button></a>
+                {%endfor%}
+
+                
                   </div>
             </div>
         </div>
