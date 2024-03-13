@@ -22,6 +22,9 @@ urlpatterns = [
     path('contact_info/<str:pk>/',views.contact_info, name='contact_info'),
     path('updatecontact_info/<str:pk>/',views.updatecontact_info, name='updatecontact_info'),
 
+    path('category/<str:pk>/',views.category, name='category'),
+    path('update_category/<str:pk>/',views.update_category, name='update_category'),
+
     path('add_restrictions/<str:pk>/',views.add_restrictions, name='add_restrictions'),
     path('viewrestrictions/<str:pk>/',views.viewrestrictions, name='viewrestrictions'),
     path('Update_restrictions/<int:pk>/',views.Update_restrictions, name='Update_restrictions'),

@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from .models import Venue, Event, Booking, VenueImage, Service,Restrictions, Amenities, ContactInformation
+from .models import Venue, Event, Booking, VenueImage, Service,Restrictions, Amenities, ContactInformation, ServiceCategory
 from wedding.models import Couples
 from django.urls import reverse
 
@@ -165,6 +165,7 @@ def Delete_amenities(request, pk):
     return render(request, 'venue/Delete_amenities.html', context)
 
 
+@login_required(login_url='login')
 def Update_amenities(request,pk):
     amenity = get_object_or_404(Amenities, id=pk)
 
@@ -181,6 +182,7 @@ def Update_amenities(request,pk):
 
     context = {'form': form, 'amenity':amenity}
     return render(request, 'venue/Update_amenities.html', context)
+
 
 @login_required(login_url='login')
 def add_restrictions(request, pk):
@@ -201,6 +203,8 @@ def viewrestrictions(request,pk):
     context = {'restrictions':restrictions}
     return render(request, 'venue/viewrestrictions.html', context)
 
+
+@login_required(login_url='login')
 def Update_restrictions(request,pk):
     restrictions = get_object_or_404(Restrictions, id=pk)
     if request.method == "POST":
@@ -216,6 +220,7 @@ def Update_restrictions(request,pk):
 
     context = {'form': form, 'restrictions':restrictions}
     return render(request, 'venue/Update_restrictions.html', context)
+
 
 @login_required(login_url='login')
 def Delete_restrictions(request, pk):
@@ -271,6 +276,7 @@ def view_image(request, pk):
     context = {'form':form,'venue':venue, 'venue_images':venue_images}
     return render(request, 'venue/view_image.html', context)
 
+
 @login_required(login_url='login')
 def Delete_image(request, pk):
     image = get_object_or_404(VenueImage, id=pk)
@@ -281,6 +287,8 @@ def Delete_image(request, pk):
     context = {'image':image}
     return render(request, 'venue/Delete_image.html', context)
 
+
+@login_required(login_url='login')
 def contact_info(request, pk):
     venue = get_object_or_404(Venue, id=pk)
     if request.method == 'POST':
@@ -298,6 +306,8 @@ def contact_info(request, pk):
     context= {'form':form}
     return render(request, 'venue/contact_info.html', context)
 
+
+@login_required(login_url='login')
 def updatecontact_info(request, pk):
     # venue = get_object_or_404(Venue, id=pk)
     contact = get_object_or_404(ContactInformation)
@@ -311,6 +321,95 @@ def updatecontact_info(request, pk):
         form = UpdateContactInformationForm(instance=contact)
     context = {'form':form, 'contact':contact}
     return render(request, 'venue/updatecontact_info.html', context)
+
+
+@login_required(login_url='login')
+def category(request, pk):
+    venue = get_object_or_404(Venue, id=pk)
+    categoryservice = ServiceCategory.objects.all()
+    if request.method == "POST":
+        max_capacity = request.POST.get('max_capacity')
+        max_capacity_outdoor = request.POST.get('max_capacity_outdoor')
+        max_capacity_indoor = request.POST.get('max_capacity_indoor')
+        outdoor = request.POST.get('outdoor') == 'true'
+        indoor = request.POST.get('indoor') == 'true'
+
+        category_names = [x.name for x in  ServiceCategory.objects.all()]
+
+        category_ids= []
+
+        for x in category_names:
+            category_ids.append(int(request.POST.get(x))) if request.POST.get(x) else print('error')
+        
+        categorys = Service.objects.create(
+            venue = venue,
+            max_capacity=max_capacity,
+            max_capacity_outdoor=max_capacity_outdoor,
+            max_capacity_indoor=max_capacity_indoor,
+            outdoor=outdoor,
+            indoor=indoor,
+        )
+
+        categorys.save()
+
+        for x in category_ids:
+            categorys.category.add(ServiceCategory.objects.get(id=x))
+        messages.success(request, 'done')
+        return redirect('addvenue')
+            
+    context = {'categoryservice':categoryservice}
+    return render (request, 'venue/category.html', context)
+
+@login_required(login_url='login')
+def update_category(request, pk):
+    # Retrieve the service object based on the provided primary key
+    venue = get_object_or_404(Venue, id=pk)
+
+    service = get_object_or_404(Service, venue=venue)
+    
+    # Retrieve all service categories from the database
+    categoryservice = ServiceCategory.objects.all()
+    
+    if request.method == "POST":
+        # Retrieve form data
+        max_capacity = request.POST.get('max_capacity')
+        max_capacity_outdoor = request.POST.get('max_capacity_outdoor')
+        max_capacity_indoor = request.POST.get('max_capacity_indoor')
+        
+        # Convert checkbox values to boolean
+        outdoor = request.POST.get('outdoor') == 'true'
+        indoor = request.POST.get('indoor') == 'true'
+
+        # Retrieve selected category IDs
+        category_ids = [int(request.POST.get(category.name)) for category in categoryservice if request.POST.get(category.name)]
+        
+        # Update service object attributes
+        service.max_capacity = max_capacity
+        service.max_capacity_outdoor = max_capacity_outdoor
+        service.max_capacity_indoor = max_capacity_indoor
+        service.outdoor = outdoor
+        service.indoor = indoor
+        
+        # Clear existing categories and add selected categories
+        service.category.clear()
+        for category_id in category_ids:
+            service.category.add(category_id)
+        
+        # Save the updated service object
+        service.save()
+        
+        # Display success message
+        messages.success(request, 'Service category updated successfully!')
+        
+        # Redirect the user to the 'addvenue' page
+        return redirect('addvenue')
+    
+    # Pass the service object and service categories to the template context
+    context = {'service': service, 'categoryservice': categoryservice}
+    
+    # Render the update_category.html template with the provided context
+    return render(request, 'venue/update_category.html', context)
+
 
 
 def viewallvenue(request):

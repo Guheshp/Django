@@ -48,14 +48,16 @@
                         {%endif%}
                       </button></a>
 
-                    <a href=""><button class="bTn d-inline-flex align-items-center" type="button">
-                        ADD SERVICES
+                    {% for v in venue %}
+                    <a href="{% url 'category' v.id%}"><button class="bTn d-inline-flex align-items-center" type="button">
+                        Additionals
+                        {%endfor%}
+
                       </button></a>
                       
                   </div>
             </div>
         </div>
-
 
         <div class="horizintal-bar mt-3">
             <div class="container">
@@ -100,6 +102,11 @@
                 </button></a>
                 {%endfor%}
 
+                {% for v in venue %}
+                <a href="{% url 'update_category' v.id%}"><button class="bTn d-inline-flex align-items-center" type="button">
+                   Additionla Informations
+                </button></a>
+                {%endfor%}
                 
                   </div>
             </div>

@@ -93,59 +93,6 @@
             <b></b>
             <h3 class="py-2 fw-bold">Venue Images</h3>
 
-            <!-- <div class="col-md-11">
-              <b>Services Option:</b>
-
-              <div class="h-100 p-4 bg-body-tertiary">
-                {% for s in service %}
-                <b class="ml- mt-0 mb-2">venue provide  {{ s }} and thier details :</b>
-
-                
-                {% for category in s.category.all %}
-                    {% if category.name == "Ceremony" %}
-                    <br><br><b class="">Ceremony:</b>
-                    {% if s.outdoor %}
-                        <p class="ml-4 small mt-0 mb-0">Outdoor:</p>
-                        <p class="ml-5 small mt-0 mb-0">Max Outdoor capacity: {{ s.max_capacity_outdoor }}</p>
-                        {%else%}
-                        <p>no</p>
-                    {% endif %}
-
-                        {% if s.indoor %}
-                        <p class="ml-4 small mt-0 mb-0">indoor:</p>
-                        <p class="ml-5 small mt-0 mb-0">Max indoor capacity: {{ s.max_capacity_indoor }}</p>
-
-                        {%else%}
-                        <p>no</p>
-                    {% endif %}
-                    {% endif %}
-
-                {% endfor %}
-
-                {% for category in s.category.all %}
-                {% if category.name == "Reception" %}
-                <b>Reception:</b>
-                {% if s.outdoor %}
-                    <p class="ml-4 small mt-0 mb-0">Outdoor:</p>
-                    <p class="ml-5 small mt-0 mb-0">Max Outdoor capacity: {{ s.max_capacity_outdoor }}</p>
-                    {%else%}
-                    <p>no</p>
-                {% endif %}
-
-                    {% if s.indoor %}
-                    <p class="ml-4 small mt-0 mb-0">indoor:</p>
-                    <p class="ml-5 small mt-0 mb-0">Max indoor capacity: {{ s.max_capacity_indoor }}</p>
-
-                    {%else%}
-                    <p>no</p>
-                {% endif %}
-                {% endif %}
-
-            {% endfor %}
-        
-            
-                
-            {% endfor %} -->
                 <!-- <p class=" small mt-3 mb-0">{{venue.note}}</p> -->
               <!-- </div>
             </div> -->  <div class="slider " style="width: 100%;">
@@ -212,12 +159,66 @@
               </div>
           </div>
         </div>
-    
-        <hr>
-
       </div>
+<hr>
+      <div class="row ">
+        <div class="col-md-11 ml-5">
+          <b>Services Option:</b>
+        
+          <div class="h-100 p-4 bg-body-tertiary">
+            {% for s in service %}
+            <b class="ml- mt-0 mb-2">venue provide  {{ s }} and thier details :</b>
+        
+            
+            {% for category in s.category.all %}
+                {% if category.name == "Ceremony" %}
+                <br><br><b class="">Ceremony:</b>
+                {% if s.outdoor %}
+                    <p class="ml-4 small mt-0 mb-0">Outdoor:</p>
+                    <p class="ml-5 small mt-0 mb-0">Max Outdoor capacity: {{ s.max_capacity_outdoor }}</p>
+                    {%else%}
+                    <p>no</p>
+                {% endif %}
+        
+                    {% if s.indoor %}
+                    <p class="ml-4 small mt-0 mb-0">indoor:</p>
+                    <p class="ml-5 small mt-0 mb-0">Max indoor capacity: {{ s.max_capacity_indoor }}</p>
+        
+                    {%else%}
+                    <p>no</p>
+                {% endif %}
+                {% endif %}
+        
+            {% endfor %}
+        
+            {% for category in s.category.all %}
+            {% if category.name == "Reception" %}
+            <b>Reception:</b>
+            {% if s.outdoor %}
+                <p class="ml-4 small mt-0 mb-0">Outdoor:</p>
+                <p class="ml-5 small mt-0 mb-0">Max Outdoor capacity: {{ s.max_capacity_outdoor }}</p>
+                {%else%}
+                <p>no</p>
+            {% endif %}
+        
+                {% if s.indoor %}
+                <p class="ml-4 small mt-0 mb-0">indoor:</p>
+                <p class="ml-5 small mt-0 mb-0">Max indoor capacity: {{ s.max_capacity_indoor }}</p>
+        
+                {%else%}
+                <p>no</p>
+            {% endif %}
+            {% endif %}
+        
+        {% endfor %}    
+        {% endfor %}
+        
+        
+      </div>
+
           </div>                 
         </div>
+        
 
     </section>
   </main>
@@ -225,5 +226,4 @@
   
   
 </body>
-
   {% endblock %}

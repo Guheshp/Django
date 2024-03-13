@@ -1,6 +1,14 @@
 from django import forms
 
-from .models import Venue, Event, Booking, CancelVenue, Amenities, Restrictions, VenueImage, ContactInformation
+from .models import (Venue,
+                    Event,
+                    Booking, 
+                    CancelVenue, 
+                    Amenities, 
+                    Restrictions, 
+                    VenueImage, 
+                    ContactInformation, 
+                    Service)
 
 
 class VenueInfoForm(forms.ModelForm):
@@ -50,6 +58,7 @@ class UpdateContactInformationForm(forms.ModelForm):
     class Meta:
         model = ContactInformation
         fields = ['email', 'phone_number']
+
         
 class AddEventForm(forms.ModelForm):
 

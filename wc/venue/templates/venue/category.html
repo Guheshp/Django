@@ -1,0 +1,70 @@
+{% extends 'acc/base.html'%}
+{% load static %}
+{% block content %}
+<body>
+    <section id="header" class="jumbotron text-center">
+        <h1 class="display-3">Additional Informations</h1>
+        
+        <p class="lead"> <b> "Complete your venue profile!"</b> The more information you provide, the easier it will be for potential renters to find and book your space.</p>
+      
+        <!-- ---------------------------------------------------------- -->
+    </section>
+    <div class="container ">
+        
+        <div class="row justify-content-center mt-5">
+            <div class="col-md-8">
+                <div class="card">
+                    <form action="" method="POST" class="vendor-form" enctype="multipart/form-data">
+                        <h1 class="text-center">Additional Informstions!</h1><hr>
+
+                        {% csrf_token %}
+                        
+                        <div class="form-group text-dark font-weight-bold m-3">
+                            <label for="">category:</label>
+                            <div class="form-check">
+                                {% for c in categoryservice %}
+                                <input class="form-check-input" type="checkbox" name="{{c.name}}" value="{{c.id}}" id="flexCheckDefault">
+                                <label class="form-check-label" for="flexCheckDefault">
+                                    {{c.name}}
+                                </label><br>
+                                {%endfor%}
+                              </div>
+                        </div>
+
+                        <div class="form-group text-dark font-weight-bold m-3">
+                            <label for="">Max Capacity:</label>
+                            <input type="number" name="max_capacity" placeholder="Enter Maximum Capacity" class="form-control border-dark" id="" required>
+                        </div>
+
+                        <div class="form-group text-dark font-weight-bold m-3">
+                            <div class="form-group">
+                                <label>Availability:</label><br>
+                                <input type="checkbox" name="outdoor" id="outdoor" value="true">
+                                <label for="outdoor">Outdoor</label><br>
+                                <input type="checkbox" name="indoor" id="indoor" value="true">
+                                <label for="indoor">Indoor</label><br>
+                            </div>
+                        </div>
+
+
+                        <div class="form-group text-dark font-weight-bold m-3">
+                            <label for="">Max Outdoor Capacity:</label>
+                            <input type="number" name="max_capacity_outdoor" placeholder="Enter Max Outdoor Capacity" class="form-control border-dark" id="" required>
+                        </div>
+
+                        <div class="form-group text-dark font-weight-bold m-3">
+                            <label for="">Max Indoor Capacity:</label>
+                            <input type="number" name="max_capacity_indoor" placeholder="Enter Max Indoor Capacity" class="form-control border-dark" id="" required>
+                        </div>
+
+                        <button class="btn btn-outline-success m-3">Submit</button>
+                    </form>
+                </div>
+            </div>
+         
+
+        </div>
+    </div>
+
+</body>
+{% endblock %}
