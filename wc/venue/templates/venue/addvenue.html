@@ -3,38 +3,77 @@
 {% block content %}
 <body>
 
+    <div class="container">
+        <header class="d-flex justify-content-center py-3">
+          <ul class="nav nav-pills">
+
+            <li class="nav-item">
+
+               
+                <a href="{% url 'addvenue_info'%}" class="nav-link text-dark">VENUE INFORMATIONS</a>
+            </li>
+            
+            <li class="nav-item">
+                {% for v in venue %}
+                <a href="{% url 'contact_info' v.id%}" class="nav-link text-dark"> CONTACT INFORMATIONS </a>
+                {%endfor%}
+            </li>
+            
+            <li class="nav-item">
+                {% for v in venue %}
+                <a href="{% url 'category' v.id%}" class="nav-link text-dark"> ADDITIONAL INFORMATIONS </a>
+                {%endfor%}
+            </li>
+            
+            
+            <li class="nav-item">
+                {% for v in venue %}
+                <a href="{% url 'add_amenity' v.id%}" class="nav-link text-dark">ADD AMENITIES</a>
+                {%endfor%}
+            </li>
+            
+            <li class="nav-item">
+                {% for v in venue %}
+                <a href="{% url 'add_restrictions' v.id%}" class="nav-link text-dark">ADD RESTRICTIONS </a>
+                {%endfor%}
+            </li>
+            
+            <li class="nav-item">
+                {% for v in venue %}
+                <a href="{% url 'add_images' v.id%}" class="nav-link text-dark">ADD IMAGES</a>
+                {%endfor%}
+            </li>
+
+
+          </ul>
+        </header>
+      </div><hr>
+
     <section>
-        <div class="horizintal-bar ">
+        <!-- <div class="horizintal-bar">
             <div class="container">
                 <div class="d-flex gap-2 justify-content-center py-1">
                     {% if venueinfo_exists%}
                     <p>yes venue_info exist</p>
                     {%else%}
-                   <a href="{% url 'addvenue_info'%}"><button class="bTn d-inline-flex align-items-center" type="submit">
-                       ADD VENUE INFORMATIONS
-                      </button></a>
+                   <a href="{% url 'addvenue_info'%}"><button class=" d-inline-flex align-items-center" type="submit">
+
+                      </button> ADD VENUE INFORMATIONS</a>
                       {%endif%}
 
-                      <!-- {% for v in venue %}
-                    <a href="{% url 'add_amenity' v.id%}"><button class="bTn d-inline-flex align-items-center" type="button">
-                        ADD aminity 
-                        {%endfor%}
-                    </button></a> -->
+                    {% for v in venue %}
+                    <a href="{% url 'add_amenity' v.id%}">ADD AMENITIES</a>
+                    {%endfor%}
+
 
                     {% for v in venue %}
-                    <a href="{% url 'add_amenity' v.id%}"><button class="bTn d-inline-flex align-items-center" type="button">
-                        ADD AMENITIES
-                        {%endfor%}
-                    </button></a>
-
-                    {% for v in venue %}
-                    <a href="{% url 'add_restrictions' v.id%}"><button class="bTn d-inline-flex align-items-center" type="button">
+                    <a href="{% url 'add_restrictions' v.id%}"><button class=" d-inline-flex align-items-center" type="button">
                         ADD RESTRICTIONS 
                     {%endfor%}
                     </button></a>
 
                     {% for v in venue %}
-                          <a href="{% url 'add_images' v.id%}"><button class="bTn d-inline-flex align-items-center" type="button">
+                          <a href="{% url 'add_images' v.id%}"><button class=" d-inline-flex align-items-center" type="button">
                         ADD IMAGES
                     {%endfor%}
                       </button></a>
@@ -42,14 +81,14 @@
                     <p>contact exist</p>
                     {% else %}
                       {% for v in venue %}
-                      <a href="{% url 'contact_info' v.id%}"><button class="bTn d-inline-flex align-items-center" type="submit">
+                      <a href="{% url 'contact_info' v.id%}"><button class=" d-inline-flex align-items-center" type="submit">
                         CONTACT INFORMATIONS 
                         {%endfor%}
                         {%endif%}
                       </button></a>
 
                     {% for v in venue %}
-                    <a href="{% url 'category' v.id%}"><button class="bTn d-inline-flex align-items-center" type="button">
+                    <a href="{% url 'category' v.id%}"><button class=" d-inline-flex align-items-center" type="button">
                         Additionals
                         {%endfor%}
 
@@ -57,7 +96,7 @@
                       
                   </div>
             </div>
-        </div>
+        </div> -->
 
         <div class="horizintal-bar mt-3">
             <div class="container">
@@ -66,9 +105,7 @@
                 </button>
                 {% if venueinfo_exists %}
                 {% for v in venue %}
-                <a href="{% url 'viewvenue_info' v.id%}"><button class="bTn d-inline-flex align-items-center" type="button">
-                    UPDATE VENUE INFORMATIONS
-                </button></a>
+                <a class="nav-link text-dark" href="{% url 'viewvenue_info' v.id%}"> VIEW VENUE INFO</a>
                 {%endfor%}
                     {%endif%}
 
@@ -76,36 +113,28 @@
                 </button>
 
                 {% for v in venue %}
-                <a href="{% url 'viewAmenities' v.id%}"><button class="bTn d-inline-flex align-items-center" type="button">
-                   Update Amenities
-                </button></a>
+                <a class="nav-link text-dark" href="{% url 'viewAmenities' v.id%}">UPDATE AMENITIES</a>
                 {%endfor%}
 
 
                 {% for v in venue %}
-                <a href="{% url 'viewrestrictions' v.id%}"><button class="bTn d-inline-flex align-items-center" type="button">
-                   Update RESTRICTIONS
-                </button></a>
+                <a class="nav-link text-dark" href="{% url 'viewrestrictions' v.id%}">UPDATE RESTRICTIONS</a>
                 {%endfor%}
                 
 
                 {% for v in venue %}
-                <a href="{% url 'view_image' v.id%}"><button class="bTn d-inline-flex align-items-center" type="button">
-                   Update Images
-                </button></a>
+                <a class="nav-link text-dark" href="{% url 'view_image' v.id%}">UPDATE IMAGES</a>
                 {%endfor%}
 
 
                 {% for v in venue %}
-                <a href="{% url 'updatecontact_info' v.id%}"><button class="bTn d-inline-flex align-items-center" type="button">
-                   Contact Informations
-                </button></a>
+                <a class="nav-link text-dark" href="{% url 'updatecontact_info' v.id%}">UPDATE  CONTACT INFO</a>
                 {%endfor%}
 
                 {% for v in venue %}
-                <a href="{% url 'update_category' v.id%}"><button class="bTn d-inline-flex align-items-center" type="button">
-                   Additionla Informations
-                </button></a>
+                <a class="nav-link text-dark" href="{% url 'update_category' v.id%}">
+                   UPDATE ADDITIONAL INFO
+                </a>
                 {%endfor%}
                 
                   </div>

@@ -40,9 +40,11 @@ def event_list(request):
 
 
 @login_required(login_url='login')
-def addvenue(request):
-
+def addvenue(request, venue_name):
     venueinfo_exists = Venue.objects.filter(user=request.user).exists()
+    venue_info = get_object_or_404(Venue, name=venue_name)
+
+
     venue = Venue.objects.filter(user=request.user)
     # venueamenities_exist = Amenities.objects.filter(venue__in=venue).exists()
     # venuerestrictions_exist= Restrictions.objects.filter(venue__in=venue)
@@ -50,6 +52,7 @@ def addvenue(request):
     context = {
             'venueinfo_exists':venueinfo_exists,
             "venue":venue,
+            'venue_info':venue_info,
             # 'venueamenities_exist':venueamenities_exist,
             # 'venuerestrictions_exist':venuerestrictions_exist,
             'contact_exist':contact_exist,
@@ -68,23 +71,29 @@ def addvenue_info(request):
             infoform.save()
             venue_name = form.cleaned_data.get('name')
             messages.success(request, f"{venue_name} saved successfully!")
-            return redirect('addvenue')
+            return redirect('home')
     
         else:
             messages.error(request, "something went wronge in adding venue information!")
    
+    venueinfo_exists = Venue.objects.filter(user=request.user).exists()
+    if venueinfo_exists:
+
+        venueinfo_venue= Venue.objects.get(user=request.user)
+
+        context={'venueinfo_venue':venueinfo_venue}
+
         return render(request, 'venue/venueinfo_exists.html', context)
 
     else:
         form=VenueInfoForm()
-    context = {"form":form}
+    context = {"form":form, 'venueinfo_exists':venueinfo_exists}
     return render(request, 'venue/addvenue_info.html', context)
 
 @login_required(login_url='login')
 def updatevenue_info(request, pk):
     venue = Venue.objects.get(id=pk)
     if request.method == "POST":
-
         form = UpdateVenueInfoForm(request.POST, request.FILES, instance=venue)
         if form.is_valid():
             update_venue = form.save(commit=False)
@@ -111,6 +120,11 @@ def viewvenue_info(request,pk):
     context = {'venue_info':venue_info}
     return render(request, 'venue/viewvenue_info.html', context)
 
+@login_required(login_url='login')
+def viewvenue_nav(request, venue_name):
+    venue_info = get_object_or_404(Venue, name=venue_name)
+    context = {'venue_info': venue_info}
+    return render(request, 'venue/viewvenue_nav.html', context)
 
 
 # @login_required(login_url='login')
@@ -137,6 +151,7 @@ def viewvenue_info(request,pk):
 
 @login_required(login_url='login')
 def add_amenity(request, pk):
+    # amenities_exists = Amenities.objects.filter(user=request.user).exists()
     venue = Venue.objects.get(user=request.user, id=pk) 
     if request.method == 'POST':
         amenity_names = request.POST.getlist('amenity_name')  # Get list of amenity names from form
@@ -144,14 +159,16 @@ def add_amenity(request, pk):
         for name in amenity_names:
             if name.strip():  # Ensure amenity name is not empty
                 Amenities.objects.create(user=user,venue=venue, amenity_name=name.strip())  # Create amenity object
-        messages.success(request, "Amenities added")        
-        return redirect('addvenue')
+        messages.success(request, "Amenities added")   
+
+        return redirect('home')
     return render(request, 'venue/add_amenity.html', {'venue':[venue]})
 
 @login_required(login_url='login')
 def viewAmenities(request,pk):
+    venue = Venue.objects.filter(user=request.user)
     amenities = Amenities.objects.filter(user=request.user, venue_id=pk)
-    context = {'amenities':amenities}
+    context = {'amenities':amenities, 'venue':venue}
     return render(request, 'venue/viewAmenities.html', context)
 
 @login_required(login_url='login')
@@ -160,7 +177,9 @@ def Delete_amenities(request, pk):
     if request.method == 'POST':
         amenity.delete()
         messages.success(request, 'amenity deleted successfully!')
-        return redirect("addvenue")
+        # return redirect("viewAmenities")
+        venue_pk = amenity.venue.pk
+        return redirect('viewAmenities', pk=venue_pk)
     context = {'amenity':amenity}
     return render(request, 'venue/Delete_amenities.html', context)
 
@@ -174,7 +193,9 @@ def Update_amenities(request,pk):
         if form.is_valid():
             form.save()
             messages.success(request, 'Amenity updated successfully!')
-            return redirect('addvenue')  
+            return redirect('home')  
+
+
         else:
             messages.error(request, 'Something went wrong while updating the amenity.')
     else:
@@ -194,13 +215,15 @@ def add_restrictions(request, pk):
             if name.strip():  # Ensure amenity name is not empty
                 Restrictions.objects.create(user=user,venue=venue, restriction_name=name.strip())  # Create amenity object
         messages.success(request, "Restrictions added")        
-        return redirect('addvenue')
+        return redirect('home')
     return render(request, 'venue/add_restrictions.html', {'venue':[venue]})
 
 @login_required(login_url='login')
 def viewrestrictions(request,pk):
+    venue = Venue.objects.filter(user=request.user)
+
     restrictions = Restrictions.objects.filter(user=request.user, venue_id=pk)
-    context = {'restrictions':restrictions}
+    context = {'restrictions':restrictions, 'venue':venue}
     return render(request, 'venue/viewrestrictions.html', context)
 
 
@@ -212,7 +235,7 @@ def Update_restrictions(request,pk):
         if form.is_valid():
             form.save()
             messages.success(request, 'restrictions updated successfully!')
-            return redirect('addvenue')  
+            return redirect('home')  
         else:
             messages.error(request, 'Something went wrong while updating the amenity.')
     else:
@@ -228,7 +251,7 @@ def Delete_restrictions(request, pk):
     if request.method == 'POST':
         restrictions.delete()
         messages.success(request, 'restrictions deleted successfully!')
-        return redirect("addvenue")
+        return redirect("home")
     context = {'restrictions':restrictions}
     return render(request, 'venue/Delete_restrictions.html', context)
 
@@ -243,7 +266,7 @@ def add_images(request, pk):
             for image in images:
                 VenueImage.objects.create(venue=venue, image=image)
             messages.success(request, f"information saved successfully!")
-            return redirect('addvenue')
+            return redirect('home')
     else:
         form =   UploadImageForm()    
     context = {'form':form}  
@@ -267,7 +290,7 @@ def view_image(request, pk):
                     venue.image.create(image=image)
             update_venue.save()
             messages.success(request, 'updated images successfully!')
-            return redirect('addvenue')
+            return redirect('home')
         else:
             messages.error(request, 'something went wronge')
     else:
@@ -283,13 +306,15 @@ def Delete_image(request, pk):
     if request.method == 'POST':
         image.delete()
         messages.success(request, 'image deleted successfully!')
-        return redirect("addvenue")
+        return redirect("home")
     context = {'image':image}
     return render(request, 'venue/Delete_image.html', context)
 
 
 @login_required(login_url='login')
 def contact_info(request, pk):
+    contactinfo_exists = ContactInformation.objects.filter(user=request.user).exists()
+
     venue = get_object_or_404(Venue, id=pk)
     if request.method == 'POST':
         form = ContactInformationForm(request.POST)
@@ -300,10 +325,10 @@ def contact_info(request, pk):
             contact.save()
             contact_email = form.cleaned_data.get('email')
             messages.success(request, f"{contact_email} information saved successfully!")
-            return redirect('addvenue')
+            return redirect('home')
     else:
         form=ContactInformationForm()
-    context= {'form':form}
+    context= {'form':form, 'contactinfo_exists':contactinfo_exists}
     return render(request, 'venue/contact_info.html', context)
 
 
@@ -316,7 +341,7 @@ def updatecontact_info(request, pk):
         if form.is_valid():
             form.save()
             messages.success(request, 'updated successfully!')
-            return redirect("addvenue")
+            return redirect("home")
     else:
         form = UpdateContactInformationForm(instance=contact)
     context = {'form':form, 'contact':contact}
@@ -326,6 +351,8 @@ def updatecontact_info(request, pk):
 @login_required(login_url='login')
 def category(request, pk):
     venue = get_object_or_404(Venue, id=pk)
+    category_exists = Service.objects.filter(venue=venue).exists()
+
     categoryservice = ServiceCategory.objects.all()
     if request.method == "POST":
         max_capacity = request.POST.get('max_capacity')
@@ -355,9 +382,9 @@ def category(request, pk):
         for x in category_ids:
             categorys.category.add(ServiceCategory.objects.get(id=x))
         messages.success(request, 'done')
-        return redirect('addvenue')
+        return redirect('home')
             
-    context = {'categoryservice':categoryservice}
+    context = {'categoryservice':categoryservice, 'category_exists':category_exists}
     return render (request, 'venue/category.html', context)
 
 @login_required(login_url='login')
@@ -402,7 +429,7 @@ def update_category(request, pk):
         messages.success(request, 'Service category updated successfully!')
         
         # Redirect the user to the 'addvenue' page
-        return redirect('addvenue')
+        return redirect('home')
     
     # Pass the service object and service categories to the template context
     context = {'service': service, 'categoryservice': categoryservice}

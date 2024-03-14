@@ -1,64 +1,70 @@
 {% extends 'acc/base.html'%}
 {% load static %}
 {% block content %}
-<h1>Update Service Category</h1>
-<form action="" method="POST">
+<div class="container ">
+        
+    <div class="row justify-content-center mt-5">
+        <div class="col-md-8">
+            <div class="card">
+            <form action="" method="POST" class="vendor-form" >
+                <h1 class="text-center">Additional Informstions!</h1><hr>
 
-    {% csrf_token %}
-    <!-- <div class="form-group text-dark font-weight-bold m-3">
-    {% for category in categoryservice %}
-    <label class="form-check-label">{{ category.name }}:</label>
-    <input type="checkbox" name="{{ category.name }}" value="{{ category.id }}" {% if category in service.category.all %}checked{% endif %}><br>
-    {% endfor %}
-    </div> -->
+                {% csrf_token %}
+                <!-- <div class="form-group text-dark font-weight-bold m-3">
+                {% for category in categoryservice %}
+                <label class="form-check-label">{{ category.name }}:</label>
+                <input type="checkbox" name="{{ category.name }}" value="{{ category.id }}" {% if category in service.category.all %}checked{% endif %}><br>
+                {% endfor %}
+                </div> -->
 
-    <div class="form-group text-dark font-weight-bold m-3">
-        <label for="">category:</label>
-        <div class="form-check">
-            {% for category in categoryservice %}
+                <div class="form-group text-dark font-weight-bold m-3">
+                    <label for="">category:</label>
+                    <div class="form-check">
+                        {% for category in categoryservice %}
 
-            <input class="form-check-input" type="checkbox" name="{{ category.name }}" value="{{ category.id }}" {% if category in service.category.all %}checked{% endif %} id="flexCheckDefault">
-            <label class="form-check-label" for="flexCheckDefault">
-              {{ category.name }}
-            </label><br>
-            {%endfor%}
-          </div>
-    </div>
+                        <input class="form-check-input" type="checkbox" name="{{ category.name }}" value="{{ category.id }}" {% if category in service.category.all %}checked{% endif %} id="flexCheckDefault">
+                        <label class="form-check-label" for="flexCheckDefault">
+                        {{ category.name }}
+                        </label><br>
+                        {%endfor%}
+                    </div>
+                </div>
 
-    <div class="form-group text-dark font-weight-bold m-3">
-        <label for="">Max Capacity:</label>
-        <input type="number" name="max_capacity" value="{{ service.max_capacity }}" placeholder="Enter Maximum Capacity" class="form-control border-dark" id="" required>
-    </div>
+                <div class="form-group text-dark font-weight-bold m-3">
+                    <label for="">Max Capacity:</label>
+                    <input type="number" name="max_capacity" value="{{ service.max_capacity }}" placeholder="Enter Maximum Capacity" class="form-control border-dark" id="" required>
+                </div>
 
-    <div class="form-group text-dark font-weight-bold m-3">
-        <div class="form-group">
-            <label>Availability:</label><br>
-            <input type="checkbox" name="outdoor" id="outdoor" value="true"  {% if service.outdoor %}checked{% endif %}>>
-            <label for="outdoor">Outdoor</label><br>
-            <input type="checkbox" name="indoor" id="indoor" value="true" {% if service.indoor %}checked{% endif %}>
-            <label for="indoor">Indoor</label><br>
+                <div class="form-group text-dark font-weight-bold m-3">
+                    <div class="form-group">
+                        <label>Availability:</label><br>
+                        <input type="checkbox" name="outdoor" id="outdoor" value="true"  {% if service.outdoor %}checked{% endif %}>
+                        <label for="outdoor">Outdoor</label><br>
+                        <input type="checkbox" name="indoor" id="indoor" value="true" {% if service.indoor %}checked{% endif %}>
+                        <label for="indoor">Indoor</label><br>
+                    </div>
+                </div>
+
+                <div class="form-group text-dark font-weight-bold m-3">
+                    <div class="form-group">
+                        <label for="max_capacity_outdoor">Max Outdoor Capacity:</label>
+                        <input type="number" name="max_capacity_outdoor" value="{{ service.max_capacity_outdoor }}" class="form-control"><br>
+                    </div>
+                </div>
+
+                <div class="form-group text-dark font-weight-bold m-3">
+                    <div class="form-group">
+                        <label for="max_capacity_indoor">Max Indoor Capacity:</label>
+                        <input type="number" name="max_capacity_indoor" value="{{ service.max_capacity_indoor }}" class="form-control"><br>
+                    </div>
+                </div>
+                
+                <button class="bTn" type="submit">Update</button>
+            </form>
+            </div>
         </div>
     </div>
-
-
-    <label for="outdoor">Outdoor:</label>
-    <input type="checkbox" name="outdoor" value="true" {% if service.outdoor %}checked{% endif %}><br>
-    
-    <label for="indoor">Indoor:</label>
-    <input type="checkbox" name="indoor" value="true" {% if service.indoor %}checked{% endif %}><br>
-    
-    <!-- <label for="max_capacity">Max Capacity:</label>
-    <input type="number" name="max_capacity" value="{{ service.max_capacity }}" required><br> -->
-    
-    <label for="max_capacity_outdoor">Max Outdoor Capacity:</label>
-    <input type="number" name="max_capacity_outdoor" value="{{ service.max_capacity_outdoor }}"><br>
-    
-    <label for="max_capacity_indoor">Max Indoor Capacity:</label>
-    <input type="number" name="max_capacity_indoor" value="{{ service.max_capacity_indoor }}"><br>
-    
-    
-    <button type="submit">Update</button>
-</form>
+</div>
 </body>
 
 {% endblock %}

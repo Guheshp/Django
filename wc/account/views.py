@@ -445,6 +445,8 @@ def newcustomer(request):
     return render(request, 'acc/customerpage.html')
 
 def newvenuecoordinator(request):
+    venue = Venue.objects.filter(user=request.user).first() 
+    venueinfo_exists = Venue.objects.filter(user=request.user).exists()
     # venues = Venue.objects.all()
-    # context = {'venues':venues}
-    return render(request, 'acc/venuecoordinator.html')
+    context = {'venue':venue, 'venueinfo_exists':venueinfo_exists}
+    return render(request, 'acc/venuecoordinator.html', context)

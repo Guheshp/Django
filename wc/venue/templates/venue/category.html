@@ -2,6 +2,16 @@
 {% load static %}
 {% block content %}
 <body>
+
+    {% if category_exists%}
+    <section id="header" class="jumbotron text-center">
+        <h1 class="display-3">Additional Informations is Saved.</h1>
+        
+    </section>
+
+    
+    {%else%}
+
     <section id="header" class="jumbotron text-center">
         <h1 class="display-3">Additional Informations</h1>
         
@@ -65,6 +75,6 @@
 
         </div>
     </div>
-
+{%endif%}
 </body>
 {% endblock %}

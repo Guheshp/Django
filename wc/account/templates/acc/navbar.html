@@ -31,8 +31,8 @@
 
                     {% elif request.user.is_venuecoordinator %}
                         <!-- Add venue coordinator-specific links here -->
-                        <li class="nav-item"><a href="#" class="nav-link px-2 link-body-emphasis">Vene cordiantor</a></li>
-
+                        <li class="nav-item"><a href="#" class="nav-link px-2 link-body-emphasis">Update Details</a></li>
+                        
                     {% else %}
                         <!-- Display content for common and authenticated users -->
                         <li class="nav-item dropdown">
@@ -104,10 +104,7 @@
 </div>
 
       
-      
-      
-
-  
+    
   <!-- menu bar  -->
 
     <div id="mySidenav" class="sidenav ">
@@ -140,9 +137,24 @@
 
       {% elif request.user.is_venuecoordinator %}
         <a id="home-link" href="{% url 'home'%}"><b>Im Venue Coordinator</b></a>
-        
-        <a id="vender_register-link" href="{% url 'addvenue'%}">Add Venue</a>
+        {% if venue %}
+
+        <a id="vender_register-link" href="{% url 'addvenue' venue_name=venue.name %}">Add Venue</a>
+
+        {%endif%}
+
         <a id="vender_register-link" href="{% url 'user_venues' %}">Your Venue</a>
+        {% if venue %}
+        {% for v in venue %}
+        <a id="vender_register-link" href="{% url 'viewvenue_nav' venue_name=v.name %}">Venue Informations</a>
+        {% endfor %}
+        {%endif%}
+
+        <a id="vender_register-link" href="">Contact Informations</a>
+        <a id="vender_register-link" href="">Aminities</a>
+        <a id="vender_register-link" href="">Restrictions</a>
+        <a id="vender_register-link" href="">Images</a>
+        <a id="vender_register-link" href="">Additional Informations</a>
         <!-- <a id="vender_register-link" href="{% url 'viewallvenue' %}">All Venus</a> -->
         
 

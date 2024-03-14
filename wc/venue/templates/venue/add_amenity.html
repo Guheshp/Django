@@ -2,51 +2,52 @@
 {% load static %}
 {% block content %}
 <body>
-    <section id="header" class="jumbotron text-center">
-        <h1 class="display-3">Amenities</h1>
-        
-        {%for v in venue%}
-        <p class="lead m-0">Adding amenities to venue </p>
-        <a class="small" href="#">{{v.name|linebreaks}}</a>
-        {% endfor%}
-        
-        <p class="lead"> Increase your bookings! Amenities are a major deciding factor for renters. The more amenities you list, the more attractive your venue becomes."</p>
-      
-        <!-- ---------------------------------------------------------- -->
-    </section>
+    
+   
+            <section id="header" class="jumbotron text-center">
+                <h1 class="display-3">Amenities</h1>
+                
+                {%for v in venue%}
+                <p class="lead m-0">Adding amenities to venue </p>
+                <a class="small" href="#">{{v.name|linebreaks}}</a>
+                {% endfor%}
+                
+                <p class="lead"> Increase your bookings! Amenities are a major deciding factor for renters. The more amenities you list, the more attractive your venue becomes."</p>
+            
+                <!-- ---------------------------------------------------------- -->
+            </section>
 
 
-    <div class="container ">
+            <div class="container ">
 
-        <!-- <div id="showFormButton" class="text-center">
-            <h1 class="underline">Add Additional Information</h1>
+                <!-- <div id="showFormButton" class="text-center">
+                    <h1 class="underline">Add Additional Information</h1>
 
-                <button class="bTn" >Add Additional Info</button>
-            </div>
-            </div> -->
-        
-        <div class="row  justify-content-center">
-            <div class="col-md-12 py-5 border">
-                <form id="amenityForm" method="post">
-                    {% csrf_token %}
-                    <div id="amenityFields">
-                        <!-- Initial amenity input field -->
-                        <h4>Add Amenities</h4>
-                        <div class="input-group amenity-input-container">
-                            <input type="text" name="amenity_name" class="form-control amenity-input border-dark" placeholder="Enter Amenity" required>
-                            <div class="input-group-append">
-                                <button type="button" class="btn btn-outline-secondary remove-amenity ">Remove</button>
-                            </div>
-                        </div>
-                        <div id="errorMessage" style="color: red; display: none;"></div>
+                        <button class="bTn" >Add Additional Info</button>
                     </div>
-                    <button class="bTn mt-2 " type="button" id="addAmenity">Add Another Amenity</button>
-                    <button class="bTn mt-2 ml-2" type="submit" id="" >Save Amenities</button>
-                </form>
+                    </div> -->
+                
+                <div class="row  justify-content-center">
+                    <div class="col-md-12 py-5 border">
+                        <form id="amenityForm" method="post">
+                            {% csrf_token %}
+                            <div id="amenityFields">
+                                <!-- Initial amenity input field -->
+                                <h4>Add Amenities</h4>
+                                <div class="input-group amenity-input-container">
+                                    <input type="text" name="amenity_name" class="form-control amenity-input border-dark" placeholder="Enter Amenity" required>
+                                    <div class="input-group-append">
+                                        <button type="button" class="btn btn-outline-secondary remove-amenity ">Remove</button>
+                                    </div>
+                                </div>
+                                <div id="errorMessage" style="color: red; display: none;"></div>
+                            </div>
+                            <button class="bTn mt-2 " type="button" id="addAmenity">Add Another Amenity</button>
+                            <button class="bTn mt-2 ml-2" type="submit" id="" >Save Amenities</button>
+                        </form>
+                        </div>
+                    </div>
                 </div>
-            </div>
-        </div>
-       
 
    <script>
     document.addEventListener('DOMContentLoaded', function() {

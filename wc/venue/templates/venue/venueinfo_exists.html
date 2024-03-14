@@ -1,0 +1,205 @@
+{% extends 'acc/base.html'%}
+{% load static %}
+{% block content %}
+
+<div class=" container card py-2">
+    <h1 class="text-center fw-bold">Venue</h1>
+</div>
+
+<div class="container">
+    <div class="row gutters">
+    <div class="col-xl-3 col-lg-3 col-md-12 col-sm-12 col-12">
+    <div class="card h-100">
+        <div class="card-body">
+            <div class="account-settings">
+                <div class="user-profile">
+                    <div class="user-avatar">
+                        <img src="{{ venueinfo_venue.photo.url }}" alt="{{ venueinfo_venue.photo.url }}">
+                    </div>
+                    <h5 class="user-name">{{venueinfo_venue.name}}</h5>
+                    <h6 class="user-email">{{ venueinfo_venue.user }}</h6>
+                </div>
+                <div class="about">
+                    <h5 class="sub-heading">About</h5>
+                    <!-- <p>{{ vender.vender_about}}</p> -->
+                    <div id="about-content">
+                        <p id="truncated-content">{{ venueinfo_venue.description|truncatewords:20 }}
+                             <a id="toggle-button" href="#">read more</a>
+                        </p>
+                        <p id="full-content" style="display: none;">{{ venueinfo_venue.description }}</p>
+                        <a id="toggle-button-less" href="#" style="display: none;">read less</a>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+    <div class="col-xl-9 col-lg-9 col-md-12 col-sm-12 col-12">
+    <div class="card h-100">
+        <div class="card-body">
+            <div class="row gutters">
+               
+            
+                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                    <h6 class="mb-2 fw-bold py-2 border-bottom sub-heading">Venue Details</h6>
+                </div>
+                <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+                    <div class="">
+                        <label class="py-1 sub-heading">Venue Name:</label>
+    
+                        <div class="card">
+                            <div class="py-2 mx-3">
+                                {{ venueinfo_venue.name}} 
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+                    <div class="">
+                        <label class="py-1 sub-heading">User Email:</label>
+
+                        <div class="card">
+                            <div class="py-2 mx-3">
+                                {{ venueinfo_venue.user}} 
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+               
+                
+
+            <div class="row gutters">
+                <!-- <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                    <h6 class="mt-3 mb-2 text-primary">Address</h6>
+                </div> -->
+                <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+                    <div class="">
+                        <label class="py-1 sub-heading">Address:</label>
+
+                        <div class="card">
+                            <div class="py-2 mx-3">
+                                {{ venueinfo_venue.address_line_1}} 
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+                    <div class="">
+                        <label class="py-1 sub-heading">Street:</label>
+
+                        <div class="card">
+                            <div class="py-2 mx-3">
+                                {{ venueinfo_venue.address_line_2}} 
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+                    <div class="">
+                        <label class="py-1 sub-heading">City:</label>
+
+                        <div class="card">
+                            <div class="py-2 mx-3">
+                                {{ venueinfo_venue.city}} 
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+                    <div class="">
+                        <label class="py-1 sub-heading" >State:</label>
+
+                        <div class="card">
+                            <div class="py-2 mx-3">
+                                {{ venueinfo_venue.state}} 
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+                    <div class="">
+                        <label class="py-1 sub-heading" >Pincode:</label>
+
+                        <div class="card">
+                            <div class="py-2 mx-3">
+                                {{ venueinfo_venue.pincode}} 
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+                    <div class="">
+                        <label class="py-1 sub-heading" >Guests:</label>
+
+                        <div class="card">
+                            <div class="py-2 mx-3">
+                                {{ venueinfo_venue.capacity}} 
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+                    <div class="">
+                        <label class="py-1 sub-heading" >Terms and Conditions:</label>
+
+                        <div class="card">
+                            <div class="py-2 mx-3">
+                                {{ venueinfo_venue.note}} 
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+                    <div class="">
+                        <label class="py-1 sub-heading" >Price per day:</label>
+
+                        <div class="card">
+                            <div class="py-2 mx-3">
+                                {{ venueinfo_venue.price}} 
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row gutters">
+            <div class="col-xl-12">
+                <div class=" py-2 text-right">
+                    <!-- <a class="bTn" href="#">Go back</a> -->
+                    {% if venueinfo_exists%}
+                    <a class="bTn" href="{% url 'updatevenue_info' venueinfo_exists.id%}">Update</a>
+                    {%endif%}
+                </div>
+            </div>
+        </div><hr>
+
+
+       
+    </div>
+    </div>
+    </div>
+    <div class="container">
+
+        
+
+
+   
+  
+
+
+</div>
+
+   
+{% endblock %}

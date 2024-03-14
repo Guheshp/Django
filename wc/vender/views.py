@@ -94,7 +94,6 @@ def deleteVender(request, pk):
     vender = Vendor.objects.get(id=pk)
 
     if request.method == "POST":
-
         vender.delete()
         messages.success(request, 'vendor deleted successfully!')
         return redirect("venderviewall")
