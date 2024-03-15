@@ -1,0 +1,73 @@
+{% extends 'acc/base.html'%}
+{% load static %}
+{% block content %}
+<div class="container ">
+    <section id="header" class="jumbotron text-center">
+        <h1 class="display-3">Additional Informstions!</h1>
+        
+        {%for v in venue%}
+        <p class="lead m-0">Adding amenities to venue </p>
+        <a class="small" href="#">{{v.name|linebreaks}}</a>
+        {% endfor%}
+        
+        <p class="lead"> Increase your bookings! Amenities are a major deciding factor for renters. The more amenities you list, the more attractive your venue becomes."</p>
+    
+        <!-- ---------------------------------------------------------- -->
+    </section>
+        
+    <div class="row justify-content-center mt-5">
+        <div class="col-md-8">
+            <div class="card">
+
+                <h1 class="text-center">Your Details!</h1><hr>
+                <div class="form-group text-dark font-weight-bold m-3">
+                    <label for="">category:</label>
+                    <div class="form-check">
+                        {% for category in category_exists.category.all %}
+                        <input class="form-check-input" type="checkbox" name="category" value="{{ category.id }}" {% if category in service.category.all %}checked="checked"{% endif %} id="category{{ category.id }}">
+
+                        <label class="form-check-label" for="category{{ category.id }}">
+                            {{ category.name }}
+                        </label><br>
+                    {% endfor %}
+                    </div>
+                </div>
+
+                <div class="form-group text-dark font-weight-bold m-3">
+                    <label for="">Max Capacity:</label>
+                    <input type="" name="max_capacity" value="{{ category_exists.max_capacity }}" placeholder="Enter Maximum Capacity" class="form-control border-dark" id="" required>
+                </div>
+
+                <div class="form-group text-dark font-weight-bold m-3">
+                    <div class="form-group">
+                        <label>Availability:</label><br>
+                        <input type="checkbox" name="outdoor" id="outdoor" value="true"  {% if category_exists.outdoor %}checked{% endif %}>
+                        <label for="outdoor">Outdoor</label><br>
+                        <input type="checkbox" name="indoor" id="indoor" value="true" {% if category_exists.indoor %}checked{% endif %}>
+                        <label for="indoor">Indoor</label><br>
+                    </div>
+                </div>
+
+                <div class="form-group text-dark font-weight-bold m-3">
+                    <div class="form-group">
+                        <label for="max_capacity_outdoor">Max Outdoor Capacity:</label>
+                        <input type="" name="max_capacity_outdoor" value="{{ category_exists.max_capacity_outdoor }}" class="form-control"><br>
+                    </div>
+                </div>
+
+                <div class="form-group text-dark font-weight-bold m-3">
+                    <div class="form-group">
+                        <label for="max_capacity_indoor">Max Indoor Capacity:</label>
+                        <input type="" name="max_capacity_indoor" value="{{ category_exists.max_capacity_indoor }}" class="form-control"><br>
+                    </div>
+                </div>
+                
+                <button class="bTn" type="submit">Update</button>
+            </form>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+
+{% endblock %}

@@ -514,10 +514,13 @@ body{margin-top:20px;
 
 .venue .venue_col{
   cursor: pointer;
-  outline-offset: -1rem;
-  outline: .1rem solid #ccc;
+
+  /* outline-offset: -1rem; */
+  /* outline: .1rem solid #ccc; */
+  border-radius: 10px;
 }
 .venue .venue_col:hover{
+  border-radius: 10px;
 
   outline: .1rem solid #222;
   outline-offset: 0;
@@ -527,6 +530,7 @@ body{margin-top:20px;
 .venue img{
   height: 250px;
   width:100%;
+  border-radius: 10px;
   transition: transform 0.2s ease-in-out;
 }
 .venue img:hover{

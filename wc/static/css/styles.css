@@ -415,22 +415,29 @@ margin-top: 100px;
 .invalid-container{
   margin-top: 30px;
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
 }
 
 .invalid-page{
   border: 2px solid rgba(3, 6, 55, .3);
-  width: 400px;
+  width: 700px;
   /* border-radius: 20px; */
   box-shadow: 0 0 30px rgba(0, 0, 0, .5);
 }
 .invalid-page a{
-  text-decoration: none !important ;
-  color:	rgb(23, 51, 79);
+  text-decoration: none;
+  background-color: rgb(23,51,79);
+  margin: 10px;
+  height: 30px;
+  padding: 3px;
+  color: white;
+  border-radius:3px  ;
+
 }
 .invalid-page a:hover{
-  color: white;
+
 }
 .invalid-page h4{
   text-align: center;

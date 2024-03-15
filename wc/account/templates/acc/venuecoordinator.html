@@ -89,8 +89,6 @@
       </li> -->
       </ul>
       
-
-   
     </header>
     <div class="border-bottom border-light"></div>
 
@@ -100,11 +98,11 @@
       </a>
       <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
             <li class="nav-item dropdown">
-              {% if venueinfo_exists %}
+
               {% for v in venue %}
               <a class="dropdown-item " href="{% url 'viewvenue_info' v.id%}"> VIEW VENUE INFO</a>
               {%endfor%}
-              {%endif%}</li>
+            </li>
 
               <li>
               {% for v in venue %}

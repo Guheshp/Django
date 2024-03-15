@@ -313,7 +313,6 @@ def Delete_image(request, pk):
 
 @login_required(login_url='login')
 def contact_info(request, pk):
-    contactinfo_exists = ContactInformation.objects.filter(user=request.user).exists()
 
     venue = get_object_or_404(Venue, id=pk)
     if request.method == 'POST':
@@ -326,7 +325,18 @@ def contact_info(request, pk):
             contact_email = form.cleaned_data.get('email')
             messages.success(request, f"{contact_email} information saved successfully!")
             return redirect('home')
+        
+    contactinfo_exists = ContactInformation.objects.filter(user=request.user).exists()
+
+    if contactinfo_exists:
+
+        contactinfo= ContactInformation.objects.get(user=request.user, venue=venue)
+
+        context={'contactinfo':contactinfo}
+
+        return render(request, 'venue/contactinfo_exists.html', context)
     else:
+
         form=ContactInformationForm()
     context= {'form':form, 'contactinfo_exists':contactinfo_exists}
     return render(request, 'venue/contact_info.html', context)
@@ -351,7 +361,6 @@ def updatecontact_info(request, pk):
 @login_required(login_url='login')
 def category(request, pk):
     venue = get_object_or_404(Venue, id=pk)
-    category_exists = Service.objects.filter(venue=venue).exists()
 
     categoryservice = ServiceCategory.objects.all()
     if request.method == "POST":
@@ -384,8 +393,19 @@ def category(request, pk):
         messages.success(request, 'done')
         return redirect('home')
             
-    context = {'categoryservice':categoryservice, 'category_exists':category_exists}
-    return render (request, 'venue/category.html', context)
+    category_exists = Service.objects.filter(venue=venue).exists()
+    if category_exists:
+
+        category_exists= Service.objects.get(venue=venue)
+
+        context={'category_exists':category_exists}
+
+        return render(request, 'venue/category_exists.html', context)
+
+    else:
+
+        context = {'categoryservice':categoryservice, 'category_exists':category_exists}
+        return render (request, 'venue/category.html', context)
 
 @login_required(login_url='login')
 def update_category(request, pk):
@@ -436,7 +456,6 @@ def update_category(request, pk):
     
     # Render the update_category.html template with the provided context
     return render(request, 'venue/update_category.html', context)
-
 
 
 def viewallvenue(request):

@@ -2,8 +2,20 @@
 {% load static %}
 {% block content %}
 
-<div class=" container card py-2">
-    <h1 class="text-center fw-bold">Venue</h1>
+<div class=" container card">
+    <section id="header" class="jumbotron text-center">
+        <h1 class="display-3">Venue</h1>
+        
+        {%for v in venue%}
+        <p class="lead m-0">Adding amenities to venue </p>
+        <a class="small" href="#">{{v.name|linebreaks}}</a>
+        {% endfor%}
+        
+        <p class="lead"> Increase your bookings! Amenities are a major deciding factor for renters. The more amenities you list, the more attractive your venue becomes."</p>
+    
+        <!-- ---------------------------------------------------------- -->
+    </section>
+    <!-- <h1 class="text-center fw-bold">Venue</h1> -->
 </div>
 
 <div class="container">
@@ -147,18 +159,7 @@
 
                     </div>
                 </div>
-                <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
-                    <div class="">
-                        <label class="py-1 sub-heading" >Terms and Conditions:</label>
-
-                        <div class="card">
-                            <div class="py-2 mx-3">
-                                {{ venueinfo_venue.note}} 
-                            </div>
-                        </div>
-
-                    </div>
-                </div>
+               
                 <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
                     <div class="">
                         <label class="py-1 sub-heading" >Price per day:</label>
@@ -173,7 +174,18 @@
                 </div>
             </div>
         </div>
+        <div class="col-xl-12 col-lg-6 col-md-6 col-sm-6 col-12">
+            <div class="">
+                <label class="py-1 sub-heading" >Terms and Conditions:</label>
 
+                <div class="card">
+                    <div class="py-2 mx-3">
+                        {{ venueinfo_venue.note}} 
+                    </div>
+                </div>
+
+            </div>
+        </div>
         <div class="row gutters">
             <div class="col-xl-12">
                 <div class=" py-2 text-right">

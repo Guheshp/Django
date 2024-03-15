@@ -45,7 +45,7 @@ from .models import Contact
 
 from vender.models import Vendor,ServiceDetails
 
-from venue.models import Venue
+from venue.models import Venue, ContactInformation
 
 CustomUser = get_user_model()
 # Create your views here.
@@ -445,8 +445,8 @@ def newcustomer(request):
     return render(request, 'acc/customerpage.html')
 
 def newvenuecoordinator(request):
-    venue = Venue.objects.filter(user=request.user).first() 
-    venueinfo_exists = Venue.objects.filter(user=request.user).exists()
+    venue = Venue.objects.filter(user=request.user)
+
     # venues = Venue.objects.all()
-    context = {'venue':venue, 'venueinfo_exists':venueinfo_exists}
+    context = {'venue':venue}
     return render(request, 'acc/venuecoordinator.html', context)

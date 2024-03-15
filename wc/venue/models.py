@@ -72,7 +72,7 @@ class Service(models.Model):
         return " / ".join([str(category) for category in self.category.all()])
 
     get_category_names.short_description = "Categories"
-
+    
     def __str__(self):
         return self.get_category_names() 
 

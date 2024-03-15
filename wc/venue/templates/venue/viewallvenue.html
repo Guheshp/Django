@@ -88,26 +88,26 @@
         <div class="row container">
           
             {% for venue in venues%}
-
-            <div class="col-lg-4 p-4 venue_col">
+            <div class="col-lg-3 p-2  card">
               
               <div class="">
-                <div class="venue_image_container services-box1 ">
-                  <div class="venue-image"><a href="{% url 'showvenue' venue.id%}"><img src="{{venue.venue_image.url}}" alt="{{venue.venue_image.url}}"></a></div>
+                <div class="venue_image_container">
+                  <div class="venue-image"><a href="{% url 'showvenue' venue.id%}"><img src="{{venue.photo.url}}" alt="{{venue.photo.url}}"></a></div>
                 </div>
                 <div><p class="venue-btn d-flex fw-bold m-0 mt-2" >{{venue.name}}</p></div>
                   <div class="venue_text text-center">
-                    <p class="m-1 d-flex "><span class="fw-">Booking Cost:&nbsp;&nbsp;<i class="fa fa-indian-rupee-sign"></i></span>{{venue.booking_cost|floatformat:2}}</p>
-                    <p class="m-1 d-flex "><span class="fw-">Contact:</span>&nbsp;{{venue.phone_number}}</p>
-                    <p class="m-1 d-flex "><span class="fw-">Hall Count:</span>&nbsp;{{venue.hall_counts}}</p>
-                    <p class="m-1 d-flex "><span class="fw-">Hall Count:</span>&nbsp;{{venue.city}}</p>
+                    <p class="m-1 d-flex small text-secondary">{{venue.city}}</p>
+                    <p class="m-1 d-flex "><span class="small">Guest Count: </span>&nbsp;{{venue.capacity}}<span>  &nbsp;<i class="fa-solid fa-user-group"></i></span></p>
+
+
+
                     <!-- <p class="m-1 d-flex justify-content-start"><span class="fw-">Total Area:</span>&nbsp;{{venue.capacity}} <span><cite title="Source Title">&nbsp;/members per hall</cite></span></p> -->
-                    <p class="m-1  "><span class="fw-">Emenities:</span> 
+                    <!-- <p class="m-1  "><span class="fw-">Emenities:</span> 
                       {% for eme in venue.amenities.all %}
-                      <!-- <ul style="list-style-type:none; margin:0; padding: 0;" > -->
+
                         <b style="display: inline-block;padding: 0; margin-right: 5px;">{{eme.amenity_name|truncatewords_html:2 }},</b>
                       {% endfor %}
-                    </p>
+                    </p> -->
                   </div>
                   
                   <div class="venue-name">

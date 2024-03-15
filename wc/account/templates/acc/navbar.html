@@ -137,25 +137,10 @@
 
       {% elif request.user.is_venuecoordinator %}
         <a id="home-link" href="{% url 'home'%}"><b>Im Venue Coordinator</b></a>
-        {% if venue %}
 
-        <a id="vender_register-link" href="{% url 'addvenue' venue_name=venue.name %}">Add Venue</a>
-
-        {%endif%}
 
         <a id="vender_register-link" href="{% url 'user_venues' %}">Your Venue</a>
-        {% if venue %}
-        {% for v in venue %}
-        <a id="vender_register-link" href="{% url 'viewvenue_nav' venue_name=v.name %}">Venue Informations</a>
-        {% endfor %}
-        {%endif%}
-
-        <a id="vender_register-link" href="">Contact Informations</a>
-        <a id="vender_register-link" href="">Aminities</a>
-        <a id="vender_register-link" href="">Restrictions</a>
-        <a id="vender_register-link" href="">Images</a>
-        <a id="vender_register-link" href="">Additional Informations</a>
-        <!-- <a id="vender_register-link" href="{% url 'viewallvenue' %}">All Venus</a> -->
+     <!-- <a id="vender_register-link" href="{% url 'viewallvenue' %}">All Venus</a> -->
         
 
 
