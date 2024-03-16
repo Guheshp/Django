@@ -94,10 +94,30 @@
                 <div class="venue_image_container">
                   <div class="venue-image"><a href="{% url 'showvenue' venue.id%}"><img src="{{venue.photo.url}}" alt="{{venue.photo.url}}"></a></div>
                 </div>
-                <div><p class="venue-btn d-flex fw-bold m-0 mt-2" >{{venue.name}}</p></div>
+                <div><p class="venue-btn d-flex fw-bold m-0 mt-2 justify-content-center" >{{venue.name}}</p></div>
                   <div class="venue_text text-center">
-                    <p class="m-1 d-flex small text-secondary">{{venue.city}}</p>
-                    <p class="m-1 d-flex "><span class="small">Guest Count: </span>&nbsp;{{venue.capacity}}<span>  &nbsp;<i class="fa-solid fa-user-group"></i></span></p>
+                    <p class="m-1 d-flex small text-secondary justify-content-center"> <span><i class="fa-solid fa-location-dot"></i>&nbsp;</span>{{venue.city}}</p>
+                    <div class="d-flex  justify-content-around">
+                    <p class="m-1  small text-secondary">Guests</p>
+                    <!-- <p class="ml-1    fw-bold">{{venue.capacity}}<i class=" mt-1 ml-1 fa-solid fa-user-group"></i></span></p> -->
+                    <p class="m-1  text-secondary "><span class="small">Rental Cost</p>
+                    <!-- <p class="ml-1   fw-bold"><span><i class="fa-solid fa-indian-rupee-sign"></i></span>{{venue.price}}</p> -->
+                  </div>
+                    
+
+                  <div class="d-flex  justify-content-around">
+                    <p class="ml-1    fw-bold">{{venue.capacity}}<i class=" mt-1 ml-1 fa-solid fa-user-group"></i></span></p>
+                    <p class="ml-1   fw-bold"><span><i class="fa-solid fa-indian-rupee-sign"></i></span>{{venue.price}}</p>
+                  </div>
+                    <!-- <p class="m-1 d-flex text-secondary "><span class="small">Rental Cost</p> -->
+                      <!-- <p class="ml-1 d-flex   fw-bold"><span><i class="fa-solid fa-indian-rupee-sign"></i></span>{{venue.price}}</p> -->
+                    {% for s in service %}
+                    {% if s.venue == venue %}
+                        {% for category in s.category.all %}
+                            <p>{{ category.name }}</p>
+                        {% endfor %}
+                    {% endif %}
+                {% endfor %}
 
 
 
@@ -124,7 +144,7 @@
                         </div>
                         <div class="modal-footer">
                           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                          <a href="{% url 'addevent' venue.id%}" class="btn">Login</a>
+                          <a href="{% url 'login'%}" class="btn">Login</a>
                         </div>
                       </div>
                     </div>
@@ -132,11 +152,11 @@
                   
                      <div class="d-flex text-center" >
                       {% if user.is_authenticated %}
-                      <a  href="{% url 'addevent' venue.id%}">Book Here</a>
+                      <a  href="#">Book Here</a>
                       {%else%}
-                      <a data-bs-target="#exampleModal" data-bs-toggle="modal" class="" href="#">Book Here</a>&nbsp;&nbsp;&nbsp;&nbsp;
+                      <a data-bs-target="#exampleModal" data-bs-toggle="modal" class="" href="#">Request Venue</a>&nbsp;&nbsp;&nbsp;&nbsp;
                       {% endif %}
-                        <a  href="{% url 'showvenue' venue.id%}">View Details</a>
+                        <!-- <a  href="{% url 'showvenue' venue.id%}">View Details</a> -->
                     </div>
                   </div>
               </div>

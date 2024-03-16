@@ -460,6 +460,9 @@ def update_category(request, pk):
 
 def viewallvenue(request):
     venues = Venue.objects.all().order_by('name')
+    # venue_for = Venue.objects.filter(user=request.user)
+    # service = Service.objects.filter(venue__in=venue_for)
+
     # amenitie = amenities.objects.all().order_by('amenity_name')
     no_venues_message = None
 
@@ -517,6 +520,7 @@ def viewallvenue(request):
         'sort_by': sort_by,
         'search': search,
         'Amenities': Amenities,
+        # 'service':service,
         'form': form,
         'date': date,
         'no_venues_message':no_venues_message,
@@ -527,8 +531,20 @@ def viewallvenue(request):
 # @login_required(login_url='login')
 def showvenue(request,pk):
     venue = Venue.objects.get(id=pk)
+    service = Service.objects.filter(venue=venue)
     venue_images = VenueImage.objects.filter(venue_id=pk)
-    context = {'venue':venue, 'venue_images':venue_images}
+    venueAmenities = Amenities.objects.filter(venue=venue)
+    venueAmenities = Amenities.objects.filter(venue=venue)
+    venueRestrictions = Restrictions.objects.filter(venue=venue)
+    contactinfo = ContactInformation.objects.filter(venue=venue)
+    # venueAmenities = VenueAmenities.objects.filter(venue=venue)
+
+    context = {'venue':venue,
+            'venue_images':venue_images,
+            'service':service,
+            'venueAmenities':venueAmenities, 
+            'venueRestrictions':venueRestrictions,
+            'contactinfo':contactinfo}
     return render(request, 'venue/showvenue.html', context)
 
 @login_required(login_url='login')

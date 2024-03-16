@@ -1,0 +1,17 @@
+{% extends 'acc/base.html'%}
+{% block content%}
+
+{% for enquiry in enquiries %}
+    <p>Name: {{ enquiry.name }}</p>
+    <p>Phone Number: {{ enquiry.phone_number }}</p>
+    <p>Associated Dates:</p>
+    <ul>
+        {% for date in enquiry.dates.all %}
+            <li>{{ date.date }}</li>
+        {% endfor %}
+    </ul>
+    <hr>
+{% endfor %}
+
+</body>
+{%  endblock %}

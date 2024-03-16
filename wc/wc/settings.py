@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     'vender',
     'wedding',
     'venue',
+    'Invoice',
 
 
 ]

@@ -617,3 +617,10 @@ body{margin-top:20px;
 .horizintal-bar{
   /* background-color: rgb(23, 51, 79); */
 }
+
+.side-block{
+  height: 100px;
+  width: 280px;
+  background-color: #222f3d;
+  float: right;
+}
