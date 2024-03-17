@@ -1,17 +1,54 @@
 {% extends 'acc/base.html'%}
 {% block content%}
 
-{% for enquiry in enquiries %}
-    <p>Name: {{ enquiry.name }}</p>
-    <p>Phone Number: {{ enquiry.phone_number }}</p>
-    <p>Associated Dates:</p>
-    <ul>
-        {% for date in enquiry.dates.all %}
-            <li>{{ date.date }}</li>
-        {% endfor %}
-    </ul>
-    <hr>
-{% endfor %}
+<div class="container ">
+    <div class="row">
+        
+        <div class="col-lg-12 mx-auto">
+            <div class="card rounded shadow border-0">
+                <div class="card-body  bg-white rounded">
+              <h3 class="m-3">Enquery Lists</h3>
+            <div class="table-responsive">
+              <table id="example" style="width:100%" class="table  table-bordered">
+                <thead>
+                  <tr>
+                    <th>Sl.no</th>
+                    <th>Name</th>
+                    <th>Phone Number</th>
+                    <th>Dates</th>
+                    <!-- <th>Update</th> -->
+                    <th>Delete</th>
+                  </tr>
+                </thead>
+                <tbody>
+                {% for enquiry in enquiries %}
+                  <tr>
+                    <td>{{forloop.counter}}</td>
+                    <td><a href="{% url 'enquiryUpdate' enquiry.id %}">{{ enquiry.name }}</a></td>
+                    <td>{{ enquiry.phone_number }}</td>
+                    <td>
+                        <ul>
+                            {% for date in enquiry.dates.all %}
+                            <li>{{ date.date }}</li>
+                            {% endfor %}
+                        </ul>
+                    </td>
+
+                    <!-- <td><a href="{% url 'enquiryUpdate' enquiry.id %}">Update</a></td> -->
+                    <td><a class="text-danger" href="{% url 'delete_enquiry' enquiry.id %}">delete</a></td>
+
+                    
+                  </tr>
+                  {% endfor %}
+
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 
 </body>
 {%  endblock %}

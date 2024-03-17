@@ -1,7 +1,10 @@
 from django.shortcuts import render, redirect
 from django.contrib import messages
-from django.db.models import Count
+from django.shortcuts import get_object_or_404
+from datetime import datetime
+
 from .models import Enquiry, Date
+from .forms import UpdateEnquiryForm
 from django.contrib.auth.decorators import login_required
 
 # Create your views here.
@@ -36,16 +39,9 @@ def Enquery(request):
     return render(request, 'invoice/Eenquery.html')
 
 
-#  if request.method == 'POST':
-#         form = UploadImageForm(request.POST, request.FILES)
-#         if form.is_valid():
-#             images = request.FILES.getlist('image')
-#             for image in images:
-#                 VenueImage.objects.create(venue=venue, image=image)
-#             messages.success(request, f"information saved successfully!")
-#             return redirect('addvenue')
+@login_required(login_url='login')
 def Enquerylist(request):
-    enquiries = Enquiry.objects.all()
+    enquiries = Enquiry.objects.all().order_by('-id')
     for enquiry in enquiries:
         print(enquiry.name)
         for date in enquiry.dates.all():
@@ -53,3 +49,36 @@ def Enquerylist(request):
 
     context = {'enquiries':enquiries}
     return render(request, 'invoice/Enquerylist.html', context)
+
+
+@login_required(login_url='login')
+def update_enquiry(request, enquiry_id):
+    enquiry = get_object_or_404(Enquiry, pk=enquiry_id)
+
+    if request.method == "POST":
+        name = request.POST.get('name')
+        phone_number = request.POST.get('phone_number')
+      
+
+        # Update enquiry details
+        enquiry.name = name
+        enquiry.phone_number = phone_number
+
+        enquiry.save()
+
+        messages.success(request, "Enquiry information updated successfully!")
+        return redirect('home')
+
+    return render(request, 'invoice/enquiryUpdate.html', {'enquiry': enquiry})
+
+
+@login_required(login_url='login')
+def delete_enquiry(request, pk):
+    enquiry = get_object_or_404(Enquiry, id=pk)
+    if request.method == 'POST':
+        enquiry.delete()
+        messages.success(request, 'enquiry deleted successfully!')
+        return redirect('home')
+    context = {'enquiry':enquiry}
+
+    return render(request, 'invoice/delete_enquiry.html', context)

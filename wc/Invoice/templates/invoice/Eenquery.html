@@ -1,12 +1,29 @@
 {% extends 'acc/base.html'%}
+{% load static%}
 {% block content%}
 <body>
+  <section id="header" class="jumbotron text-center">
+    <h1 class="display-3">Enquiry</h1>
+    
+    {%for v in venue%}
+    <p class="lead m-0">Adding amenities to venue </p>
+    <a class="small" href="#">{{v.name|linebreaks}}</a>
+    {% endfor%}
+    
+    <p class="lead">#</p>
+
+    <!-- ---------------------------------------------------------- -->
+</section>
     <section class="container" style="display: flex;justify-content: center;">
 
-        <div class="col-md-7 col-lg-8">
-            <h4 class="mb-3">Enquery</h4>
+      <div class="col-lg-12 mx-auto">
+        <div class="card rounded shadow border-0">
+          <div class="card-body  bg-white rounded">
+          <!-- <h3 class="m-3">Enquery Lists</h3> -->
+        <div class="table-responsive">
+            <!-- <h4 class="mb-3">Enquery</h4> -->
 
-            <form class="needs-validation" id="dateForm" novalidate method="POST">
+            <form class="needs-validation shadow" id="dateForm" novalidate method="POST">
               {% csrf_token %}
               <div class="row g-3">
                   <div class="col-sm-6">
@@ -18,10 +35,10 @@
                   </div>
                   <div class="col-sm-6">
                       <label for="lastName" class="form-label fw-bold">Phone Number</label>
-                      <input type="text" name="phone_number" class="form-control border-dark" id="lastName" placeholder="Enter Phone Number" value="" required>
-                      <div class="invalid-feedback">
-                          Valid last name is required.
-                      </div>
+                      <input type="number" name="phone_number" class="form-control border-dark" id="phoneNumber" placeholder="Enter Phone Number" value="" required>
+                      <div id="phoneError" class="invalid-feedback">
+                        Please enter a 10-digit phone number.
+                    </div>
                   </div>
                   <div id="amenityFields">
                       <label class="fw-bold">Add Dates</label>
@@ -39,31 +56,28 @@
                   </div>
               </div>
           </form>
-          
-          </section>
-        
-
-          
-
-
-
-
-    
-               
-    
-              <!-- <hr class="my-4"> -->
-<!--     
-              <div class="form-check">
-                <input type="checkbox" class="form-check-input" id="same-address">
-                <label class="form-check-label" for="same-address">Shipping address is the same as my billing address</label>
-              </div>
-    
-              <div class="form-check">
-                <input type="checkbox" class="form-check-input" id="save-info">
-                <label class="form-check-label" for="save-info">Save this information for next time</label>
-              </div> -->
-
+        </div>
+          </div>
+        </div>
+      </div>
+      
+</section>
     </section>
+    
+    <script>
+    document.getElementById('phoneNumber').addEventListener('input', function(event) {
+      var phoneNumberInput = event.target.value;
+      var phoneNumberLength = phoneNumberInput.length;
+      var phoneError = document.getElementById('phoneError');
+    
+      if (phoneNumberLength !== 10) {
+          phoneError.style.display = 'block';
+      } else {
+          phoneError.style.display = 'none';
+      }
+    });
+  </script>
+
 
     <script>
       document.addEventListener('DOMContentLoaded', function() {

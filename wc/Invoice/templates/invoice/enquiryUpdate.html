@@ -1,0 +1,37 @@
+{% extends 'acc/base.html'%}
+{% block content%}
+<body>
+    <section class="container" style="display: flex;justify-content: center;">
+
+        <div class="col-md-7 col-lg-8">
+            <h4 class="mb-3">Enquery</h4>
+            {% if form.errors %}
+    <div class="alert alert-danger" role="alert">
+        {% for field, errors in form.errors.items %}
+            {% for error in errors %}
+                {{ field|title }}: {{ error }}
+            {% endfor %}
+        {% endfor %}
+    </div>
+    {% endif %}
+
+
+        <form method="post">
+            {% csrf_token %}
+            <label for="name">Name:</label><br>
+            <input type="text" id="name" name="name" value="{{ enquiry.name }}"><br><br>
+            
+            <label for="phone_number">Phone Number:</label><br>
+            <input type="text" id="phone_number" name="phone_number" value="{{ enquiry.phone_number }}"><br><br>
+            
+            <!-- You can add more date fields if needed -->
+            
+            <button type="submit">Update</button>
+        </form>
+            
+          
+          </section>
+    
+</body>
+{%endblock%}
+

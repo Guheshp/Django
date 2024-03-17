@@ -3,6 +3,8 @@ from .models import Venue, Event, Booking, VenueImage, Service,Restrictions, Ame
 from wedding.models import Couples
 from django.urls import reverse
 
+from Invoice.models import Enquiry
+
 from .forms import (VenueInfoForm,
                     UpdateVenueInfoForm,
                     UpdateAmenitiesForm,
@@ -194,8 +196,6 @@ def Update_amenities(request,pk):
             form.save()
             messages.success(request, 'Amenity updated successfully!')
             return redirect('home')  
-
-
         else:
             messages.error(request, 'Something went wrong while updating the amenity.')
     else:
@@ -344,8 +344,8 @@ def contact_info(request, pk):
 
 @login_required(login_url='login')
 def updatecontact_info(request, pk):
-    # venue = get_object_or_404(Venue, id=pk)
-    contact = get_object_or_404(ContactInformation)
+    venue = get_object_or_404(Venue, id=pk)
+    contact = get_object_or_404(ContactInformation, venue=venue)
     if request.method == "POST":
         form = UpdateContactInformationForm(request.POST, instance=contact)
         if form.is_valid():
@@ -551,7 +551,8 @@ def showvenue(request,pk):
 def user_venues(request):
     user_name = request.user
     user_venues = Venue.objects.filter(user=request.user).order_by('name')
-    context = {'user_venues': user_venues, 'user_name':user_name}
+    enquiry_count = Enquiry.objects.all().count()
+    context = {'user_venues': user_venues, 'user_name':user_name, 'enquiry_count':enquiry_count}
     return render(request, 'venue/user_venues.html', context)
 
 @login_required(login_url='login')
