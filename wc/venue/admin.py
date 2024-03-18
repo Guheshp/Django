@@ -26,6 +26,7 @@ class EventAdmin(admin.ModelAdmin):
     list_filter = ('date', 'venue')
     ordering = ('-date',)
 
+
 @admin.register(Booking)
 class BookingAdmin(admin.ModelAdmin):
     list_display = ['venue', 'event', 'user', 'booking_type']

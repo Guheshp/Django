@@ -1,0 +1,193 @@
+
+
+{% extends 'acc/base.html'%}
+{% load static%}
+{% block content%}
+<body>
+  <section id="header" class="jumbotron text-center">
+    <h1 class="display-3">Booking Venue</h1>
+    
+    {%for v in venue%}
+    <p class="lead m-0">Adding amenities to venue </p>
+    <a class="small" href="#">{{v.name|linebreaks}}</a>
+    {% endfor%}
+    
+    <p class="lead">#</p>
+</section>
+
+<section class="container" style="display: flex;justify-content: center;">
+
+        <div class="col-lg-12 mx-auto">
+            <div class="card rounded shadow border-0">
+                <div class="card-body  bg-white rounded">
+                    <!-- <h3 class="m-3">Enquery Lists</h3> -->
+                    <div class="">
+                    <!-- <h4 class="mb-3">Enquery</h4> -->
+
+                        <div class="row g-3">
+                            <div class="col-sm-6">
+                                <label for="firstName" class="form-label fw-bold">Name</label>
+                                <!-- <input name="name" class="form-control border-dark" id="firstName"  value="{{enquiry.name}}" required> -->
+                                <div class="card border-dark m-0 decoration-none">
+                                <div class="py-2 mx-3 ">
+                                    <span>{{enquiry.name}}</span> 
+                                 </div>
+                                 </div>
+                            </div>
+
+                            <div class="col-sm-6">
+                                <label for="lastName" class="form-label fw-bold">Phone Number</label>
+                                <div class="card border-dark m-0 decoration-none">
+                                    <div class="py-2 mx-3 ">
+                                        <span>{{enquiry.phone_number}}</span> 
+                                    </div>
+                                 </div>
+                            </div>
+
+                            <div class="col-sm-6">
+                            <!-- <label for="dates">Dates:</label><br> -->
+                            <label for="lastName" class="form-label fw-bold">Dates</label>
+                                {% for date in enquiry.dates.all %}
+                                    <!-- <input class="form-control border-dark"  id="date_{{ forloop.counter }}" name="dates" value="{{ date }}"><br> -->
+                                    <div class="card border-dark m-0 decoration-none mt-2">
+                                        <div class="py-2 mx-3">
+                                            <span>{{ date }}</span>
+                                        </div>
+                                     </div>
+                                {% endfor %}
+                            </div>
+
+                            <div class="col-sm-6">
+                                <label for="lastName" class="form-label fw-bold">Venue Name</label>
+                                <div class="card border-dark m-0 decoration-none">
+                                    <div class="py-2 mx-3 ">
+                                        {%for v in venue%}
+                                        <span>{{v.name}}</span> 
+                                        {%endfor%}
+                                    </div>
+                                 </div>
+                            </div>
+
+                            
+                            <div class="d-flex align-items-end flex-column mb-3">
+                                <div class="mb-auto p-2"><h2 class="m-0 fw-bold">Total Amount</h2></div>
+                                {%for v in venue%}
+                                <div class="p-2 mr-5 "><h3 class="m-0"><i class="fa-solid fa-indian-rupee-sign"></i>&nbsp;{{v.price|floatformat:2}}</h3></div>
+                                {%endfor%}
+                                <!-- <div class="p-2">Flex item</div> -->
+                              </div>
+                        </div>
+                        
+                        <!-- <hr class="fw-bold"> -->
+
+                        <!-- <h3 class="m-3">Couples Details</h3> -->
+                        <div>
+                        <form action="{% url 'Booking_venue' enquiry.id%}" method="POST" class="" enctype="multipart/form-data">
+                            <h1 class="p-3 text-bg-dark  rounded-end">Couples Details</h1><hr>
+    
+                            {% csrf_token %}
+    
+                            {% if form.errors %}
+    
+                            <div class="alert alert-danger">
+                                    {% for field, error_list in form.errors.items %}
+                                        {% for error in error_list %}
+                                        <p>{{ error }}</p>
+                                        {% endfor %}
+                                    {% endfor %}
+                            </div>
+    
+                            {% endif %}
+
+                    <div class="row align-items-md-stretch">
+                        
+                        <div class="col-md-6">
+                        <h3 class="m-3">Groom's Details</h3>
+
+                            <div class="form-group m-3">
+                                <label class="form-label fw-bold" for="">Groom Name</label>
+                                <input type="text" name="groomname" placeholder="Enter Groom Name" class="form-control border-dark " id="" required>
+                            </div>
+                            
+                            <div class="form-group m-3">
+                                <label class="form-label fw-bold" for="">Groom Date Of Birth</label>
+                                <input type="date" name="groomDOB"  class="form-control border-dark " id="" required>
+                                {% if form.errors.groomDOB %}
+                                <div class="text-danger">{{ form.errors.groomDOB.as_text }}</div>
+                                {% endif %}
+                            </div>
+
+                            <div class="form-group m-3">
+                                <label class="form-label fw-bold" for="">Father's Full Name</label>
+                                <input type="text" name="groomfathername" placeholder="Enter Father's Full Name" class="form-control border-dark " id="" required>
+                            </div>
+                            <div class="form-group m-3">
+                                <label class="form-label fw-bold" for="">Mother's Full Name</label>
+                                <input type="text" name="groommothername" placeholder="Enter Mother's Full Name" class="form-control border-dark " id="" required>
+                            </div>
+
+                            
+                            <div class="form-group m-3">
+                                <label class="form-label fw-bold" for="">Id Proof of Groom</label>
+                                <input type="file" name="groom_proof_image" class="form-control border-dark" id="">
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+
+                        <h3 class="m-3">Bride's Details</h3>
+
+                            <div class="form-group m-3">
+                                <label class="form-label fw-bold" for="">Bride Name</label>
+                                <input type="text" name="bridename" placeholder="Enter Bride Name" class="form-control border-dark " id="" required>
+                            </div>
+    
+                            <div class="form-group m-3">
+                                <label class="form-label fw-bold" for="">Bride Date Of Birth</label>
+                                <input type="date" name="brideDOB"  class="form-control border-dark " id="" required>
+                                {% if form.errors.brideDOB %}
+                                <div class="text-danger">{{ form.errors.brideDOB.as_text }}</div>
+                                {% endif %}
+                            </div>
+
+                            <div class="form-group m-3">
+                                <label class="form-label fw-bold" for="">Father's Full Name</label>
+                                <input type="text" name="bridfathername" placeholder="Enter Father's Full Name" class="form-control border-dark " id="" required>
+                            </div>
+                            <div class="form-group m-3">
+                                <label class="form-label fw-bold" for="">Mother's Full Name</label>
+                                <input type="text" name="bridmothername" placeholder="Enter Mother's Full Name" class="form-control border-dark " id="" required>
+                            </div>
+
+                            <div class="form-group m-3">
+                                <label class="form-label fw-bold" for="">Id Proof of Bride</label>
+                                <input type="file" name="brid_proof_image" class="form-control border-dark" id="">
+                            </div>
+                        </div>
+                    </div>
+                        <br><h3 class="m-3">Payment Details</h3>
+                            
+                            <div class="form-group m-3">
+                                <label class="form-label fw-bold" for="">Advance Payment</label>
+                                <input type="number" name="advance_amt" class="form-control border-dark" placeholder="Enter Amount" id="">
+                            </div>
+                            
+    
+                            <div class="form-group m-3">
+                                <label class="form-label fw-bold" for="">Date</label>
+                                <input type="date" name="advance_paid_date" placeholder="Enter advance Paid Date" class="form-control border-dark " id="" required>
+                            </div>
+                            <button class="bTn m-3">Submit</button>
+                        </form>
+                    </div>
+                        
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    
+</section>
+
+{% endblock %}

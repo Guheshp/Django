@@ -31,7 +31,7 @@
 
                     {% elif request.user.is_venuecoordinator %}
                         <!-- Add venue coordinator-specific links here -->
-                        <li class="nav-item"><a href="#" class="nav-link px-2 link-body-emphasis">Update Details</a></li>
+                        <li class="nav-item"><a href="#" class="nav-link px-2 link-body-emphasis text-light">Notifications</a></li>
                         
                     {% else %}
                         <!-- Display content for common and authenticated users -->
@@ -73,7 +73,7 @@
                 {% if user.is_authenticated %}
                     <!-- Display content for authenticated users -->
                     <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        <a class="btn m-0 text-light dropdown-toggle" href="#" id="navbarDropdown" type="button" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                             Settings
                         </a>
                         <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
@@ -84,6 +84,8 @@
                             <li><a class="dropdown-item" href="{% url 'services'%}">View Services</a></li>
                         </ul>
                     </li>
+
+                   
                 {% else %}
                     <!-- Display content for unauthenticated users -->
                     <li class="nav-item dropdown">
@@ -140,6 +142,7 @@
         <a id="vender_register-link" href="{% url 'user_venues' %}">Your Venue</a>
         <a id="home-link" href="{% url 'Enquery'%}">Enquery</a>
         <a id="home-link" href="{% url 'Enquerylist' %}">Enquery List</a>
+        <a id="home-link" href="{% url 'Booking' %}">Booking</a>
 
      <!-- <a id="vender_register-link" href="{% url 'viewallvenue' %}">All Venus</a> -->
         

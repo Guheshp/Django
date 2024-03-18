@@ -5,6 +5,8 @@
 
         <div class="col-md-7 col-lg-8">
             <h4 class="mb-3">Enquery</h4>
+
+
             {% if form.errors %}
     <div class="alert alert-danger" role="alert">
         {% for field, errors in form.errors.items %}
@@ -16,18 +18,23 @@
     {% endif %}
 
 
-        <form method="post">
-            {% csrf_token %}
-            <label for="name">Name:</label><br>
-            <input type="text" id="name" name="name" value="{{ enquiry.name }}"><br><br>
-            
-            <label for="phone_number">Phone Number:</label><br>
-            <input type="text" id="phone_number" name="phone_number" value="{{ enquiry.phone_number }}"><br><br>
-            
-            <!-- You can add more date fields if needed -->
-            
-            <button type="submit">Update</button>
-        </form>
+    <form method="post">
+        {% csrf_token %}
+        <label for="name">Name:</label><br>
+        <input type="text" id="name" name="name" value="{{ enquiry.name }}"><br><br>
+        
+        <label for="phone_number">Phone Number:</label><br>
+        <input type="text" id="phone_number" name="phone_number" value="{{ enquiry.phone_number }}"><br><br>
+        
+        <!-- <label for="dates">Dates:</label><br>
+        {% for date in enquiry.dates.all %}
+            <input type="text" id="date_{{ forloop.counter }}" name="dates" value="{{ date }}"><br>
+        {% endfor %} -->
+        
+        <!-- You can add more date fields if needed -->
+        
+        <button type="submit">Update</button>
+    </form>
             
           
           </section>

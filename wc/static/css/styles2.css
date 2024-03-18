@@ -624,3 +624,7 @@ body{margin-top:20px;
   background-color: #222f3d;
   float: right;
 }
+.text-color{
+  color: rgb(23, 51, 79) !important;
+  
+}

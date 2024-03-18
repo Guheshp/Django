@@ -162,7 +162,7 @@
                         <p class="card-text small">{{ venue.description|truncatewords:19 }}</p>
                         <div class="d-flex justify-content-between">
                           <div>
-                            <p class="small d-block">Starting at <b><i class="fa fa-indian-rupee-sign"></i>{{ venue.price }}</b>  <span>for</span> <br><span><b>{{ venue.capacity }}</b> guests.</span></p>
+                            <p class="small d-block">Starting at <b><i class="fa fa-indian-rupee-sign"></i>{{ venue.price|floatformat:2 }}</b>  <span>for</span> <br><span><b>{{ venue.capacity }}</b> guests.</span></p>
                           </div>
                           <a href="" class="bTn">Price Venue</a>
                         </div>

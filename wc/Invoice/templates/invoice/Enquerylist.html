@@ -6,36 +6,81 @@
         
         <div class="col-lg-12 mx-auto">
             <div class="card rounded shadow border-0">
-                <div class="card-body  bg-white rounded">
+                <div class="card-body rounded">
               <h3 class="m-3">Enquery Lists</h3>
             <div class="table-responsive">
               <table id="example" style="width:100%" class="table  table-bordered">
                 <thead>
                   <tr>
-                    <th>Sl.no</th>
-                    <th>Name</th>
-                    <th>Phone Number</th>
-                    <th>Dates</th>
+                    <th class="text-light">Sl.no</th>
+                    <th class="text-light">Name</th>
+                    <th class="text-light">Phone Number</th>
+                    <th class="text-light">Dates</th>
                     <!-- <th>Update</th> -->
-                    <th>Delete</th>
+                    <th class="text-light">Book</th>
+                    <th class="text-light">Delete</th>
                   </tr>
                 </thead>
                 <tbody>
                 {% for enquiry in enquiries %}
                   <tr>
-                    <td>{{forloop.counter}}</td>
-                    <td><a href="{% url 'enquiryUpdate' enquiry.id %}">{{ enquiry.name }}</a></td>
-                    <td>{{ enquiry.phone_number }}</td>
+                    <td class="text-color">{{forloop.counter}}</td>
+                    <td ><a class=" link-primary link-offset-3 link-underline-opacity-25 link-underline-opacity-100-hover " href="{% url 'enquiryUpdate' enquiry.id %}">{{ enquiry.name }}</a></td>
+                    <td class="text-color">{{ enquiry.phone_number }}</td>
                     <td>
                         <ul>
                             {% for date in enquiry.dates.all %}
-                            <li>{{ date.date }}</li>
+                            <li class="text-color">{{ date.date }}</li>
                             {% endfor %}
                         </ul>
                     </td>
 
                     <!-- <td><a href="{% url 'enquiryUpdate' enquiry.id %}">Update</a></td> -->
-                    <td><a class="text-danger" href="{% url 'delete_enquiry' enquiry.id %}">delete</a></td>
+
+                    {% if enquiry.is_booked %}
+                    <td><a class="link-success text-center link-offset-3 link-underline-opacity-25 link-underline-opacity-100-hover" href="#">Booked <i class="fa-solid fa-check"></i></a></td>
+                    {% else %}
+                    <td><a class="link-primary link-offset-3 link-underline-opacity-25 link-underline-opacity-100-hover" href="{% url 'Booking_venue' enquiry.id %}">Book</a></td>
+                    {% endif %}
+                    <td><a class="text-danger link-offset-3 link-underline-opacity-25" data-bs-toggle="modal" data-bs-target="#exampleModal"  href="{% url 'delete_enquiry' enquiry.id %}">delete</a></td>
+
+
+                    <!-- <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                      Launch demo modal
+                    </button> -->
+                    
+                    <!-- Modal start -->
+                    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                      <div class="modal-dialog">
+                        <div class="modal-content">
+                          <div class="modal-header">
+                            <h1 class="modal-title fs-5" id="exampleModalLabel">Delete Enquiry</h1>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                          </div>
+                          <div class="modal-body">
+
+                            <form action="{% url 'delete_enquiry' enquiry.id%}" method="POST" autocomplete="off">
+                              {% csrf_token %}
+                  
+                              <div class="alert alert-danger" role="alert">
+                                  Are You sure to Delete Enquiry!
+                              </div>
+                              <div class="row gutters">
+                                  <div class="col-xl-12">
+                                      <div class=" py-4 text-right">
+                                          <a  class="btn btn-outline-info p-2" href="{%url 'Enquerylist'%}">Cancle</a>
+                                          <button type="submit" class="btn btn-outline-danger p-2">Delete Enquiry </button>
+                                      </div>
+                                  </div>
+                              </div>
+                            </form>
+
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <!-- Modal ends -->
 
                     
                   </tr>
@@ -49,6 +94,10 @@
       </div>
     </div>
   </div>
+
+  <!-- {% for b in booked%}
+   <p>{{b}}</p>
+  {%endfor%} -->
 
 </body>
 {%  endblock %}
