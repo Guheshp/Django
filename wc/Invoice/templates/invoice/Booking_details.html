@@ -11,7 +11,7 @@
 
             <div class="row gutters">
                 <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
-                    <h2 class="mb-2 text-color">{{couplesdetails.enquiry.name}} booking details</h2>
+                    <h2 class="mb-2 text-color">{{couplesdetails.enquiry.name}}'s booking details</h2>
                         
                     <p class="blockquote-footer mt-2">View all Details. </p>
                     <hr class="border ">
@@ -152,16 +152,15 @@
 
             </div>
 
-            
-
             <div class="row gutters">
                 <div class="col-xl-12">
                     <div class=" py-2 text-right">
-                        <a class="btn btn-outline-info" href="#">Go back</a>
-                        <a class="btn btn-primary" href="#">Update</a>
+                        <a class="bTn" href="{% url 'Booking'%}">Go back</a>
+                        <a class="bTn" href="{% url 'updateBooking_details' couplesdetails.id%}">Update</a>
                     </div>
                 </div>
             </div>
+
         </div>
     </div>
     </div>

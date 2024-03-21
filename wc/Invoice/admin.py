@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Enquiry, Date, CopulesDetails
+from .models import Enquiry, Date, CopulesDetails, Invoice
 # Register your models here.
 
 @admin.register(Enquiry)
@@ -13,9 +13,17 @@ admin.site.register(Date)
 @admin.register(CopulesDetails)
 class CopulesDetailsAdmin(admin.ModelAdmin):
 
-    list_display = ['groomname','bridename','advance_amt', 'created_at','updated_at']
+    list_display = ['groomname','bridename', 'created_at','updated_at']
     list_filter = ('groomname', 'bridename')
     ordering = ('-created_at',)
+
+
+@admin.register(Invoice)
+class InvoiceAdmin(admin.ModelAdmin):
+
+    list_display = ['venue','enquiry', 'advance_amt','advance_paid_date']
+    # list_filter = ('groomname', 'bridename')
+    # ordering = ('-created_at',)
 
 
 

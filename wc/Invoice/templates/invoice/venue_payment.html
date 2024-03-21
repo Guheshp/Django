@@ -5,12 +5,13 @@
 {% block content%}
 <body>
   <section id="header" class="jumbotron text-center">
-    <h1 class="display-3">Booking Venue</h1>
+    <h1 class="display-3">Payment Details</h1>
     
-    {%for v in venue%}
+{% for c in coupledetails%}
     <p class="lead m-0">Booking for</p>
-    <a class="small" href="#">{{v.name|linebreaks}}</a>
-    {% endfor%}
+    <a class="small" href="#">{{c.enquiry.name|linebreaks}}</a>
+    {%endfor%}
+
     
     <p class="lead">#</p>
 </section>
@@ -24,22 +25,25 @@
                     <div class="">
                     <!-- <h4 class="mb-3">Enquery</h4> -->
 
+                    {% for coupledetail in coupledetails %}
                         <div class="row g-3">
                             <div class="col-sm-6">
-                                <label for="firstName" class="form-label fw-bold">Name</label>
+
+                                <label for="firstName" class="form-label fw-bold">Groom Name</label>
                                 <!-- <input name="name" class="form-control border-dark" id="firstName"  value="{{enquiry.name}}" required> -->
                                 <div class="card border-dark m-0 decoration-none">
                                 <div class="py-2 mx-3 ">
-                                    <span>{{enquiry.name}}</span> 
+                                    {{ coupledetail.groomname }}
                                  </div>
                                  </div>
+
                             </div>
 
                             <div class="col-sm-6">
-                                <label for="lastName" class="form-label fw-bold">Phone Number</label>
+                                <label for="lastName" class="form-label fw-bold">Bride Name</label>
                                 <div class="card border-dark m-0 decoration-none">
                                     <div class="py-2 mx-3 ">
-                                        <span>{{enquiry.phone_number}}</span> 
+                                        <span>{{coupledetail.bridename}}</span> 
                                     </div>
                                  </div>
                             </div>
@@ -47,7 +51,7 @@
                             <div class="col-sm-6">
                             <!-- <label for="dates">Dates:</label><br> -->
                             <label for="lastName" class="form-label fw-bold">Dates</label>
-                                {% for date in enquiry.dates.all %}
+                                {% for date in coupledetail.enquiry.dates.all %}
                                     <!-- <input class="form-control border-dark"  id="date_{{ forloop.counter }}" name="dates" value="{{ date }}"><br> -->
                                     <div class="card border-dark m-0 decoration-none mt-2">
                                         <div class="py-2 mx-3">
@@ -61,20 +65,30 @@
                                 <label for="lastName" class="form-label fw-bold">Venue Name</label>
                                 <div class="card border-dark m-0 decoration-none">
                                     <div class="py-2 mx-3 ">
-                                        {%for v in venue%}
-                                        <span>{{v.name}}</span> 
-                                        {%endfor%}
+
+                                        <span>{{coupledetail.venue.name}}</span> 
+
                                     </div>
                                  </div>
                             </div>
+                            {% endfor %}
 
                         
                         <!-- <hr class="fw-bold"> -->
 
                         <!-- <h3 class="m-3">Couples Details</h3> -->
+                        <div class="d-flex align-items-end flex-column mb-3">
+                            <div class="mb-auto p-2"><h2 class="m-0 fw-bold">Total Amount</h2></div>
+                            {%for v in coupledetails %}
+                            <div class="p-2 mr-4 "><h3 class="m-0"><i class="fa-solid fa-indian-rupee-sign"></i>&nbsp;{{v.venue.price|floatformat:2}}</h3></div>
+                            {%endfor%}
+                            <!-- <div class="p-2">Flex item</div> -->
+                          </div>
+                        </div>
                         <div>
-                        <form action="{% url 'Booking_venue' enquiry.id%}" method="POST" class="" enctype="multipart/form-data">
-                            <h1 class="p-3 text-bg-dark text-center rounded">Couples Details</h1><hr>
+
+                        <form action="#" method="POST" class="" enctype="multipart/form-data">
+                            <h1 class="p-3 text-bg-dark text-center rounded">Payment Details</h1><hr>
     
                             {% csrf_token %}
     
@@ -92,72 +106,38 @@
 
                     <div class="row align-items-md-stretch">
                         
-                        <div class="col-md-6">
-                        <h3 class="m-3">Groom's Details</h3>
+                        <div class="col-md-12">
+                        <!-- <h3 class="m-3">Groom's Details</h3> -->
 
                             <div class="form-group m-3">
-                                <label class="form-label fw-bold" for="">Groom Name</label>
-                                <input type="text" name="groomname" placeholder="Enter Groom Name" class="form-control border-dark " id="" required>
+                                <label class="form-label fw-bold" for="">Advance Payment</label>
+                                <input type="text" name="advance_amt" placeholder="Enter Advance Amount" class="form-control border-dark " id="" required>
                             </div>
                             
                             <div class="form-group m-3">
-                                <label class="form-label fw-bold" for="">Groom Date Of Birth</label>
-                                <input type="date" name="groomDOB"  class="form-control border-dark " id="" required>
-                                {% if form.errors.groomDOB %}
-                                <div class="text-danger">{{ form.errors.groomDOB.as_text }}</div>
-                                {% endif %}
+                                <label class="form-label fw-bold" for="">Date</label>
+                                <input type="date" name="advance_paid_date"  class="form-control border-dark " id="" required>
                             </div>
 
                             <div class="form-group m-3">
-                                <label class="form-label fw-bold" for="">Father's Full Name</label>
-                                <input type="text" name="groomfathername" placeholder="Enter Father's Full Name" class="form-control border-dark " id="" required>
-                            </div>
-                            <div class="form-group m-3">
-                                <label class="form-label fw-bold" for="">Mother's Full Name</label>
-                                <input type="text" name="groommothername" placeholder="Enter Mother's Full Name" class="form-control border-dark " id="" required>
+                                <label class="form-label fw-bold" for="">Payment Type</label>
+                                <!-- <input type="text" name="groommothername" placeholder="Enter Mother's Full Name" class="form-control border-dark " id="" required> -->
+                                <select class="form-select" name="payment_type" aria-label="Default select example">
+                                    <option selected>Select Payment method</option>
+                                    <option name="" value="Cash">Cash</option>
+                                    <option name="" value="Online Payment">Online Payment</option>
+                                  </select>
                             </div>
 
+                            <div class="form-group m-3">
+                                <input class="form-check-input ml-1" name="status" type="checkbox" value="" id="flexCheckDefault">
+                                <label class="form-check-label ml-4" for="flexCheckDefault">
+                                    <b>Full Payment Done</b>
+                                  </label>
+                            </div>
                             
-                            <div class="form-group m-3">
-                                <label class="form-label fw-bold" for="">Id Proof of Groom</label>
-                                <input type="file" name="groom_proof_image" class="form-control border-dark" id="">
-                            </div>
                         </div>
 
-                        <div class="col-md-6">
-
-                        <h3 class="m-3">Bride's Details</h3>
-
-                            <div class="form-group m-3">
-                                <label class="form-label fw-bold" for="">Bride Name</label>
-                                <input type="text" name="bridename" placeholder="Enter Bride Name" class="form-control border-dark " id="" required>
-                            </div>
-    
-                            <div class="form-group m-3">
-                                <label class="form-label fw-bold" for="">Bride Date Of Birth</label>
-                                <input type="date" name="brideDOB"  class="form-control border-dark " id="" required>
-                                {% if form.errors.brideDOB %}
-                                <div class="text-danger">{{ form.errors.brideDOB.as_text }}</div>
-                                {% endif %}
-                            </div>
-
-                            <div class="form-group m-3">
-                                <label class="form-label fw-bold" for="">Father's Full Name</label>
-                                <input type="text" name="bridfathername" placeholder="Enter Father's Full Name" class="form-control border-dark " id="" required>
-                            </div>
-
-                            <div class="form-group m-3">
-                                <label class="form-label fw-bold" for="">Mother's Full Name</label>
-                                <input type="text" name="bridmothername" placeholder="Enter Mother's Full Name" class="form-control border-dark " id="" required>
-                            </div>
-
-                            <div class="form-group m-3">
-                                <label class="form-label fw-bold" for="">Id Proof of Bride</label>
-                                <input type="file" name="brid_proof_image" class="form-control border-dark" id="">
-                            </div>
-
-                        </div>
-                    </div>
                     
                     <div class=" text-center">
                         <button class=" bTn w-100 mt-2">Submit</button>
@@ -168,9 +148,9 @@
 
                 <!-- <div class="d-flex align-items-end flex-column mb-3">
                     <div class="mb-auto p-2"><h2 class="m-0 fw-bold">Total Amount</h2></div>
-                    {%for v in venue%}
+
                     <div class="p-2 mr-5 "><h3 class="m-0"><i class="fa-solid fa-indian-rupee-sign"></i>&nbsp;{{v.price|floatformat:2}}</h3></div>
-                    {%endfor%}
+
                     <div class="p-2">Flex item</div>
                   </div>
                 </div>

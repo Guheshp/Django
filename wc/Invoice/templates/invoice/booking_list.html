@@ -14,14 +14,14 @@
                   <tr>
                     <th class="text-light">Sl.no</th>
                     <!-- <th class="text-light">Groomname</th> -->
-                    <th class="text-light">Name</th>
+                    <th class="text-light">Client Name</th>
                     <th class="text-light">Phone Number</th>
                     <th class="text-light">Wedding Date</th>
                     <th class="text-light">Advance paid Date</th>
                     <!-- <th>Update</th> -->
                     <th class="text-light">Paid</th>
                     <th class="text-light">Balance</th>
-                    <th class="text-light">Total Amount</th>
+                    <th class="text-light">Status</th>
                     <th class="text-light">Details</th>
                   </tr>
                 </thead>
@@ -45,7 +45,8 @@
                     <td class="text-color"><i class="fa-solid fa-indian-rupee-sign"></i>&nbsp;{{couplesdetail.advance_amt|floatformat:2}}</td>
                     <td class="text-color"><i class="fa-solid fa-indian-rupee-sign"></i>&nbsp;{{couplesdetail.get_balance|floatformat:2}}</td>
                     {% for v in venue%}
-                    <td><a class="text-color link-offset-3 link-underline-opacity-25"><i class="fa-solid fa-indian-rupee-sign"></i>&nbsp;{{v.price|floatformat:2}}</a></td>
+                    <!-- <td><a class="text-color link-offset-3 link-underline-opacity-25"><i class="fa-solid fa-indian-rupee-sign"></i>&nbsp;{{v.price|floatformat:2}}</a></td> -->
+                    <td><a class="text-color link-offset-3 link-underline-opacity-25">stauts</a></td>
                     {%endfor%}
                     <td><a class="text- link-offset-3 link-underline-opacity-25" href="{% url 'Booking_details' couplesdetail.id%}">Details</a></td>
                     <!-- <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">

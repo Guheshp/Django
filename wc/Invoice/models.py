@@ -34,49 +34,52 @@ class CopulesDetails(models.Model):
     bridfathername = models.CharField(max_length=255)
     bridmothername = models.CharField(max_length=255)
     brid_proof_image = models.ImageField(upload_to="brid_proof_images")
-    advance_amt = models.FloatField()
-    advance_paid_date = models.DateField(auto_now=False, auto_now_add=False, null=True)
     created_at = models.DateTimeField(auto_now_add = True)
     updated_at = models.DateTimeField(auto_now = True)
     is_booked = models.BooleanField(default=False)
 
     @property
     def get_balance(self):
-        balance = self.venue.price - self.advance_amt
+        balance = self.venue.price 
         return balance
 
     class Meta:
         verbose_name = "CopulesDetails"  
         verbose_name_plural = "CopulesDetails" 
 
-    
-
     def __str__(self):
         return f"{self.groomname} and {self.bridename}"
 
 
 
-class Customer(models.Model):
-    name = models.CharField(max_length=100)
-    phone_number = models.CharField(max_length=10)
-    address = models.TextField()
+# class Customer(models.Model):
+#     name = models.CharField(max_length=100)
+#     phone_number = models.CharField(max_length=10)
+#     address = models.TextField()
 
-    def __str__(self):
-        return f"{self.name}"
+#     def __str__(self):
+#         return f"{self.name}"
 
 
 class Invoice(models.Model):
+
+    TYPE = (
+        ("Cash","Cash"),
+        ("Online Payment", "Online Payment")
+    )
+    
     venue = models.ForeignKey(Venue, on_delete= models.CASCADE)
     user = models.ForeignKey(CustomUser, on_delete = models.CASCADE)
-    customer = models.ForeignKey(Customer, on_delete= models.CASCADE)
+    enquiry = models.ForeignKey(Enquiry, on_delete= models.CASCADE, null=True)
     invoice_number = models.CharField(max_length=50,  unique=True)
     date_created = models.DateField(default=timezone.now)
     date_updated = models.DateTimeField(default=timezone.now)
-    total_amt= models.FloatField(max_length=10)
-    pay_amt = models.FloatField(max_length=10)
-    balance_amt = models.FloatField()
+    # total_amt= models.FloatField(max_length=10)
+    advance_amt = models.FloatField( null=True)
+    advance_paid_date = models.DateField(auto_now=False, auto_now_add=False, null=True)
+    payment_type = models.CharField(max_length=200, null=True, choices=TYPE)
     status = models.BooleanField(default=False)
 
     def __str__(self):
-        return f"{self.customer} and {self.venue}"
+        return f"{self.enquiry} and {self.venue}"
     

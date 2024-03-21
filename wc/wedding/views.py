@@ -104,7 +104,6 @@ def coupleview(request, pk):
     return render(request, 'weeds/coupleview.html', context)
 
 
-
 def coupledelete(request, pk):
     couple = Couples.objects.get(id=pk)
 

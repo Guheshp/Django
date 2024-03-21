@@ -10,4 +10,7 @@ urlpatterns = [
     path('Booking/',views.Booking, name='Booking'),
     path('Booking_venue/<str:pk>/',views.Booking_venue, name='Booking_venue'),
     path('Booking_details/<str:pk>/',views.Booking_details, name='Booking_details'),
+    path('updateBooking_details/<str:pk>/',views.updateBooking_details, name='updateBooking_details'),
+
+    path('venue_payment/<str:pk>/',views.venue_payment, name='venue_payment'),
 ]

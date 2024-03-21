@@ -1,14 +1,16 @@
 from django.shortcuts import render, redirect
+from django.urls import reverse
 from django.contrib import messages
 from django.shortcuts import get_object_or_404
 from datetime import datetime
 from venue.models import Venue
+from django.http import HttpResponse
 
 from datetime import date
 
 
 from .models import Enquiry, Date, CopulesDetails
-from .forms import CouplesdetailsForm
+from .forms import CouplesdetailsForm, UpdateCouplesdetailsForm
 from django.contrib.auth.decorators import login_required
 
 # Create your views here.
@@ -117,6 +119,7 @@ def Booking_details(request, pk):
     context = {'couplesdetails':couplesdetails, 'groomDOB':groomDOB, 'brideDOB':brideDOB}
     return render(request, 'invoice/Booking_details.html', context)
 
+
 @login_required(login_url='login')
 def Booking_venue(request, pk):
 
@@ -150,8 +153,62 @@ def Booking_venue(request, pk):
                 bridename = form.cleaned_data.get('bridename')
 
                 messages.success(request,f"{groomname}'s and {bridename} data saved Successfully.")
-                return redirect('home')
+                return redirect('venue_payment',venue.first().id)
     else:
         form = CouplesdetailsForm()
     context = {'form':form, 'enquiry':enquiry, 'venue':venue}
     return render(request, 'invoice/Booking_venue.html', context)
+
+@login_required(login_url='login')
+def updateBooking_details(request, pk):
+    venue = Venue.objects.filter(user=request.user)
+    couplesdetails = get_object_or_404(CopulesDetails, id=pk)
+
+    if couplesdetails.enquiry:
+        enquiry = couplesdetails.enquiry
+    else:
+        return HttpResponse("Enquiry does not exist")
+    
+    if request.method == 'POST':
+        form = UpdateCouplesdetailsForm(request.POST, request.FILES, instance=couplesdetails)
+        if form.is_valid():
+
+            groomDOB = form.cleaned_data.get('groomDOB')
+            brideDOB = form.cleaned_data.get('brideDOB')
+
+            groomDOB = (date.today() - groomDOB).days // 365
+            brideDOB = (date.today() - brideDOB).days // 365
+
+            if groomDOB < 21:
+                form.add_error('groomDOB', 'Groom must be at least 21 years old.')
+            if brideDOB < 18:
+                form.add_error('brideDOB', 'Bride must be at least 18 years old.')
+            
+            if not form.errors:
+
+                updatedetails = form.save(commit=False)
+                updatedetails.enquiry = enquiry
+                updatedetails.is_booked = True
+                if venue.exists():
+                    updatedetails.venue = venue.first()
+                updatedetails.save()
+                groomname = form.cleaned_data.get('groomname')
+                bridename = form.cleaned_data.get('bridename')
+
+                messages.success(request,f"{groomname}'s and {bridename} data saved Successfully.")
+                booking_url = reverse('Booking_details', args=[couplesdetails.pk])
+                return redirect(booking_url)
+                # return redirect('home')
+    else:
+        form = UpdateCouplesdetailsForm(instance=couplesdetails)
+    context = {'form':form, 'couplesdetails':couplesdetails, 'enquiry':enquiry, 'venue':venue}
+    return render(request, 'invoice/updateBooking_details.html', context)
+
+
+@login_required(login_url='login')
+def venue_payment(request, pk):
+    venue = get_object_or_404(Venue, pk=pk)
+    coupledetails = venue.copulesdetails_set.all()
+
+    context = {'venue':venue, 'coupledetails':coupledetails}
+    return render(request, 'invoice/venue_payment.html', context)

@@ -73,8 +73,8 @@
 
                         <!-- <h3 class="m-3">Couples Details</h3> -->
                         <div>
-                        <form action="{% url 'Booking_venue' enquiry.id%}" method="POST" class="" enctype="multipart/form-data">
-                            <h1 class="p-3 text-bg-dark text-center rounded">Couples Details</h1><hr>
+                        <form action="{% url 'updateBooking_details' couplesdetails.id%}" method="POST" class="" enctype="multipart/form-data">
+                            <h1 class="p-3 text-bg-dark text-center rounded">Update details</h1><hr>
     
                             {% csrf_token %}
     
@@ -97,12 +97,12 @@
 
                             <div class="form-group m-3">
                                 <label class="form-label fw-bold" for="">Groom Name</label>
-                                <input type="text" name="groomname" placeholder="Enter Groom Name" class="form-control border-dark " id="" required>
+                                <input type="text" name="groomname" value="{{couplesdetails.groomname}}" class="form-control border-dark " id="" required>
                             </div>
                             
                             <div class="form-group m-3">
                                 <label class="form-label fw-bold" for="">Groom Date Of Birth</label>
-                                <input type="date" name="groomDOB"  class="form-control border-dark " id="" required>
+                                <input type="date" name="groomDOB" value="{{couplesdetails.groomDOB|date:'Y-m-d'}}" class="form-control border-dark " id="" required>
                                 {% if form.errors.groomDOB %}
                                 <div class="text-danger">{{ form.errors.groomDOB.as_text }}</div>
                                 {% endif %}
@@ -110,17 +110,21 @@
 
                             <div class="form-group m-3">
                                 <label class="form-label fw-bold" for="">Father's Full Name</label>
-                                <input type="text" name="groomfathername" placeholder="Enter Father's Full Name" class="form-control border-dark " id="" required>
+                                <input type="text" name="groomfathername" value="{{couplesdetails.groomfathername}}" class="form-control border-dark " id="" required>
                             </div>
                             <div class="form-group m-3">
                                 <label class="form-label fw-bold" for="">Mother's Full Name</label>
-                                <input type="text" name="groommothername" placeholder="Enter Mother's Full Name" class="form-control border-dark " id="" required>
+                                <input type="text" name="groommothername" value="{{couplesdetails.groommothername}}" class="form-control border-dark " id="" required>
                             </div>
 
                             
                             <div class="form-group m-3">
                                 <label class="form-label fw-bold" for="">Id Proof of Groom</label>
                                 <input type="file" name="groom_proof_image" class="form-control border-dark" id="">
+                                {% if couplesdetails.groom_proof_image %}
+                                <a href="{{ couplesdetails.groom_proof_image.url }}" target="">
+                                    <img src="{{ couplesdetails.groom_proof_image }}" alt="{{ couplesdetails.groom_proof_image.url }}"></a>
+                                {% endif %}
                             </div>
                         </div>
 
@@ -130,12 +134,12 @@
 
                             <div class="form-group m-3">
                                 <label class="form-label fw-bold" for="">Bride Name</label>
-                                <input type="text" name="bridename" placeholder="Enter Bride Name" class="form-control border-dark " id="" required>
+                                <input type="text" name="bridename" value="{{couplesdetails.bridename}}" class="form-control border-dark " id="" required>
                             </div>
     
                             <div class="form-group m-3">
                                 <label class="form-label fw-bold" for="">Bride Date Of Birth</label>
-                                <input type="date" name="brideDOB"  class="form-control border-dark " id="" required>
+                                <input type="date" name="brideDOB" value="{{couplesdetails.brideDOB|date:'Y-m-d'}}"  class="form-control border-dark " id="" required>
                                 {% if form.errors.brideDOB %}
                                 <div class="text-danger">{{ form.errors.brideDOB.as_text }}</div>
                                 {% endif %}
@@ -143,24 +147,30 @@
 
                             <div class="form-group m-3">
                                 <label class="form-label fw-bold" for="">Father's Full Name</label>
-                                <input type="text" name="bridfathername" placeholder="Enter Father's Full Name" class="form-control border-dark " id="" required>
+                                <input type="text" name="bridfathername" value="{{couplesdetails.bridfathername}}"  class="form-control border-dark " id="" required>
                             </div>
 
                             <div class="form-group m-3">
                                 <label class="form-label fw-bold" for="">Mother's Full Name</label>
-                                <input type="text" name="bridmothername" placeholder="Enter Mother's Full Name" class="form-control border-dark " id="" required>
+                                <input type="text" name="bridmothername" value="{{couplesdetails.bridmothername}}"  class="form-control border-dark " id="" required>
                             </div>
 
                             <div class="form-group m-3">
                                 <label class="form-label fw-bold" for="">Id Proof of Bride</label>
                                 <input type="file" name="brid_proof_image" class="form-control border-dark" id="">
+                                {% if couplesdetails.groom_proof_image %}
+                                <a href="{{ couplesdetails.brid_proof_image.url }}" target="">
+                                    <img src="{{ couplesdetails.brid_proof_image }}" alt="{{ couplesdetails.brid_proof_image.url }}"></a>
+                                {% endif %}
+
                             </div>
 
                         </div>
                     </div>
                     
-                    <div class=" text-center">
-                        <button class=" bTn w-100 mt-2">Submit</button>
+                    <div class="text-center d-flex gap-3">
+                        <a href="{% url 'Booking_details' couplesdetails.id%}" class="bTn w-100 mt-2">Cancel</a>
+                        <button type="submit" class="bTn w-100 mt-2">Update</button>
                     </div>
 
                     </form>
