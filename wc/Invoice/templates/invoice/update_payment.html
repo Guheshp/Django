@@ -1,0 +1,120 @@
+{% extends 'acc/base.html'%}
+{% block content%}
+
+<body>
+  <section id="header" class="jumbotron text-center">
+    <h1 class="display-3">Payment Details</h1>
+    
+    {% if enquiry %}
+    <p class="lead m-0">Client Name</p>
+    <!-- Display the client's name for each couple detail -->
+    <p class="small m-0"><b>{{enquiry.name|linebreaks }}</b></p>
+{% endif %}
+
+    
+    <!-- <p class="lead">#</p> -->
+</section>
+
+<section class="container" style="display: flex;justify-content: center;">
+
+        
+
+                        
+
+                        
+                        <!-- <hr class="fw-bold"> -->
+
+                        <!-- <h3 class="m-3">Couples Details</h3> -->
+                        <div class="d-flex align-items-end flex-row mb-3">
+                            <div class="mb-auto p-2"><h2 class="m-0 fw-bold">Total Amount</h2></div>
+                            <div class="p-2 mr-4 "><h3 class="m-0"><i class="fa-solid fa-indian-rupee-sign"></i>&nbsp;{{invoice.venue.price|floatformat:2}}</h3></div>
+
+                            <div class="mb-auto p-2"><h2 class="m-0 fw-bold">Balance Amount</h2></div>
+                            <div class="p-2 mr-4 "><h3 class="m-0"><i class="fa-solid fa-indian-rupee-sign"></i>&nbsp;{{invoice.get_balance|floatformat:2}}</h3></div>
+
+
+                          </div>
+                        </div>
+                        <div>
+                           
+                        <form action="{% url 'update_payment' invoice.id%}" method="POST" class="" enctype="multipart/form-data">
+
+                           
+                            <h1 class="p-3 text-bg-dark text-center rounded">Payment Details</h1><hr>
+    
+                            {% csrf_token %}
+    
+                            {% if form.errors %}
+    
+                            <div class="alert alert-danger">
+                                    {% for field, error_list in form.errors.items %}
+                                        {% for error in error_list %}
+                                        <p>{{ error }}</p>
+                                        {% endfor %}
+                                    {% endfor %}
+                            </div>
+    
+                            {% endif %}
+
+                    <div class="row align-items-md-stretch">
+                        
+                        <div class="col-md-12">
+                        <!-- <h3 class="m-3">Groom's Details</h3> -->
+
+                            <div class="form-group m-3">
+                                <label class="form-label fw-bold" for="id_advance_amt">Advance amt:</label>
+
+                                <input type="number" name="advance_amt" step="any" placeholder="Enter Advance Amount" required class="form-control border-dark " id="id_advance_amt">
+                            </div>
+                            
+                            <div class="form-group m-3">
+                                <label class="form-label fw-bold" for="id_advance_paid_date">Advance paid date:</label>
+
+                                <input type="date" name="advance_paid_date" class="form-control border-dark " required id="id_advance_paid_date">
+                            </div>
+
+                            <div class="form-group m-3">
+                                <label class="form-label fw-bold" for="id_payment_type">Payment type:</label>
+                                <!-- <input type="text" name="groommothername" placeholder="Enter Mother's Full Name" class="form-control border-dark " id="" required> -->
+                                <!-- <select class="form-select" name="payment_type" aria-label="Default select example">
+                                    <option selected>Select Payment method</option>
+                                    <option name="" value="Cash">Cash</option>
+                                    <option name="" value="Online Payment">Online Payment</option>
+                                  </select> -->
+
+                                  <select class="form-select" name="payment_type" required id="id_payment_type">
+                                    <option value="" selected>Select Payment method</option>
+                                  
+                                    <option value="Cash">Cash</option>
+                                  
+                                    <option value="Online Payment">Online Payment</option>
+                                  
+                                  </select>
+                                      
+                            </div>
+
+                            <div class="form-group m-3">
+                                <input class="form-check-input ml-1" name="status" type="checkbox" value="on"  id="status">
+                                <label class="form-check-label ml-4" id="id_status">
+                                    <b>Full Payment Done</b>
+                                  </label>
+                                </div>
+                            
+                        </div>
+
+                    
+                    <div class=" text-center">
+                        <button class=" bTn w-100 mt-2">Submit</button>
+                    </div>
+
+                    </form>
+                </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    
+</section>
+
+{% endblock %}

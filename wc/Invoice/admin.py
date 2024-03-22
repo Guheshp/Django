@@ -26,4 +26,3 @@ class InvoiceAdmin(admin.ModelAdmin):
     # ordering = ('-created_at',)
 
 
-

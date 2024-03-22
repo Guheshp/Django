@@ -17,12 +17,13 @@
                     <th class="text-light">Client Name</th>
                     <th class="text-light">Phone Number</th>
                     <th class="text-light">Wedding Date</th>
-                    <th class="text-light">Advance paid Date</th>
+                    <th class="text-light">Groom Name</th>
                     <!-- <th>Update</th> -->
-                    <th class="text-light">Paid</th>
-                    <th class="text-light">Balance</th>
-                    <th class="text-light">Status</th>
+                    <th class="text-light">Bride Name</th>
+                    <!-- <th class="text-light">Balance</th> -->
+                    <!-- <th class="text-light">Status</th> -->
                     <th class="text-light">Details</th>
+                    <th class="text-light">Payment</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -41,14 +42,21 @@
                         </ul>
                     </td>
 
-                    <td class="text-color">{{couplesdetail.advance_paid_date}}</td>
-                    <td class="text-color"><i class="fa-solid fa-indian-rupee-sign"></i>&nbsp;{{couplesdetail.advance_amt|floatformat:2}}</td>
-                    <td class="text-color"><i class="fa-solid fa-indian-rupee-sign"></i>&nbsp;{{couplesdetail.get_balance|floatformat:2}}</td>
-                    {% for v in venue%}
-                    <!-- <td><a class="text-color link-offset-3 link-underline-opacity-25"><i class="fa-solid fa-indian-rupee-sign"></i>&nbsp;{{v.price|floatformat:2}}</a></td> -->
-                    <td><a class="text-color link-offset-3 link-underline-opacity-25">stauts</a></td>
-                    {%endfor%}
+                    <td class="text-color">{{couplesdetail.groomname}}</td>
+                    <td class="text-color">{{couplesdetail.bridename}}</td>
+
                     <td><a class="text- link-offset-3 link-underline-opacity-25" href="{% url 'Booking_details' couplesdetail.id%}">Details</a></td>
+                    <td>
+                      {% if couplesdetail.enquiry.invoice_set.exists %}
+                          <!-- <span class="text-color">{{ couplesdetail.enquiry.invoice_set.first.invoice_number }}</span> -->
+                          <span class="text-color">Invoice exists</span>
+                      {% else %}
+                          <a class="text-link-offset-3 link-underline-opacity-25" href="{% url 'venue_payment' couplesdetail.venue.id %}">Make Payment</a>
+                      {% endif %}
+                  </td>
+
+
+                   
                     <!-- <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
                       Launch demo modal
                     </button> -->
