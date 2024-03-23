@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Enquiry, Date, CopulesDetails, Invoice
+from .models import Enquiry, Date, CopulesDetails, Invoice, InvoiceHistory
 # Register your models here.
 
 @admin.register(Enquiry)
@@ -26,3 +26,4 @@ class InvoiceAdmin(admin.ModelAdmin):
     # ordering = ('-created_at',)
 
 
+admin.site.register(InvoiceHistory)

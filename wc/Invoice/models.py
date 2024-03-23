@@ -2,6 +2,7 @@ import random
 from django.db import models
 from django.utils import timezone
 from venue.models import Venue
+from django.db.models import Sum
 
 from .utils import generate_invoice_number
 from django.contrib.auth import get_user_model
@@ -66,6 +67,9 @@ class Invoice(models.Model):
     advance_paid_date = models.DateField(auto_now=False, auto_now_add=False, null=True)
     payment_type = models.CharField(max_length=200, null=True, choices=TYPE)
     status = models.BooleanField(default=False)
+    total_amount = models.FloatField(default=0, null=True)
+    balance = models.FloatField(default=0, null=True)
+    total_paid_amount = models.FloatField(default=0, null=True)
 
     def __str__(self):
         return f"{self.enquiry} and {self.venue}"
@@ -74,30 +78,43 @@ class Invoice(models.Model):
     def save(self, *args, **kwargs):
         if not self.invoice_number:
             self.invoice_number = generate_invoice_number()
+
+        if not self.total_amount:
+            self.total_amount = self.venue.price
+
+        # Calculate the balance
+       
+
         super().save(*args, **kwargs)
 
     @property
     def get_balance(self):
-        balance = self.venue.price - self.advance_amt
+        total_paid = self.total_paid_amount()
+        balance = self.venue.price - total_paid
+
+        if balance == 0:
+            self.status = True
+            self.advance_amt = self.venue.price
+
         return balance
-    
-    def update_advance_amount(self, new_amount, user):
-        old_amount = self.advance_amt
-        self.advance_amt = new_amount
-        self.save()
-        InvoiceHistory.objects.create(
-            invoice=self,
-            user=user,
-            old_amount=old_amount,
-            new_amount=new_amount,
-        )
+
+    def total_paid_amount(self):
+        total_paid = self.invoicehistory_set.aggregate(total_paid=Sum('paying_amount'))['total_paid']
+        if total_paid is None:
+            total_paid = 0
+        if self.advance_amt is not None:
+            total_paid += self.advance_amt
+        return total_paid
+        
 
 
 class InvoiceHistory(models.Model):
     invoice = models.ForeignKey(Invoice, on_delete=models.CASCADE)
+    invoice_number = models.CharField(max_length=50, unique=True, null=True)
     user = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
-    old_amount = models.FloatField()
+    # old_amount = models.FloatField()
     new_amount = models.FloatField()
+    paying_amount = models.FloatField(null=True)
     date_updated = models.DateTimeField(default=timezone.now)
 
 

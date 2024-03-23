@@ -5,11 +5,11 @@
   <section id="header" class="jumbotron text-center">
     <h1 class="display-3">Payment Details</h1>
     
-    {% if enquiry %}
+
     <p class="lead m-0">Client Name</p>
     <!-- Display the client's name for each couple detail -->
-    <p class="small m-0"><b>{{enquiry.name|linebreaks }}</b></p>
-{% endif %}
+    <p class="small m-0"><b>{{enquiries.name|linebreaks }}</b></p>
+
 
     
     <!-- <p class="lead">#</p> -->
@@ -94,7 +94,7 @@
                         <div>
                            
                             {%if venue  %}
-                        <form action="{% url 'venue_payment' venue.id%}" method="POST" class="" enctype="multipart/form-data">
+                        <form action="{% url 'venue_payment' venue.id enquiries.name%}" method="POST" class="" enctype="multipart/form-data">
                             {%endif%}
                            
                             <h1 class="p-3 text-bg-dark text-center rounded">Payment Details</h1><hr>
@@ -118,10 +118,11 @@
                         <div class="col-md-12">
                         <!-- <h3 class="m-3">Groom's Details</h3> -->
 
-                            <div class="form-group m-3">
-                                <label class="form-label fw-bold" for="">Advance Payment</label>
-                                <input type="text" name="advance_amt" placeholder="Enter Advance Amount" class="form-control border-dark " id="" required>
-                            </div>
+                        <div class="form-group m-3">
+                            <label class="form-label fw-bold" for="advance_amt">Advance Payment</label>
+                            <input type="text" name="advance_amt" placeholder="Enter Advance Amount" class="form-control border-dark" id="advance_amt" required oninput="validateAdvancePayment()">
+                            <div id="error_message" style="color: red; display: none;">Advance payment cannot exceed venue price {{venue.price}}.</div>
+                        </div>
                             
                             <div class="form-group m-3">
                                 <label class="form-label fw-bold" for="">Date</label>
@@ -131,19 +132,19 @@
                             <div class="form-group m-3">
                                 <label class="form-label fw-bold" for="">Payment Type</label>
                                 <!-- <input type="text" name="groommothername" placeholder="Enter Mother's Full Name" class="form-control border-dark " id="" required> -->
-                                <select class="form-select" name="payment_type" aria-label="Default select example">
+                                <select class="form-select border-dark" name="payment_type" aria-label="Default select example">
                                     <option selected>Select Payment method</option>
                                     <option name="" value="Cash">Cash</option>
                                     <option name="" value="Online Payment">Online Payment</option>
                                   </select>
                             </div>
 
-                            <div class="form-group m-3">
+                            <!-- <div class="form-group m-3">
                                 <input class="form-check-input ml-1" name="status" type="checkbox" value="on"  id="status">
                                 <label class="form-check-label ml-4" for="status">
                                     <b>Full Payment Done</b>
                                   </label>
-                            </div>
+                            </div> -->
                             
                         </div>
 
@@ -155,38 +156,29 @@
                     </form>
                 </div>
 
-                <!-- <div class="d-flex align-items-end flex-column mb-3">
-                    <div class="mb-auto p-2"><h2 class="m-0 fw-bold">Total Amount</h2></div>
-
-                    <div class="p-2 mr-5 "><h3 class="m-0"><i class="fa-solid fa-indian-rupee-sign"></i>&nbsp;{{v.price|floatformat:2}}</h3></div>
-
-                    <div class="p-2">Flex item</div>
-                  </div>
-                </div>
-
-                        <br><h3 class="m-3">Payment Details</h3>
-                            
-                            <div class="form-group m-3">
-                                <label class="form-label fw-bold" for="">Advance Payment</label>
-                                <input type="number" name="advance_amt" class="form-control border-dark" placeholder="Enter Amount" id="">
-                            </div>
-                            
-    
-                            <div class="form-group m-3">
-                                <label class="form-label fw-bold" for="">Date</label>
-                                <input type="date" name="advance_paid_date" placeholder="Enter advance Paid Date" class="form-control border-dark " id="" required>
-                            </div>
-                        
-
-                   
-                        
- -->
-
                     </div>
                 </div>
             </div>
         </div>
-    
+
+        
 </section>
 
+        <script>
+            function validateAdvancePayment() {
+                var advance_amt_input = document.getElementById("advance_amt");
+                var advance_amt = parseFloat(advance_amt_input.value);
+
+                var venue_price = parseFloat("{{ venue.price }}"); 
+                if (advance_amt > venue_price) {
+                    document.getElementById("error_message").style.display = "block";
+                    advance_amt_input.setCustomValidity("Advance payment cannot exceed venue price.");
+                } else {
+                    document.getElementById("error_message").style.display = "none";
+                    advance_amt_input.setCustomValidity("");
+                }
+            }
+        </script>
+
+</body>
 {% endblock %}

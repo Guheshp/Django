@@ -51,7 +51,7 @@
                           <!-- <span class="text-color">{{ couplesdetail.enquiry.invoice_set.first.invoice_number }}</span> -->
                           <span class="text-color">Invoice exists</span>
                       {% else %}
-                          <a class="text-link-offset-3 link-underline-opacity-25" href="{% url 'venue_payment' couplesdetail.venue.id %}">Make Payment</a>
+                          <a class="text-link-offset-3 link-underline-opacity-25" href="{% url 'venue_payment' couplesdetail.venue.id couplesdetail.enquiry.name %}">Make Payment</a>
                       {% endif %}
                   </td>
 

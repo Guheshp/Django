@@ -12,8 +12,8 @@ from .utils import generate_invoice_number
 from datetime import date
 
 
-from .models import Enquiry, Date, CopulesDetails, Invoice
-from .forms import CouplesdetailsForm, UpdateCouplesdetailsForm, VenuePatmentForm, PaymentForm
+from .models import Enquiry, Date, CopulesDetails, Invoice, InvoiceHistory
+from .forms import CouplesdetailsForm, UpdateCouplesdetailsForm, VenuePatmentForm, UpdatePaymentForm
 from django.contrib.auth.decorators import login_required
 
 # Create your views here.
@@ -211,39 +211,10 @@ def updateBooking_details(request, pk):
 
 
 @login_required(login_url='login')
-def venue_payment(request, pk):
-    # venue = get_object_or_404(Venue, pk=pk)
-    # enquiry = Enquiry.objects.filter(copulesdetails__venue=venue).first()
-    # coupledetails = enquiry.copulesdetails_set.all()
-
-    # # Generate invoice number
-    # invoice_number = generate_invoice_number()
-
-    # if request.method == 'POST':
-    #     form = VenuePatmentForm(request.POST)
-    #     if form.is_valid():
-    #         paymentdetails = form.save(commit=False)
-    #         paymentdetails.venue=venue
-    #         paymentdetails.user = request.user
-    #         paymentdetails.enquiry = enquiry
-    #         paymentdetails.invoice_number = invoice_number  # Assign the invoice number from the generated value
-    #         status = request.POST.get('status')
-    #         paymentdetails.status = True if status == 'on' else False 
-    #         paymentdetails.save()
-            
-
-    #         advance_payment = form.cleaned_data.get('advance_amt')
-
-    #         messages.success(request, f"{advance_payment} Payemnt done successfully!")
-    #         return redirect('home')  # Redirect to success page after saving payment details
-    # else:
-    #     form = VenuePatmentForm(initial={'invoice_number': invoice_number})
-
-
-    # context = {'venue': venue, 'enquiry': enquiry, 'form': form, 'coupledetails':coupledetails}
+def venue_payment(request, pk, name):
     venue = get_object_or_404(Venue, pk=pk)
-    enquiry = Enquiry.objects.filter(copulesdetails__venue=venue).first()
-    coupledetails = enquiry.copulesdetails_set.all()
+    enquiries = Enquiry.objects.get(name=name)
+    coupledetails = enquiries.copulesdetails_set.all()
 
     invoice_number = generate_invoice_number()
 
@@ -253,74 +224,92 @@ def venue_payment(request, pk):
             paymentdetails = form.save(commit=False)
             paymentdetails.venue = venue
             paymentdetails.user = request.user
-            paymentdetails.enquiry = enquiry
+            paymentdetails.enquiry = enquiries
             paymentdetails.invoice_number = invoice_number
             status = request.POST.get('status')
+
+            advance_amt = form.cleaned_data['advance_amt']
+
+            if advance_amt > venue.price:
+                # Add field-level error to the form
+                form.add_error('advance_amt', "Advance payment cannot exceed venue price.")
+
             paymentdetails.status = True if status == 'on' else False 
             paymentdetails.save()
 
-            invoice = Invoice.objects.filter(venue=venue, enquiry=enquiry).first()
-
-            if invoice:
-                # Update payment amount and create history entry
-                invoice.update_advance_amount(paymentdetails.advance_amt, request.user)
-
-            else:
-                paymentdetails.save()
-
             messages.success(request, f"{paymentdetails.advance_amt} Payment done successfully!")
-            return redirect('home')
+            return redirect('payment_list')
 
     else:
         form = VenuePatmentForm(initial={'invoice_number': invoice_number})
 
-    context = {'venue': venue, 'enquiry': enquiry, 'form': form, 'coupledetails': coupledetails}
+    context = {'venue': venue, 'enquiries': enquiries, 'form': form, 'coupledetails':coupledetails}
 
     return render(request, 'invoice/venue_payment.html', context)
 
 
 @login_required(login_url='login')
-def update_payment(request, invoice_id):
-    invoice = get_object_or_404(Invoice, id=invoice_id)
-    
-    if request.method == 'POST':
-        form = PaymentForm(request.POST)
-        if form.is_valid():
-            payment = form.save(commit=False)
-            payment.invoice = invoice  # Link the payment to the existing invoice
-            payment.venue = invoice.venue
-            payment.user = request.user
-            # Save the payment
-            payment.save()
+def update_payment(request, venue_id, enquiry_id):
+    # Retrieve the corresponding venue and enquiry
+    venue = get_object_or_404(Venue, pk=venue_id)
+    enquiry = get_object_or_404(Enquiry, pk=enquiry_id)
 
-            # Update the advance amount of the existing invoice
-            advance_amt = payment.advance_amt
-            invoice.advance_amt += advance_amt
+    # Retrieve the corresponding invoice for the venue and enquiry
+    invoice = get_object_or_404(Invoice, venue_id=venue_id, enquiry_id=enquiry_id)
+    
+    # Generate a new invoice number
+    new_invoice_number = generate_invoice_number()
+
+    # old_amount = None
+    # if invoice.advance_amt is not None:
+    #     old_amount = invoice.advance_amt
+
+
+    if request.method == 'POST':
+        # Process the form submission
+        form = UpdatePaymentForm(request.POST, instance=invoice)
+        if form.is_valid():
+            # Save the updated invoice
+            updated_invoice = form.save(commit=False)
+
+            # Calculate the difference between old and new advance_amt values
+            paying_amount = form.cleaned_data['paying_amount']
+            print("Invoice Advance Amount:", invoice.advance_amt)
+            print("Paying Amount:", paying_amount)
+            # if paying_amount:
+            #     old_amount = invoice.advance_amt + paying_amount
+            #     print("Updated Old Amount:", old_amount)
+            # else:
+            #     old_amount = invoice.advance_amt
+            new_amount = paying_amount
+
+            # Create an InvoiceHistory instance to record the change
+            InvoiceHistory.objects.create(
+                invoice=updated_invoice,
+                user=request.user,
+                # old_amount=old_amount,
+                new_amount=new_amount,
+                paying_amount=paying_amount,
+                invoice_number=new_invoice_number,
+                date_updated=timezone.now()
+            )
+
+            
+            invoice.total_amount = invoice.venue.price
             invoice.save()
 
-            return redirect('payment_list')  # Redirect to the payment list page after saving
+            messages.success(request, 'Payment updated successfully.')
+            return redirect('payment_list')
     else:
-        form = PaymentForm()
+        # Render the form with initial data
+        form = UpdatePaymentForm(instance=invoice)
 
-    context = {'form': form, 'invoice': invoice}
+    context = {'form': form, 'enquiry':enquiry, 'venue':venue, 'invoice':invoice}
+
     return render(request, 'invoice/update_payment.html', context)
-
-
 @login_required(login_url='login')
 def payment_list(request):
-    invoices = Invoice.objects.all()
+    invoices = Invoice.objects.all().order_by('-id')
 
     context = {'invoices':invoices}
     return render(request, 'invoice/payment_list.html', context)
-
-
-@login_required(login_url='login')
-def enquiry_venue_payment_history(request, enquiry_id, venue_id):
-    enquiry = get_object_or_404(Enquiry, id=enquiry_id)
-    venue = get_object_or_404(Venue, id=venue_id)
-    
-    # Retrieve all invoices associated with the enquiry and venue
-    payments = Invoice.objects.filter(enquiry=enquiry, venue=venue)
-    
-    context = {'enquiry': enquiry, 'venue': venue, 'payments': payments}
-    return render(request, 'invoice/enquiry_payment_history.html', context)

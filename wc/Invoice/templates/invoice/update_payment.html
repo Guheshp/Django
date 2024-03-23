@@ -1,120 +1,181 @@
 {% extends 'acc/base.html'%}
+{% load static%}
 {% block content%}
-
 <body>
-  <section id="header" class="jumbotron text-center">
-    <h1 class="display-3">Payment Details</h1>
-    
-    {% if enquiry %}
-    <p class="lead m-0">Client Name</p>
-    <!-- Display the client's name for each couple detail -->
-    <p class="small m-0"><b>{{enquiry.name|linebreaks }}</b></p>
-{% endif %}
+  <section id="header" class="jumbotron text-center p-3">
+    <h1 class="display-3">Update Payment</h1>
 
-    
+    <p class="lead m-0">Venue Booked by </p>
+    <a class="small" href="#">{{enquiry.name|linebreaks}}</a>
     <!-- <p class="lead">#</p> -->
-</section>
+    <link rel="stylesheet" type="text/css" href="https://pixinvent.com/stack-responsive-bootstrap-4-admin-template/app-assets/css/bootstrap-extended.min.css">
 
-<section class="container" style="display: flex;justify-content: center;">
+<link rel="stylesheet" type="text/css" href="https://pixinvent.com/stack-responsive-bootstrap-4-admin-template/app-assets/css/colors.min.css">
 
-        
-
-                        
-
-                        
-                        <!-- <hr class="fw-bold"> -->
-
-                        <!-- <h3 class="m-3">Couples Details</h3> -->
-                        <div class="d-flex align-items-end flex-row mb-3">
-                            <div class="mb-auto p-2"><h2 class="m-0 fw-bold">Total Amount</h2></div>
-                            <div class="p-2 mr-4 "><h3 class="m-0"><i class="fa-solid fa-indian-rupee-sign"></i>&nbsp;{{invoice.venue.price|floatformat:2}}</h3></div>
-
-                            <div class="mb-auto p-2"><h2 class="m-0 fw-bold">Balance Amount</h2></div>
-                            <div class="p-2 mr-4 "><h3 class="m-0"><i class="fa-solid fa-indian-rupee-sign"></i>&nbsp;{{invoice.get_balance|floatformat:2}}</h3></div>
-
-
-                          </div>
-                        </div>
-                        <div>
-                           
-                        <form action="{% url 'update_payment' invoice.id%}" method="POST" class="" enctype="multipart/form-data">
-
-                           
-                            <h1 class="p-3 text-bg-dark text-center rounded">Payment Details</h1><hr>
-    
-                            {% csrf_token %}
-    
-                            {% if form.errors %}
-    
-                            <div class="alert alert-danger">
-                                    {% for field, error_list in form.errors.items %}
-                                        {% for error in error_list %}
-                                        <p>{{ error }}</p>
-                                        {% endfor %}
-                                    {% endfor %}
-                            </div>
-    
-                            {% endif %}
-
-                    <div class="row align-items-md-stretch">
-                        
-                        <div class="col-md-12">
-                        <!-- <h3 class="m-3">Groom's Details</h3> -->
-
-                            <div class="form-group m-3">
-                                <label class="form-label fw-bold" for="id_advance_amt">Advance amt:</label>
-
-                                <input type="number" name="advance_amt" step="any" placeholder="Enter Advance Amount" required class="form-control border-dark " id="id_advance_amt">
-                            </div>
-                            
-                            <div class="form-group m-3">
-                                <label class="form-label fw-bold" for="id_advance_paid_date">Advance paid date:</label>
-
-                                <input type="date" name="advance_paid_date" class="form-control border-dark " required id="id_advance_paid_date">
-                            </div>
-
-                            <div class="form-group m-3">
-                                <label class="form-label fw-bold" for="id_payment_type">Payment type:</label>
-                                <!-- <input type="text" name="groommothername" placeholder="Enter Mother's Full Name" class="form-control border-dark " id="" required> -->
-                                <!-- <select class="form-select" name="payment_type" aria-label="Default select example">
-                                    <option selected>Select Payment method</option>
-                                    <option name="" value="Cash">Cash</option>
-                                    <option name="" value="Online Payment">Online Payment</option>
-                                  </select> -->
-
-                                  <select class="form-select" name="payment_type" required id="id_payment_type">
-                                    <option value="" selected>Select Payment method</option>
-                                  
-                                    <option value="Cash">Cash</option>
-                                  
-                                    <option value="Online Payment">Online Payment</option>
-                                  
-                                  </select>
-                                      
-                            </div>
-
-                            <div class="form-group m-3">
-                                <input class="form-check-input ml-1" name="status" type="checkbox" value="on"  id="status">
-                                <label class="form-check-label ml-4" id="id_status">
-                                    <b>Full Payment Done</b>
-                                  </label>
-                                </div>
-                            
-                        </div>
-
-                    
-                    <div class=" text-center">
-                        <button class=" bTn w-100 mt-2">Submit</button>
-                    </div>
-
-                    </form>
+<div class="grey-bg container-fluid">
+  <section id="minimal-statistics">
+    <!-- <div class="row">
+      <div class="col-12 mt-3 mb-1">
+        <h4 class="text-uppercase">Minimal Statistics Cards</h4>
+        <p>Statistics on minimal cards.</p>
+      </div>
+    </div> -->
+    <div class="row">
+      <div class="col-xl-3 col-sm-6 col-12"> 
+        <div class="card">
+          <div class="card-content">
+            <div class="card-body">
+              <div class="media d-flex">
+                <div class="align-self-center">
+                  <!-- <i class="icon-pencil primary font-large-2 float-left"></i> -->
+                  <i class="fa-solid fa-indian-rupee-sign danger font-large-2 float-left"></i>
                 </div>
-
-                    </div>
+                <div class="media-body text-right">
+                  <h3>{{invoice.get_balance}}</h3>
+                  <span>Payment Pending</span>
+                 
                 </div>
+              </div>
             </div>
+          </div>
         </div>
+      </div>
+      <div class="col-xl-3 col-sm-6 col-12">
+        <div class="card">
+          <div class="card-content">
+            <div class="card-body">
+              <div class="media d-flex">
+                <div class="align-self-center">
+                  <i class="fa-solid fa-indian-rupee-sign success font-large-2 float-left"></i>
+
+                </div>
+                <div class="media-body text-right">
+                  <h3>{{invoice.total_paid_amount}}</h3>
+                  <span>Amount Paid</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-xl-3 col-sm-6 col-12">
+        <div class="card">
+          <div class="card-content">
+            <div class="card-body">
+              <div class="media d-flex">
+                <div class="align-self-center">
+                  <!-- <i class="icon-graph success font-large-2 float-left"></i> -->
+                  <i class="fa-solid fa-indian-rupee-sign success font-large-2 float-left"></i>
+                </div>
+                <div class="media-body text-right">
+                  <h3>{{venue.price}}</h3>
+                  <span>Total Amount</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-xl-3 col-sm-6 col-12">
+        <div class="card">
+          <div class="card-content">
+            <div class="card-body">
+              <div class="media d-flex">
+                <div class="align-self-center">
+                  <i class="fas fa-map-marker-alt primary font-large-2 float-left"></i>
+
+                </div>
+                <div class="media-body text-right">
+                  <h3>0</h3>
+                  <span>Venue Booked</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  
     
+  
+      
+     
+    </div>
+
 </section>
 
-{% endblock %}
+    <section class="container" style="display: flex;justify-content: center;">
+
+      <div class="col-lg-12 mx-auto">
+        <div class="card rounded shadow border-0">
+          <div class="card-body  bg-white rounded">
+          <!-- <h3 class="m-3">Enquery Lists</h3> -->
+        <div class="table-responsive">
+            <!-- <h4 class="mb-3">Enquery</h4> -->
+
+            <form method="post">
+              {% csrf_token %}
+              <!-- <div class="col-sm-12 ">
+               
+                  <label class="form-label fw-bold " for="id_advance_amt">Payed Amount:</label>
+                  <input type="text" id="id_advance_amt" class="form-control border-dark" name="old_amount" value="{{ old_amount }}">
+              </div> -->
+      
+              <div class="col-sm-12">
+                <label class="form-label fw-bold mt-2" for="id_advance_amt">Now Paying:</label>
+                <input type="text" id="id_advance_amt" class="form-control border-dark" placeholder="Please enter amount" name="paying_amount" value="">
+                <div id="error_message" class="text-danger" style="display: none;">paying amount cannot exceed venue price {{venue.price}}.</div>
+            </div>
+              
+             
+      
+              <div class="col-sm-12 mt-2">
+                  <label class="form-label fw-bold" for="id_advance_paid_date">Advance Paid Date:</label>
+                  <input type="date" id="id_advance_paid_date" class="form-control border-dark" name="advance_paid_date" value="{{ form.advance_paid_date.value }}">
+              </div>
+              
+              <div class="form-label fw-bold m-3" class="col-sm-12">
+
+                  <label for="id_payment_type">Payment Type:</label>
+                  <select id="id_payment_type" class="form-select border-dark"  name="payment_type">
+                      <option value="Cash" {% if form.payment_type.value == "Cash" %} selected {% endif %}>Cash</option>
+                      <option value="Online Payment" {% if form.payment_type.value == "Online Payment" %} selected {% endif %}>Online Payment</option>
+                  </select>
+              
+               </div>
+              <!-- <div>
+                  <input type="checkbox" id="id_status" name="status" {% if form.status.value %} checked {% endif %}>
+                  <label for="id_status">Full Payment Done</label>
+              </div> -->
+              <button class="bTn" type="submit">Update Payment</button>
+          </form>
+        </div>
+          </div>
+        </div>
+      </div>
+      
+</section>
+
+    
+<script>
+  function validatePayingAmount() {
+      var paying_amt_input = document.getElementById("id_advance_amt");
+      var paying_amt = parseFloat(paying_amt_input.value);
+      var venue_price = parseFloat("{{ venue.price }}");  // Replace {{ venue.price }} with the actual venue price value
+
+      if (paying_amt > venue_price) {
+          document.getElementById("error_message").style.display = "block";
+          paying_amt_input.setCustomValidity("Now paying amount cannot exceed venue price.");
+      } else {
+          document.getElementById("error_message").style.display = "none";
+          paying_amt_input.setCustomValidity("");
+      }
+  }
+
+  // Add event listener to the input field for validation
+  document.getElementById("id_advance_amt").addEventListener("input", validatePayingAmount);
+</script>
+</body>
+
+{%  endblock %}
+

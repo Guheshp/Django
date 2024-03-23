@@ -12,11 +12,10 @@ urlpatterns = [
     path('Booking_details/<str:pk>/',views.Booking_details, name='Booking_details'),
     path('updateBooking_details/<str:pk>/',views.updateBooking_details, name='updateBooking_details'),
 
-    path('venue_payment/<str:pk>/',views.venue_payment, name='venue_payment'),
-    path('update_payment/<str:invoice_id>/',views.update_payment, name='update_payment'),
+    path('venue_payment/<str:pk>/<str:name>/',views.venue_payment, name='venue_payment'),
+    path('update_payment/<str:venue_id>/<str:enquiry_id>/', views.update_payment, name='update_payment'),
     path('payment_list/',views.payment_list, name='payment_list'),
 
-   path('enquiry_venue_payment_history/<int:enquiry_id>/<int:venue_id>/', views.enquiry_venue_payment_history, name='enquiry_venue_payment_history'),
 
 
 ]

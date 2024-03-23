@@ -27,7 +27,12 @@ class VenuePatmentForm(forms.ModelForm):
         fields = ['invoice_number','advance_amt', 'advance_paid_date', 'payment_type', 'status']
 
 
-class PaymentForm(forms.ModelForm):
+class UpdatePaymentForm(forms.ModelForm):
+
+    paying_amount = forms.FloatField(label='Paying Amount')
     class Meta:
         model = Invoice
-        fields = ['advance_amt', 'advance_paid_date', 'payment_type', 'status']
+        fields = ['invoice_number','advance_paid_date', 'payment_type']
+
+    def __init__(self, *args, **kwargs):
+        super(UpdatePaymentForm, self).__init__(*args, **kwargs)
