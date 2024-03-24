@@ -8,6 +8,7 @@ CustomUser = get_user_model()
 
 class Venue(models.Model):
     user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, null=True)
+    gst_number = models.CharField(max_length=15, null=True)
     name = models.CharField(max_length=100, null=True)
     address_line_1 = models.CharField(max_length=255, null=True)
     address_line_2 = models.CharField(max_length=255, blank=True)
@@ -19,6 +20,7 @@ class Venue(models.Model):
     description = models.TextField(null=True)
     price = models.FloatField(default=0)
     photo = models.ImageField(upload_to='Venueprofiles', null=True)
+    date = models.DateField(auto_now_add=True, null=True)
 
     def __str__(self):
         return self.name

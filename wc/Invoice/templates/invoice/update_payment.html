@@ -31,7 +31,7 @@
                   <i class="fa-solid fa-indian-rupee-sign danger font-large-2 float-left"></i>
                 </div>
                 <div class="media-body text-right">
-                  <h3>{{invoice.get_balance}}</h3>
+                  <h3>{{invoice.get_balance|floatformat:2}}</h3>
                   <span>Payment Pending</span>
                  
                 </div>
@@ -50,7 +50,7 @@
 
                 </div>
                 <div class="media-body text-right">
-                  <h3>{{invoice.total_paid_amount}}</h3>
+                  <h3>{{invoice.total_paid_amount|floatformat:2}}</h3>
                   <span>Amount Paid</span>
                 </div>
               </div>
@@ -68,7 +68,7 @@
                   <i class="fa-solid fa-indian-rupee-sign success font-large-2 float-left"></i>
                 </div>
                 <div class="media-body text-right">
-                  <h3>{{venue.price}}</h3>
+                  <h3>{{venue.price|floatformat:2}}</h3>
                   <span>Total Amount</span>
                 </div>
               </div>

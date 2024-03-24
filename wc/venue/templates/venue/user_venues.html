@@ -5,8 +5,8 @@
 <body>
 
 
-  <!-- <div class="container">
-    <div class="row justify-content-center">
+  <div class="container">
+    <!-- <div class="row justify-content-center">
         <div class="col-md-5">
             <div class="">
 
@@ -30,9 +30,24 @@
     </div>
 
    </div> -->
-   <section id="header" class="jumbotron text-center">
-                 <h1 class="display-3">Venues</h1>
-                 <p class="lead">{{user_name}} Your venues and details .</p>
+
+<section id="header" class="jumbotron text-center container p-5">
+  {% for venue in user_venues %}
+
+  <div class="owner-info float-left d-flex flex-column">
+    <p class="m-0 d-flex">{{venue.user.name}}</p>
+    <p class="m-0 d-flex">{{venue.user.phone}}</p>
+    <p class="m-0 d-flex">{{venue.user.email}}</p>
+</div>
+<p class="float-right m-0"><span>GST Number: &nbsp;</span> <b>{{venue.gst_number}}</b></p><br>
+{%endfor%}
+  
+                 <h1 class="display-3  mt-5 d-flex justify-content-center">Venue</h1>
+                 {% for venue in user_venues %}
+
+                 <a class="link-primary link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover display-3" href="{% url 'show_user_venue' venue.id%}"><p class="lead m-0 text-color">{{venue.name}}.</p></a>
+
+                 {%endfor%}
                  <!-- <a href="" class="btn btn-primary">Click</a>
                  <a href="" class="btn btn-secondary">Click</a> -->
                  <!-- ---------------------------------------------------------- -->
@@ -43,7 +58,7 @@
 
 
 
-<div class="grey-bg container-fluid">
+<div class="grey-bg container mt-5">
   <section id="minimal-statistics">
     <!-- <div class="row">
       <div class="col-12 mt-3 mb-1">
@@ -126,10 +141,11 @@
       </div>
     </div>
      
-    </div>
+
   </section>
   
   </div>
+</div>
 </section>
 </div>
   </section>

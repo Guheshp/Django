@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Invoice</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
+  <style>
+    .container {
+      padding: ; /* Add margins around the invoice */
+    }
+
+    .header-section {
+      display: flex; /* Use flexbox for header layout */
+      justify-content: space-between; /* Distribute space evenly */
+      align-items: center; /* Vertically align content */
+    }
+
+    .venue-info {
+      flex: 1; /* Allow venue info to grow */
+      text-align: center; /* Center the venue information */
+      font-size: 14px;  /* Set a base font size */
+    }
+
+    .owner-info {
+      text-align: right; /* Right-align owner information */
+      font-size: 14px;
+    }
+
+    .table-responsive {
+      overflow-x: auto;  /* Enable horizontal scrolling for wide tables */
+    }
+
+    .payment-details h3 {
+      margin-bottom: 15px; /* Add some space after title */
+    }
+
+    .table td, .table th {
+      padding: 10px; /* Adjust cell padding for better spacing */
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <section id="header" class="header-section">
+      <div class="venue-info">
+        <h4 class="text-uppercase">{{ venue.name }}</h4>
+        <p>{{ venue.address_line_1 }}</p>
+        <p>{{ venue.address_line_2 }}</p>
+        <p>{{ venue.city }}, {{ venue.state }}, {{ venue.pincode }}</p>
+      </div>
+      <div class="owner-info">
+        <p>{{ venue.user.name }}</p>
+        <p>{{ venue.user.phone }}</p>
+        <p>{{ venue.user.email }}</p>
+        <p>GST Number: <b>{{ venue.gst_number }}</b></p>
+      </div>
+    </section>
+
+    <div class="row">
+      <div class="col-lg-12 mx-auto">
+        <div class="card rounded shadow border-0">
+          <div class="card-body rounded">
+            <div class="payment-details">
+              <h3 class="m-3 text-left">Details of payment</h3>
+              <div class="table-responsive">
+                <table id="example" style="width:100%" class="table table-bordered">
+                  <thead>
+                    <tr>
+                      <th class="text-light text-left">Invoice No</th>
+                      <th class="text-light text-left">Paid amount</th>
+                      <th class="text-light text-left">Date</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {% for history in invoice_history %}
+                    <tr>
+                      <td class="text-left">{{ history.invoice_number }}</td>
+                      <td class="text-left"><i class="fa fa-inr" aria-hidden="true"></i>&nbsp;{{ history.paying_amount|floatformat:2 }}</td>
+                      <td class="text-left">{{ history.date_updated }}</td>
+                    </tr>
+                    {% endfor %}
+                    {% if invoice %}
+                    <tr>
+                      <td class="text-left">{{ invoice.invoice_number }}</td>
+                      <td class="text-left"><i class="fa fa-inr" aria-hidden="true"></i>&nbsp;{{ invoice.advance_amt|floatformat:2 }}</td>
+                      <td class="text-left">{{ invoice.date_created }}</td>
+                    </tr>
+                    {% endif %}
+                  </tbody>
+                </table>
+              </div>
+            </

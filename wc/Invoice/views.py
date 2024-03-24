@@ -7,6 +7,13 @@ from venue.models import Venue
 from django.http import HttpResponse
 from django.utils import timezone
 
+from django.db.models import Q
+
+from io import BytesIO
+from django.template.loader import get_template
+from xhtml2pdf import pisa
+import uuid
+
 from .utils import generate_invoice_number
 
 from datetime import date
@@ -20,6 +27,8 @@ from django.contrib.auth.decorators import login_required
 
 @login_required(login_url='login')
 def Enquery(request):
+    venue = Venue.objects.filter(user=request.user)
+
     if request.method == "POST":
         name = request.POST.get('name')
         phone_number = request.POST.get('phone_number')
@@ -45,7 +54,8 @@ def Enquery(request):
 
         messages.success(request, "Enquiry information added successfully!")
         return redirect('home')
-    return render(request, 'invoice/Eenquery.html')
+    context= {'venue':venue}
+    return render(request, 'invoice/Eenquery.html', context)
 
 
 @login_required(login_url='login')
@@ -58,13 +68,18 @@ def Enquerylist(request):
         booked.extend(couples_details)
         enquiry.is_booked = is_booked
 
+    search = request.GET.get('search')
+    if search:
+        enquiries = enquiries.filter(
+            Q(name__icontains=search) |
+            Q(phone_number__icontains=search)
 
-    # for enquiry in enquiries:
-    #     print(enquiry.name)
-        # for date in enquiry.dates.all():
-        #     print(date.date)
+            # Q(copulesdetails__name__icontains=search) |  # Example of searching related field
+            # Q(copulesdetails__phone_number__icontains=search) |  # Another related field example
+            # Q(copulesdetails__dates__icontains=search)  # Another related field example
+        )
 
-    context = {'enquiries':enquiries, 'booked':booked}
+    context = {'enquiries':enquiries, 'booked':booked, 'search':search}
     return render(request, 'invoice/Enquerylist.html', context)
 
 
@@ -107,7 +122,17 @@ def Booking(request):
     enquiries = Enquiry.objects.all().order_by('-id')
     venue = Venue.objects.filter(user=request.user)
 
-    context = {'couplesdetails': couplesdetails, 'enquiries': enquiries, 'venue': venue}
+    search = request.GET.get('search')
+    if search:
+        # Filter CouplesDetails based on bride name or groom name
+        couplesdetails = couplesdetails.filter(
+            Q(bridename__icontains=search) |
+            Q(groomname__icontains=search)|
+            Q(enquiry__name__icontains=search)
+        )
+       
+
+    context = {'couplesdetails': couplesdetails, 'enquiries': enquiries, 'venue': venue, 'search':search}
     return render(request, 'invoice/booking_list.html', context)
 
 
@@ -212,8 +237,10 @@ def updateBooking_details(request, pk):
 
 @login_required(login_url='login')
 def venue_payment(request, pk, name):
+
     venue = get_object_or_404(Venue, pk=pk)
     enquiries = Enquiry.objects.get(name=name)
+
     coupledetails = enquiries.copulesdetails_set.all()
 
     invoice_number = generate_invoice_number()
@@ -250,7 +277,7 @@ def venue_payment(request, pk, name):
 
 @login_required(login_url='login')
 def update_payment(request, venue_id, enquiry_id):
-    # Retrieve the corresponding venue and enquiry
+
     venue = get_object_or_404(Venue, pk=venue_id)
     enquiry = get_object_or_404(Enquiry, pk=enquiry_id)
 
@@ -260,11 +287,6 @@ def update_payment(request, venue_id, enquiry_id):
     # Generate a new invoice number
     new_invoice_number = generate_invoice_number()
 
-    # old_amount = None
-    # if invoice.advance_amt is not None:
-    #     old_amount = invoice.advance_amt
-
-
     if request.method == 'POST':
         # Process the form submission
         form = UpdatePaymentForm(request.POST, instance=invoice)
@@ -272,28 +294,18 @@ def update_payment(request, venue_id, enquiry_id):
             # Save the updated invoice
             updated_invoice = form.save(commit=False)
 
-            # Calculate the difference between old and new advance_amt values
             paying_amount = form.cleaned_data['paying_amount']
-            print("Invoice Advance Amount:", invoice.advance_amt)
-            print("Paying Amount:", paying_amount)
-            # if paying_amount:
-            #     old_amount = invoice.advance_amt + paying_amount
-            #     print("Updated Old Amount:", old_amount)
-            # else:
-            #     old_amount = invoice.advance_amt
             new_amount = paying_amount
 
             # Create an InvoiceHistory instance to record the change
             InvoiceHistory.objects.create(
                 invoice=updated_invoice,
                 user=request.user,
-                # old_amount=old_amount,
                 new_amount=new_amount,
                 paying_amount=paying_amount,
                 invoice_number=new_invoice_number,
                 date_updated=timezone.now()
             )
-
             
             invoice.total_amount = invoice.venue.price
             invoice.save()
@@ -307,9 +319,66 @@ def update_payment(request, venue_id, enquiry_id):
     context = {'form': form, 'enquiry':enquiry, 'venue':venue, 'invoice':invoice}
 
     return render(request, 'invoice/update_payment.html', context)
+
+
 @login_required(login_url='login')
 def payment_list(request):
     invoices = Invoice.objects.all().order_by('-id')
+    search = request.GET.get('search')
+    if search:
+        invoices = invoices.filter(
+             Q(enquiry__name__icontains=search)|
+             Q(invoice_number__icontains=search)
 
-    context = {'invoices':invoices}
+        )
+       
+
+    context = {'invoices':invoices, 'search':search}
     return render(request, 'invoice/payment_list.html', context)
+
+
+@login_required(login_url='login')
+def details(request, venue_id, enquiry_id):
+    venue = get_object_or_404(Venue, pk=venue_id)
+    enquiry = Enquiry.objects.get(pk=enquiry_id)
+    invoice = Invoice.objects.filter(venue=venue, enquiry=enquiry).first()
+    invoice_history = InvoiceHistory.objects.filter(invoice=invoice).order_by('-id')
+    coupledetails = enquiry.copulesdetails_set.all()
+    context = {'invoice_history':invoice_history, 'coupledetails':coupledetails,'venue':venue,'enquiry':enquiry, 'invoice':invoice}
+    return render(request, 'invoice/all_details.html', context)
+
+
+@login_required(login_url='login')
+def pdf(request, venue_id, enquiry_id):
+    venue = get_object_or_404(Venue, pk=venue_id)
+    enquiry = Enquiry.objects.get(pk=enquiry_id)
+    invoice = Invoice.objects.filter(venue=venue, enquiry=enquiry).first()
+    invoice_history = InvoiceHistory.objects.filter(invoice=invoice).order_by('-id')
+    coupledetails = enquiry.copulesdetails_set.all()
+    context = {'invoice_history':invoice_history, 'coupledetails':coupledetails,'venue':venue,'enquiry':enquiry, 'invoice':invoice}
+    return render(request, 'invoice/pdf.html', context)
+
+@login_required(login_url='login')
+def pdf_report_create(request, venue_id, enquiry_id):
+    venue = get_object_or_404(Venue, pk=venue_id)
+    enquiry = Enquiry.objects.get(pk=enquiry_id)
+    invoice = Invoice.objects.filter(venue=venue, enquiry=enquiry).first()
+    invoice_history = InvoiceHistory.objects.filter(invoice=invoice).order_by('-id')
+    coupledetails = enquiry.copulesdetails_set.all()
+
+    template_path = 'invoice/pdfreport.html'
+    context = {'invoice_history':invoice_history, 'coupledetails':coupledetails,'venue':venue,'enquiry':enquiry, 'invoice':invoice}
+    # Create a Django response object, and specify content_type as pdf
+    response = HttpResponse(content_type='application/pdf')
+    response['Content-Disposition'] = 'attachment; filename="invoice-report.pdf"'
+    # find the template and render it.
+    template = get_template(template_path)
+    html = template.render(context)
+
+    # create a pdf
+    pisa_status = pisa.CreatePDF(
+       html, dest=response)
+    # if error then show some funny view
+    if pisa_status.err:
+       return HttpResponse('We had some errors <pre>' + html + '</pre>')
+    return response

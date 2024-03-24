@@ -14,12 +14,12 @@ from .models import (Venue,
 class VenueInfoForm(forms.ModelForm):
     class Meta:
         model = Venue
-        fields = ['name', 'address_line_1', 'address_line_2', 'city', 'state', 'pincode', 'capacity', 'note', 'description','price', 'photo']
+        fields = ['name','gst_number','address_line_1', 'address_line_2', 'city', 'state', 'pincode', 'capacity', 'note', 'description','price', 'photo']
 
 class UpdateVenueInfoForm(forms.ModelForm):
     class Meta:
         model = Venue
-        fields = ['name', 'address_line_1', 'address_line_2', 'city', 'state', 'pincode', 'capacity', 'note', 'description','price', 'photo']
+        fields = ['name','gst_number', 'address_line_1', 'address_line_2', 'city', 'state', 'pincode', 'capacity', 'note', 'description','price', 'photo']
     
 
 # class deleteAmenitiesForm(forms.ModelForm):

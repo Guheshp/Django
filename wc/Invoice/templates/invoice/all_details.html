@@ -1,0 +1,85 @@
+{% extends 'acc/base.html'%}
+{% block content%}
+
+<div class="container ">
+
+  <section id="header" class="jumbotron text-center p-5">
+    <div class="owner-info float-left d-flex flex-column">
+        <p class="m-0 d-flex">{{venue.user.name}}</p>
+        <p class="m-0 d-flex">{{venue.user.phone}}</p>
+        <p class="m-0 d-flex">{{venue.user.email}}</p>
+    </div>
+    <p class="float-right m-0"><span>GST Number: &nbsp;</span> <b>{{venue.gst_number}}</b></p><br>
+   
+    
+    
+    <div class="text-center mt-5 d-flex justify-content-center">
+
+    </div>
+    
+    <h4 class="text-uppercase m-0 text-color">{{venue.name}}</h4>
+    <a class="small" href="#">{{v.name|linebreaks}}</a>
+    <p class=" m-0"><span> &nbsp;</span> {{venue.address_line_1}}, {{venue.address_line_2}}</p>
+    <p class=" m-0"><span> &nbsp;</span> {{venue.city}}, {{venue.state}}, {{venue.pincode}}</p>
+   <!-- <div class="row">
+  <div class="col-12 mt-3 mb-1">
+    <h4 class="text-uppercase">Minimal Statistics Cards</h4>
+    <p>Statistics on minimal cards.</p>
+  </div>
+</div> -->
+</section>
+
+    <div class="row">
+        <div class="col-lg-12 mx-auto">
+            <div class="card rounded shadow border-0">
+                <div class="card-body rounded">
+              <h3 class="m-3">Details of payment</h3>
+            <div class="table-responsive">
+
+                <table id="example" style="width:100%" class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th class="text-light">Invoice.no</th>
+                            <th class="text-light">Payed amount</th>
+                            <th class="text-light">Date</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                       
+                       
+                        
+                        <!-- Subsequent rows with data from InvoiceHistory model -->
+                        {% for history in invoice_history %}
+                        <tr>
+                            <td class="text-color text-center">{{ history.invoice_number  }}</td>
+                            <td class="text-color text-center">{{ history.paying_amount|floatformat:2 }}</td>
+                            <td class="text-color text-center">{{ history.date_updated }}</td>
+                        </tr>
+                        {% endfor %}
+
+                         <!-- last row with data from Invoice model -->
+                        {% if invoice %}
+                        <tr>
+                            <td class="text-color text-center">{{ invoice.invoice_number }}</td>
+                            <td class="text-color text-center">{{ invoice.advance_amt|floatformat:2 }}</td>
+                            <td class="text-color text-center">{{ invoice.date_created}}</td>
+                        </tr>
+                        {% endif %}
+                    </tbody>
+                </table>
+                
+                
+              </div>
+            </div>
+            <!-- <a class="bTn mt-3 text-center" href="{% url 'pdf' venue.id enquiry.id%}"> Create Pdf</a> -->
+            <a class="bTn mt-3 text-center" href="{% url 'pdf_report_create' venue.id enquiry.id%}"> Create Pdf</a>
+          </div>
+      </div>
+    </div>
+  </div>
+
+</body>
+{%  endblock %}
+
+
+
