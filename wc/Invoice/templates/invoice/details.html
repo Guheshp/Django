@@ -1,0 +1,148 @@
+{% extends 'acc/base.html'%}
+{% block content%}
+
+<div class="container ">
+
+    <section id="header" class="jumbotron text-center p-5">
+        <div class="owner-info float-left d-flex flex-column">
+            <p class="m-0 d-flex">{{venue.user.name}}</p>
+            <p class="m-0 d-flex">{{venue.user.phone}}</p>
+            <p class="m-0 d-flex">{{venue.user.email}}</p>
+        </div>
+
+        <p class="float-right m-0"><span>GST Number: &nbsp;</span> <b>{{venue.gst_number}}</b></p><br>
+        <p class="float-right m-0"><span>Client: &nbsp;</span> <b>{{enquiry.name}}</b></p><br>
+       
+        
+        
+        <div class="text-center mt-5 d-flex justify-content-center">
+
+        </div>
+        
+        <h4 class="text-uppercase m-0 text-color">{{venue.name}}</h4>
+        <a class="small" href="#">{{v.name|linebreaks}}</a>
+        <p class=" m-0"><span> &nbsp;</span> {{venue.address_line_1}}, {{venue.address_line_2}}</p>
+        <p class=" m-0"><span> &nbsp;</span> {{venue.city}}, {{venue.state}}, {{venue.pincode}}</p>
+      
+    </section>
+    
+
+    <div class="row">
+        <div class="col-lg-12 mx-auto">
+            <div class="card rounded shadow border-0">
+                <div class="card-body rounded">
+                    <div class="col-lg-12 mx-auto">
+                        <!-- <div class="card rounded border-0"> -->
+                            <!-- <div class="card-body rounded"> -->
+                                <div class="d-flex justify-content-between align-items-center">
+                                  {% if search%}
+                                  <p><a class=" link-offset-2 link-underline link-underline-opacity-100" href="{% url 'details' venue.id enquiry.id%}"><i class="fa fa-arrow-left" aria-hidden="true"></i>&nbsp;&nbsp;Go back</a></p>
+                                  {%endif%}
+                                  <h3 class="m-">Details Of Payment</h3>
+            
+                                    <form class="form-inline" method="GET" action="{% url 'details' venue.id enquiry.id%}">
+                                      <input class="form-control mr-sm-2" name="search" type="search" value="{% if search%} {{search}} {% endif %}" placeholder="Search" aria-label="Search">
+                                      <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+                                  </form>
+                                
+                                </div>
+                            
+
+                    </div>
+                </div>
+            <div class="table-responsive">
+
+                <table id="example" style="width:100%" class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th class="text-light text-center">Invoice.no</th>
+                            <th class="text-light  text-center">Date</th>
+                            <th class="text-light  text-center">Payed amount</th>
+                            <th class="text-light  text-center">tax</th>
+                            <th class="text-light  text-center">Tax Amount</th>
+                            <th class="text-light  text-center">Grand Total</th>
+                            <th class="text-light  text-center">Pdf</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                       
+                        {% for history in invoice_history %}
+                        <tr>
+                            <td class="text-color text-center">{{ history.invoice_number  }}</td>
+                            <td class="text-color text-center">{{ history.date_updated }}</td>
+                            <td class="text-color text-center"><i class="fa fa-inr" aria-hidden="true"></i>&nbsp;{{ history.paying_amount|floatformat:2 }}</td>
+                            <td class="text-color text-center">10%</td>
+                            <td class="text-color text-center"><i class="fa fa-inr" aria-hidden="true"></i>&nbsp;{{history.tax_payed|floatformat:2}}</td>
+                            <td class="text-color text-center"><i class="fa fa-inr" aria-hidden="true"></i>&nbsp;{{history.new_amount|floatformat:2}}</td>
+
+                            <td class="text-color text-center">
+                                <a class=" link-offset-3 link-underline-opacity-25" href="{% url 'single_pdf_report' invoice.venue_id invoice.enquiry_id%}">Generate Pdf</a>
+                            </td>
+
+                        </tr>
+                        {% endfor %}
+
+
+                        {% if invoice %}
+                        <tr>
+                            <td class="text-color text-center">{{ invoice.invoice_number }}</td>
+                            <td class="text-color text-center">{{ invoice.date_created}}</td>
+                            <td class="text-color text-center"><i class="fa fa-inr" aria-hidden="true"></i>&nbsp;{{ invoice.advance_amt|floatformat:2 }}</td>
+                            <td class="text-color text-center">10%</td>
+                            <td class="text-color text-center"><i class="fa fa-inr" aria-hidden="true"></i>&nbsp;{{invoice.tax_payed|floatformat:2}}</td>
+                            <td class="text-color text-center"><i class="fa fa-inr" aria-hidden="true"></i>&nbsp;{{invoice.new_amt|floatformat:2}}</td>
+                            <td class="text-color text-center">
+                                <a class=" link-offset-3 link-underline-opacity-25" href="{% url 'single_pdf_report' invoice.venue_id invoice.enquiry_id%}">Generate Pdf</a>
+                            </td>
+                        </tr>
+                        {% endif %}
+                        <tr>
+                        <td colspan="2">&nbsp;</td>
+                            
+                        </tr>
+                         <!-- <tr>
+                        <td colspan="2">TOTAL</td>
+                        <td class="total">{{venue.price|floatformat:2 }}</td>
+                        </tr> -->
+                        
+                    {% if search %}
+                    {%else%}
+                    <tr>
+                        <td colspan="2 border-top border-dark">SUB TOTAL</td>
+                        <td class="total"><i class="fa fa-inr" aria-hidden="true"></i>&nbsp;{{invoice.total_paid_amount|floatformat:2 }}</td>
+                    </tr>
+
+                      <!-- Tax -->
+                      <tr>
+                          <td colspan="2">TAX 10%</td>
+                          <!-- <td class="total"><i class="fa fa-inr" aria-hidden="true"></i>&nbsp;{{invoice.tax_payed|floatformat:2 }}+{{total_tax_paid|floatformat:2 }} = {{result}}</td> -->
+                          <td class="total"><i class="fa fa-inr" aria-hidden="true"></i>&nbsp;{{resultx|floatformat:2 }}</td>
+                      </tr>
+                      <!-- Grand total -->
+
+                      <tr>
+                          <td colspan="2" class="grand total">GRAND TOTAL</td>
+                          <td class="grand total"><i class="fa fa-inr" aria-hidden="true"></i>&nbsp;{{resulty|floatformat:2 }}</td>
+                      </tr>
+                      {%endif%}
+
+                    </tbody>
+                </table>
+                
+                
+                
+            </div>
+        </div>
+    </div>
+</div>
+<a class="bTn text-center mt-4" href="{% url 'pdf_report_create' venue.id enquiry.id%}">Create Pdf</a>
+</div>
+</div>
+
+</body>
+{%  endblock %}
+
+
+
+
+ 

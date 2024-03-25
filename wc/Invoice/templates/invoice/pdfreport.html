@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!-- <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
@@ -11,22 +11,28 @@
     }
 
     .header-section {
-      display: flex; /* Use flexbox for header layout */
-      justify-content: space-between; /* Distribute space evenly */
-      align-items: center; /* Vertically align content */
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        grid-template-rows: auto auto;
+        gap: 10px;
     }
-
-    .venue-info {
-      flex: 1; /* Allow venue info to grow */
-      text-align: center; /* Center the venue information */
-      font-size: 14px;  /* Set a base font size */
-    }
-
+    
     .owner-info {
-      text-align: right; /* Right-align owner information */
-      font-size: 14px;
+       
+        text-align: left;
     }
-
+    
+    
+    .gst-info {
+      margin-top: 0;
+        text-align: right;
+    }
+    
+    
+    .venue-info {
+        text-align: center; /* Align center */
+        font-size: 14px;
+      }
     .table-responsive {
       overflow-x: auto;  /* Enable horizontal scrolling for wide tables */
     }
@@ -42,20 +48,28 @@
 </head>
 <body>
   <div class="container">
+
+
+
     <section id="header" class="header-section">
-      <div class="venue-info">
-        <h4 class="text-uppercase">{{ venue.name }}</h4>
-        <p>{{ venue.address_line_1 }}</p>
-        <p>{{ venue.address_line_2 }}</p>
-        <p>{{ venue.city }}, {{ venue.state }}, {{ venue.pincode }}</p>
-      </div>
-      <div class="owner-info">
-        <p>{{ venue.user.name }}</p>
-        <p>{{ venue.user.phone }}</p>
-        <p>{{ venue.user.email }}</p>
-        <p>GST Number: <b>{{ venue.gst_number }}</b></p>
-      </div>
+        <div class="owner-info">
+            <p>{{ venue.user.name }}</p>
+            <p>{{ venue.user.phone }}</p>
+            <p>{{ venue.user.email }}</p>   
+        </div>
+        
+<div class="venue-info">
+            <h4 class="text-uppercase">{{ venue.name }}</h4>
+            <p>{{ venue.address_line_1 }}</p>
+            <p>{{ venue.address_line_2 }}</p>
+            <p>{{ venue.city }}, {{ venue.state }}, {{ venue.pincode }}</p>
+        </div>
+    
+        <div class="gst-info">
+            <p>GST Number: <b>{{ venue.gst_number }}</b></p>
+        </div>
     </section>
+    
 
     <div class="row">
       <div class="col-lg-12 mx-auto">
@@ -67,27 +81,252 @@
                 <table id="example" style="width:100%" class="table table-bordered">
                   <thead>
                     <tr>
-                      <th class="text-light text-left">Invoice No</th>
-                      <th class="text-light text-left">Paid amount</th>
-                      <th class="text-light text-left">Date</th>
+                      <th class="text-light ">Invoice No</th>
+                      <th class="text-light ">Paid amount</th>
+                      <th class="text-light ">Date</th>
                     </tr>
                   </thead>
                   <tbody>
                     {% for history in invoice_history %}
                     <tr>
-                      <td class="text-left">{{ history.invoice_number }}</td>
-                      <td class="text-left"><i class="fa fa-inr" aria-hidden="true"></i>&nbsp;{{ history.paying_amount|floatformat:2 }}</td>
-                      <td class="text-left">{{ history.date_updated }}</td>
+                      <td class="text-">{{ history.invoice_number }}</td>
+                      <td class="text-">&nbsp;{{ history.paying_amount|floatformat:2 }}</td>
+                      <td class="text-">{{ history.date_updated }}</td>
                     </tr>
                     {% endfor %}
                     {% if invoice %}
                     <tr>
-                      <td class="text-left">{{ invoice.invoice_number }}</td>
-                      <td class="text-left"><i class="fa fa-inr" aria-hidden="true"></i>&nbsp;{{ invoice.advance_amt|floatformat:2 }}</td>
-                      <td class="text-left">{{ invoice.date_created }}</td>
+                      <td class="text-">{{ invoice.invoice_number }}</td>
+                      <td class="text-">&nbsp;{{ invoice.advance_amt|floatformat:2 }}</td>
+                      <td class="text-">{{ invoice.date_created }}</td>
                     </tr>
                     {% endif %}
                   </tbody>
                 </table>
               </div>
-            </
+            </ -->
+
+
+            <!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Example 1</title>
+  <!-- <link rel="stylesheet" href="style.css" media="all" /> -->
+  <style>
+    .clearfix:after {
+      content: "";
+      display: table;
+      clear: both;
+    }
+
+    a {
+      color: #5D6975;
+      text-decoration: underline;
+    }
+
+    body {
+      position: relative;
+      width: 21cm;
+      height: auto; /* Change from fixed height to auto */
+      margin: 0 auto;
+      color: #001028;
+      background: #FFFFFF;
+      font-family: Arial, sans-serif;
+      font-size: 12px;
+    }
+
+    header {
+      padding: 10px 0;
+      margin-bottom: 30px;
+    }
+
+    #logo {
+      text-align: center;
+      margin-bottom: 10px;
+    }
+
+    #logo img {
+      width: 90px;
+    }
+
+    h1 {
+      border-top: 1px solid  #5D6975;
+      border-bottom: 1px solid  #5D6975;
+      color: #5D6975;
+      font-size: 2.4em;
+      line-height: 1.4em;
+      font-weight: normal;
+      text-align: center;
+      margin: 40px 0 20px 0; /* Adjusted margin */
+    }
+
+    #project {
+      float: left;
+
+    }
+
+    #project span {
+      color: #5D6975;
+      text-align: right;
+      width: 52px;
+      margin-right: 10px;
+      display: inline-block;
+      font-size: 0.8em;
+    }
+
+    #company {
+      float: right;
+      text-align: right;
+    }
+
+    #project div,
+    #company div {
+      white-space: nowrap;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      border-spacing: 0;
+      margin-bottom: 20px;
+    }
+
+    table tr:nth-child(2n-1) td {
+      background: #F5F5F5;
+    }
+
+    table th,
+    table td {
+      text-align: center;
+      padding: 10px; /* Adjusted padding for better spacing */
+    }
+
+    table th {
+      color: #5D6975;
+      border-bottom: 1px solid #C1CED9;
+      font-weight: normal;
+    }
+
+    table .service,
+    table .desc {
+      text-align: left;
+    }
+
+    table td {
+      text-align: right;
+    }
+
+    table td.service,
+    table td.desc {
+      vertical-align: top;
+    }
+
+    table td.unit,
+    table td.qty,
+    table td.total {
+      font-size: 1.2em;
+    }
+
+    table td.grand {
+      border-top: 1px solid #5D6975;
+    }
+
+    #notices .notice {
+      color: #5D6975;
+      font-size: 1.2em;
+    }
+
+    footer {
+      color: #5D6975;
+      width: 100%;
+      height: 30px;
+      position: absolute;
+      bottom: 0;
+      border-top: 1px solid #5D6975; /* Changed border color */
+      padding: 8px 0;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+    <header class="clearfix">
+        <div id="logo">
+            <!-- <img src="logo.png"> -->
+        </div>
+        <h1>INVOICE</h1>
+        <div id="project">
+          <div><span>Venue:&nbsp;</span>{{ venue.name }}</div>
+          <div><span>Name:&nbsp;</span>{{ venue.user.name }}</div>
+          <div><span>Phone number:&nbsp;</span>{{ venue.user.phone }}</div>
+          <div><span>EMAIL:&nbsp;</span> <a href="{{ venue.user.email }}">{{ venue.user.email }}</a></div>
+          <div><span>Address:&nbsp;</span>{{ venue.address_line_1 }}, {{ venue.address_line_2 }}</div>
+          <div><span>Address:&nbsp;</span>{{ venue.city }}, {{ venue.state }}, {{ venue.pincode }}</div>
+          <div><span>GST Number:&nbsp;</span>{{ venue.gst_number }}</div>
+          <!-- <div><span>DUE DATE</span> September 17, 2015</div> -->
+        </div>
+
+        <div id="company" class="clearfix">
+            <div><span>Client Name:&nbsp;</span>{{ enquiry.name }}</div>
+            <div><span>Phone Number:&nbsp;</span>{{ enquiry.phone_number }}</div>
+        </div>
+
+</header>
+<main>
+<table>
+  <thead>
+  <tr>
+    <th class="service">INVOICE</th>
+    <th class="desc">Date</th>
+    <th>Amount Paid</th>
+    <th>Tax</th>
+    <th>Tax Amount</th>
+    <th>Grand Total</th>
+  </tr>
+  </thead>
+  <tbody>
+      {% for history in invoice_history %}
+  <tr>
+    <td class="unit">{{ history.invoice_number }}</td>
+    <td class="desc">{{history.date_updated}}</td>
+    <td class="unit">&nbsp;{{ history.paying_amount|floatformat:2 }}</td>
+    <td class="unit">&nbsp;10%</td>
+    <!-- <td class="qty">26</td> -->
+    <td class="total">{{history.tax_payed|floatformat:2}}</td>
+    <td class="total">{{history.new_amount|floatformat:2}}</td>
+</tr>
+{% endfor %}
+{% if invoice %}
+<tr>
+    <td class="unit">{{ invoice.invoice_number }}</td>
+    <td class="unit">{{ invoice.date_created}}</td>
+    <!-- <td class="desc">Creating a recognizable design solution based on the company's existing visual identity</td> -->
+    <td class="unit">&nbsp;{{ invoice.advance_amt|floatformat:2 }}</td>
+    <td class="total">10%</td>
+    <td class="unit">&nbsp;{{invoice.tax_payed|floatformat:2}}</td>
+    <td class="unit">&nbsp;{{invoice.new_amt|floatformat:2}}</td>
+    <!-- <td class="qty">26</td> -->
+</tr>
+{% endif %}
+<tr>
+  <td class="grand" colspan="4">SUB TOTAL</td>
+  <td class="total ">{{invoice.total_paid_amount|floatformat:2 }}</td>
+</tr>
+
+<!-- Tax -->
+<tr>
+    <td colspan="4">TAX 10%</td>
+    <!-- <td class="total">{{invoice.tax_payed|floatformat:2 }}+{{total_tax_paid|floatformat:2 }} = {{result}}</td> -->
+    <td class="total">{{resultx|floatformat:2 }}</td>
+</tr>
+<!-- Grand total -->
+
+<!-- <tr>
+    <td colspan="2" class="grand total">GRAND TOTAL</td>
+    <td class="grand total">{{resulty|floatformat:2 }}</td>
+</tr> -->
+
+    <td colspan="4" class="grand total">GRAND TOTAL</td>
+    <td class="grand total">{{resulty|floatformat:2 }}</td>
+
+

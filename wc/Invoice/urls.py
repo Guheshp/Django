@@ -16,10 +16,12 @@ urlpatterns = [
     path('update_payment/<str:venue_id>/<str:enquiry_id>/', views.update_payment, name='update_payment'),
     path('payment_list/',views.payment_list, name='payment_list'),
 
-    path('details/<str:venue_id>/<str:enquiry_id>/',views.details, name='details'),
+    # path('details/<str:venue_id>/<str:enquiry_id>/',views.details, name='details'),
 
-    path('pdf/<str:venue_id>/<str:enquiry_id>/',views.pdf, name='pdf'),
+    path('details/<str:venue_id>/<str:enquiry_id>/',views.details, name='details'),
     path('pdf_report_create/<str:venue_id>/<str:enquiry_id>/',views.pdf_report_create, name='pdf_report_create'),
+
+    path('single_pdf_report/<str:venue_id>/<str:enquiry_id>/',views.single_pdf_report, name='single_pdf_report'),
 
 
 ]

@@ -64,6 +64,7 @@ class Invoice(models.Model):
     date_created = models.DateTimeField(auto_now=True, null=True)
     date_updated = models.DateTimeField(auto_now=True, null=True)
     advance_amt = models.FloatField( null=True)
+    new_amt = models.FloatField( null=True)
     advance_paid_date = models.DateField(auto_now=False, auto_now_add=False, null=True)
     payment_type = models.CharField(max_length=200, null=True, choices=TYPE)
     status = models.BooleanField(default=False)
@@ -80,11 +81,9 @@ class Invoice(models.Model):
             self.invoice_number = generate_invoice_number()
 
         if not self.total_amount:
-            self.total_amount = self.venue.price
+            self.total_amount = self.venue.price 
 
         # Calculate the balance
-       
-
         super().save(*args, **kwargs)
 
     @property
@@ -106,6 +105,9 @@ class Invoice(models.Model):
             total_paid += self.advance_amt
         return total_paid
         
+    def tax_payed(self):
+        tax = self.new_amt - self.advance_amt
+        return tax
 
 
 class InvoiceHistory(models.Model):
@@ -117,6 +119,12 @@ class InvoiceHistory(models.Model):
     paying_amount = models.FloatField(null=True)
     date_updated = models.DateTimeField(default=timezone.now)
 
+   
+    def tax_payed(self):
+        tax = self.new_amount - self.paying_amount
+        return tax
+    
+    
 
 # class PaymentHistory(models.Model):
 #     invoice = models.ForeignKey(Invoice, on_delete=models.CASCADE)

@@ -87,6 +87,7 @@
                             <div class="mb-auto p-2"><h2 class="m-0 fw-bold">Total Amount</h2></div>
                             {%if venue %}
                             <div class="p-2 mr-4 "><h3 class="m-0"><i class="fa-solid fa-indian-rupee-sign"></i>&nbsp;{{venue.price|floatformat:2}}</h3></div>
+                            <div class="p-2 mr-4 "><span class="small">Including tax of 10%</span><h3 class="m-0"><i class="fa-solid fa-indian-rupee-sign"></i>&nbsp;{{venue.venue_total_amt|floatformat:2}}</h3></div>
                             {%endif%}
                             <!-- <div class="p-2">Flex item</div> -->
                           </div>

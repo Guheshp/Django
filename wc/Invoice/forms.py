@@ -24,7 +24,7 @@ class UpdateCouplesdetailsForm(forms.ModelForm):
 class VenuePatmentForm(forms.ModelForm):
     class Meta:
         model = Invoice
-        fields = ['invoice_number','advance_amt', 'advance_paid_date', 'payment_type', 'status']
+        fields = ['invoice_number','advance_amt','advance_paid_date', 'payment_type', 'status']
 
 
 class UpdatePaymentForm(forms.ModelForm):

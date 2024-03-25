@@ -61,6 +61,13 @@
                     {% endif %}
                     <td><a class="text-danger link-offset-3 link-underline-opacity-25" data-bs-toggle="modal" data-bs-target="#exampleModal"  href="{% url 'delete_enquiry' enquiry.id %}">delete</a></td>
 
+                    <!-- <td>
+                      {% if invoice.status %}
+                         <p class="link-success m-0"> Payment Completed <i class="fa-solid fa-check"></i></p>
+                      {% else %}
+
+                      {% endif %}
+                      </td> -->
 
                     <!-- <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
                       Launch demo modal

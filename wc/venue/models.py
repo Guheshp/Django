@@ -22,6 +22,20 @@ class Venue(models.Model):
     photo = models.ImageField(upload_to='Venueprofiles', null=True)
     date = models.DateField(auto_now_add=True, null=True)
 
+    def venue_total_amt(self):
+        # Define the tax rate
+        tax_rate = 0.10  # 10%
+
+        # Calculate the tax amount
+        tax_amount = self.price * tax_rate
+
+        # Calculate the total amount with tax
+        total_with_tax = self.price + tax_amount
+        
+        return total_with_tax
+
+
+
     def __str__(self):
         return self.name
     

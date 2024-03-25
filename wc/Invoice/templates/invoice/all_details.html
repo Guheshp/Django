@@ -36,37 +36,57 @@
               <h3 class="m-3">Details of payment</h3>
             <div class="table-responsive">
 
-                <table id="example" style="width:100%" class="table table-bordered">
-                    <thead>
-                        <tr>
-                            <th class="text-light">Invoice.no</th>
-                            <th class="text-light">Payed amount</th>
-                            <th class="text-light">Date</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                       
-                       
-                        
-                        <!-- Subsequent rows with data from InvoiceHistory model -->
-                        {% for history in invoice_history %}
-                        <tr>
-                            <td class="text-color text-center">{{ history.invoice_number  }}</td>
-                            <td class="text-color text-center">{{ history.paying_amount|floatformat:2 }}</td>
-                            <td class="text-color text-center">{{ history.date_updated }}</td>
-                        </tr>
-                        {% endfor %}
+              <table id="example" style="width:100%" class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th class="text-light">Invoice.no</th>
+                        <th class="text-light">Paid amount</th>
+                        <th class="text-light">Date</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Rows with data from InvoiceHistory model -->
+                    {% for history in invoice_history %}
+                    <tr>
+                        <td class="text-color text-center">{{ history.invoice_number }}</td>
+                        <td class="text-color text-center">{{ history.paying_amount|floatformat:2 }}</td>
+                        <td class="text-color text-center">{{ history.date_updated }}</td>
+                    </tr>
+                    {% endfor %}
+            
+                    <!-- Row with data from Invoice model -->
+                    {% if invoice %}
+                    <tr>
+                        <td class="text-color text-center">{{ invoice.invoice_number }}</td>
+                        <td class="text-color text-center">{{ invoice.advance_amt|floatformat:2 }}</td>
+                        <td class="text-color text-center">{{ invoice.date_created }}</td>
+                    </tr>
+                    {% endif %}
+            
+                    <!-- Subtotal -->
+                    <!-- <tr>
+                        <td colspan="2">TOTAL</td>
+                        <td class="total">{{venue.price|floatformat:2 }}</td>
+                    </tr> -->
 
-                         <!-- last row with data from Invoice model -->
-                        {% if invoice %}
-                        <tr>
-                            <td class="text-color text-center">{{ invoice.invoice_number }}</td>
-                            <td class="text-color text-center">{{ invoice.advance_amt|floatformat:2 }}</td>
-                            <td class="text-color text-center">{{ invoice.date_created}}</td>
-                        </tr>
-                        {% endif %}
-                    </tbody>
-                </table>
+                    <tr>
+                      <td colspan="2">SUB TOTAL</td>
+                      <td class="total">{{invoice.total_paid_amount|floatformat:2 }}</td>
+                  </tr>
+                    <!-- Tax -->
+                    <tr>
+                        <td colspan="2">TAX 25%</td>
+                        <td class="total">$1,300.00</td>
+                    </tr>
+                    <!-- Grand total -->
+                    <tr>
+                        <td colspan="2" class="grand total">GRAND TOTAL</td>
+                        <td class="grand total">{{invoice.total_amount}}</td>
+                    </tr>
+                </tbody>
+            </table>
+            
+                
                 
                 
               </div>
