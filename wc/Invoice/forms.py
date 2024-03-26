@@ -9,7 +9,11 @@ from .models import (Enquiry,
 class UpdateEnquiryForm(forms.ModelForm):
     class Meta:
         model = Enquiry
-        fields = ['name', 'phone_number', 'dates']
+        fields = ['name','email', 'phone_number', 'dates']
+        
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['email'].widget.attrs['readonly'] = True
 
 class CouplesdetailsForm(forms.ModelForm):
     class Meta:

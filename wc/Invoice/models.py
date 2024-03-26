@@ -19,6 +19,7 @@ class Date(models.Model):
 class Enquiry(models.Model):
     name = models.CharField(max_length=200)
     phone_number = models.CharField(max_length=10)
+    email = models.EmailField(max_length=200, null=True)
     dates = models.ManyToManyField(Date, related_name='enquiries_dates')
 
     def __str__(self):
@@ -83,7 +84,14 @@ class Invoice(models.Model):
         if not self.total_amount:
             self.total_amount = self.venue.price 
 
-        # Calculate the balance
+        total_paid = self.total_paid_amount()
+        balance = self.venue.price - total_paid
+
+        if balance == 0:
+            self.status = True
+            self.advance_amt = self.venue.price
+        else:
+            self.status = False
         super().save(*args, **kwargs)
 
     @property
@@ -103,6 +111,8 @@ class Invoice(models.Model):
             total_paid = 0
         if self.advance_amt is not None:
             total_paid += self.advance_amt
+        # Ensure total paid does not exceed the venue price
+        total_paid = min(total_paid, self.venue.price)
         return total_paid
         
     def tax_payed(self):
@@ -124,13 +134,5 @@ class InvoiceHistory(models.Model):
         tax = self.new_amount - self.paying_amount
         return tax
     
-    
 
-# class PaymentHistory(models.Model):
-#     invoice = models.ForeignKey(Invoice, on_delete=models.CASCADE)
-#     amount_paid = models.FloatField()
-#     payment_date = models.DateTimeField(default=timezone.now)
-
-#     def __str__(self):
-#         return f"Payment of {self.amount_paid} for Invoice {self.invoice.id} on {self.payment_date}"
     

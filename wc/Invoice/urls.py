@@ -2,6 +2,7 @@ from django.urls import path
 from . import views
 
 urlpatterns = [
+
     path('',views.Enquery, name='Enquery'),
     path('Enquerylist/',views.Enquerylist, name='Enquerylist'),
     path('enquiryUpdate/<str:enquiry_id>/',views.update_enquiry, name='enquiryUpdate'),
@@ -21,7 +22,12 @@ urlpatterns = [
     path('details/<str:venue_id>/<str:enquiry_id>/',views.details, name='details'),
     path('pdf_report_create/<str:venue_id>/<str:enquiry_id>/',views.pdf_report_create, name='pdf_report_create'),
 
-    path('single_pdf_report/<str:venue_id>/<str:enquiry_id>/',views.single_pdf_report, name='single_pdf_report'),
+    path('single_pdf_report/<str:invoice_history_id>/',views.single_pdf_report, name='single_pdf_report'),
+    path('single_pdf/<str:invoice_history_id>/',views.single_pdf, name='single_pdf'),
+
+    path('invoive1_pdf/<str:invoice_id>/',views.invoive1_pdf, name='invoive1_pdf'),
+    path('invoive1_pdf_report/<str:invoice_id>/',views.invoive1_pdf_report, name='invoive1_pdf_report'),
+
 
 
 ]

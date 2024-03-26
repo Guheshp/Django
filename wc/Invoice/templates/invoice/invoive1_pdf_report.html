@@ -178,25 +178,25 @@
   <tbody>
 
   <tr>
-    <td class="unit">{{ invoice_history.invoice_number  }}</td>
-    <td class="desc">{{ invoice_history.date_updated }}</td>
-    <td class="unit">&nbsp;{{ invoice_history.paying_amount|floatformat:2 }}</td>
+    <td class="unit">{{ invoice_bill.invoice_number  }}</td>
+    <td class="desc">{{ invoice_bill.date_created }}</td>
+    <td class="unit">&nbsp;{{ invoice_bill.advance_amt|floatformat:2 }}</td>
     <td class="unit">&nbsp;10%</td>
     <!-- <td class="qty">26</td> -->
-    <td class="total">{{invoice_history.tax_payed|floatformat:2}}</td>
-    <td class="total">{{invoice_history.new_amount|floatformat:2}}</td>
+    <td class="total">{{invoice_bill.tax_payed|floatformat:2}}</td>
+    <td class="total">{{invoice_bill.new_amt|floatformat:2}}</td>
 </tr>
 
 <tr>
   <td class="grand" colspan="4">SUB TOTAL</td>
-  <td class="total ">{{ invoice_history.paying_amount|floatformat:2 }}</td>
+  <td class="total ">{{ invoice_bill.advance_amt|floatformat:2 }}</td>
 </tr>
 
 <!-- Tax -->
 <tr>
     <td colspan="4">TAX 10%</td>
     <!-- <td class="total">{{invoice.tax_payed|floatformat:2 }}+{{total_tax_paid|floatformat:2 }} = {{result}}</td> -->
-    <td class="total">{{invoice_history.tax_payed|floatformat:2}}</td>
+    <td class="total">{{invoice_bill.tax_payed|floatformat:2}}</td>
 </tr>
 <!-- Grand total -->
 
@@ -206,6 +206,6 @@
 </tr> -->
 
     <td colspan="4" class="grand total">GRAND TOTAL</td>
-    <td class="grand total">{{invoice_history.new_amount|floatformat:2}}</td>
+    <td class="grand total">{{invoice_bill.new_amt|floatformat:2}}</td>
 
 

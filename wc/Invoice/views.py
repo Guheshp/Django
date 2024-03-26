@@ -7,6 +7,9 @@ from venue.models import Venue
 from django.http import HttpResponse
 from django.utils import timezone
 
+from django.core.mail import send_mail
+from django.conf import settings
+
 from django.db.models import Q
 
 from io import BytesIO
@@ -31,6 +34,7 @@ def Enquery(request):
 
     if request.method == "POST":
         name = request.POST.get('name')
+        email = request.POST.get('email')
         phone_number = request.POST.get('phone_number')
         dates = request.POST.getlist('date')  # Get list of dates
 
@@ -45,7 +49,7 @@ def Enquery(request):
             return redirect('home')  # Replace 'your_form_view_name' with the name of your form view
 
         # Create Enquiry object
-        enquiry = Enquiry.objects.create(name=name, phone_number=phone_number)
+        enquiry = Enquiry.objects.create(name=name, email=email, phone_number=phone_number)
 
         # Add dates to the Enquiry object
         for date_str in dates:
@@ -89,11 +93,13 @@ def update_enquiry(request, enquiry_id):
 
     if request.method == "POST":
         name = request.POST.get('name')
+        email = request.POST.get('email')
         phone_number = request.POST.get('phone_number')
       
 
         # Update enquiry details
         enquiry.name = name
+        enquiry.email = email
         enquiry.phone_number = phone_number
 
         enquiry.save()
@@ -180,6 +186,14 @@ def Booking_venue(request, pk):
                 details.save()
                 groomname = form.cleaned_data.get('groomname')
                 bridename = form.cleaned_data.get('bridename')
+                
+                #send email
+                subject = 'Venue Booking Confirmation'
+                message = f"Dear {groomname} and {bridename},\n\nYour booking at {details.venue.name} has been confirmed. Thank you for choosing our venue!\n\nBest regards,\nThe Venue Team"
+                sender = settings.EMAIL_FROM
+                recipient_list = [enquiry.email]  # Change this to the recipient's email address
+                send_mail(subject, message, sender, recipient_list, fail_silently=True)
+
 
                 messages.success(request,f"{groomname}'s and {bridename} data saved Successfully.")
                 # return redirect('venue_payment',venue.first().id)
@@ -443,29 +457,15 @@ def pdf_report_create(request, venue_id, enquiry_id):
 
 
 @login_required(login_url='login')
-def single_pdf_report(request, venue_id, enquiry_id):
-    venue = get_object_or_404(Venue, pk=venue_id)
-    enquiry = Enquiry.objects.get(pk=enquiry_id)
-    invoice = Invoice.objects.filter(venue=venue, enquiry=enquiry).first()
-    invoice_history = InvoiceHistory.objects.filter(invoice=invoice).order_by('-id')
-    coupledetails = enquiry.copulesdetails_set.all()
-
-    total_tax_paid = sum(history.tax_payed() for history in invoice_history)
-
-    x = invoice.tax_payed()
-    resultx  = x + total_tax_paid
-
-    y = invoice.total_paid_amount()
-    resulty  = y + resultx
+def single_pdf_report(request, invoice_history_id):
+    invoice_history = get_object_or_404(InvoiceHistory, id=invoice_history_id)
+    venue = invoice_history.invoice.venue
+    enquiry = invoice_history.invoice.enquiry
 
     template_path = 'invoice/single_pdf_report.html'
     context = {'invoice_history':invoice_history,
-            'coupledetails':coupledetails,
-            'venue':venue,
-            'enquiry':enquiry,
-            'invoice':invoice,
-            'resultx':resultx,
-            'resulty':resulty}
+                'venue':venue,
+                'enquiry':enquiry,}
     
     # Create a Django response object, and specify content_type as pdf
     response = HttpResponse(content_type='application/pdf')
@@ -481,3 +481,58 @@ def single_pdf_report(request, venue_id, enquiry_id):
     if pisa_status.err:
        return HttpResponse('We had some errors <pre>' + html + '</pre>')
     return response
+
+@login_required(login_url='login')
+def single_pdf(request, invoice_history_id):
+    invoice_history = get_object_or_404(InvoiceHistory, id=invoice_history_id)
+    venue = invoice_history.invoice.venue
+    enquiry = invoice_history.invoice.enquiry
+
+    context = {'invoice_history':invoice_history,
+                'venue':venue,
+                'enquiry':enquiry,
+               }
+    
+    return render(request, 'invoice/single_pdf0.html', context)
+
+
+
+@login_required(login_url='login')
+def invoive1_pdf(request, invoice_id):
+    invoice_bill = get_object_or_404(Invoice, id=invoice_id)
+    venue = invoice_bill.venue
+    enquiry = invoice_bill.enquiry
+
+    context = {'invoice_bill':invoice_bill,
+                'venue':venue,
+                'enquiry':enquiry,
+               }
+    
+    return render(request, 'invoice/single_pdf.html', context)
+
+@login_required(login_url='login')
+def invoive1_pdf_report(request, invoice_id):
+    invoice_bill = get_object_or_404(Invoice, id=invoice_id)
+    venue = invoice_bill.venue
+    enquiry = invoice_bill.enquiry
+
+    template_path = 'invoice/invoive1_pdf_report.html'
+    context = {'invoice_bill':invoice_bill,
+                'venue':venue,
+                'enquiry':enquiry}
+    
+    # Create a Django response object, and specify content_type as pdf
+    response = HttpResponse(content_type='application/pdf')
+    response['Content-Disposition'] = 'attachment; filename="single_invoice-report.pdf"'
+    # find the template and render it.
+    template = get_template(template_path)
+    html = template.render(context)
+
+    # create a pdf
+    pisa_status = pisa.CreatePDF(
+       html, dest=response)
+    # if error then show some funny view
+    if pisa_status.err:
+       return HttpResponse('We had some errors <pre>' + html + '</pre>')
+    return response
+

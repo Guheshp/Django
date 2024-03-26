@@ -32,7 +32,7 @@
                 </div>
                 <div class="media-body text-right">
                   <h3>{{invoice.get_balance|floatformat:2}}</h3>
-                  <span>Payment Pending</span>
+                  <span>Balance</span>
                  
                 </div>
               </div>
@@ -124,14 +124,14 @@
               <div class="col-sm-12">
                 <label class="form-label fw-bold mt-2" for="id_advance_amt">Now Paying:</label>
                 <input type="text" id="id_advance_amt" class="form-control border-dark" placeholder="Please enter amount" name="paying_amount" value="">
-                <div id="error_message" class="text-danger" style="display: none;">paying amount cannot exceed venue price {{venue.price}}.</div>
+                <div id="error_message" class="text-danger" style="display: none;">paying amount cannot exceed venue price or balance.</div>
             </div>
               
              
       
               <div class="col-sm-12 mt-2">
                   <label class="form-label fw-bold" for="id_advance_paid_date">Advance Paid Date:</label>
-                  <input type="date" id="id_advance_paid_date" class="form-control border-dark" name="advance_paid_date" value="{{ form.advance_paid_date.value }}">
+                  <input type="date" id="id_advance_paid_date" class="form-control border-dark" name="advance_paid_date" value="{{ form.advance_paid_date.value }}" required>
               </div>
               
               <div class="form-label fw-bold m-3" class="col-sm-12">
@@ -162,8 +162,9 @@
       var paying_amt_input = document.getElementById("id_advance_amt");
       var paying_amt = parseFloat(paying_amt_input.value);
       var venue_price = parseFloat("{{ venue.price }}");  // Replace {{ venue.price }} with the actual venue price value
+      var balance = parseFloat("{{ invoice.get_balance }}"); 
 
-      if (paying_amt > venue_price) {
+      if (paying_amt > venue_price || paying_amt > balance)  {
           document.getElementById("error_message").style.display = "block";
           paying_amt_input.setCustomValidity("Now paying amount cannot exceed venue price.");
       } else {

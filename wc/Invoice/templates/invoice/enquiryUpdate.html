@@ -1,44 +1,104 @@
 {% extends 'acc/base.html'%}
+{% load static%}
 {% block content%}
 <body>
+
+<div class="container">
+    
+    <section id="header" class="jumbotron text-center p-4">
+        
+        <div class="text-center mt-5 d-flex justify-content-center">
+        <h1 class="display-3 text-uppercase">Enquiry for venue</h1>
+        </div>
+        {% for v in venue%}
+        <a class="link-primary link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover display-3" href="{% url 'user_venues'%}"><p class="lead m-0 text-color">{{v.name}}.</p></a>
+        <!-- <a class="small" href="#">{{v.name|linebreaks}}</a> -->
+        {%endfor%}
+
+        
+        <!-- <div class="row">
+      <div class="col-12 mt-3 mb-1">
+        <h4 class="text-uppercase">Minimal Statistics Cards</h4>
+        <p>Statistics on minimal cards.</p>
+      </div>
+    </div> -->
+
+        
+        <!-- <p class="lead"> <b> "Complete your venue profile!"</b> The more information you provide, the easier it will be for potential renters to find and book your space.</p> -->
+    
+        <!-- ---------------------------------------------------------- -->
+    </section>
+</div>
     <section class="container" style="display: flex;justify-content: center;">
 
-        <div class="col-md-7 col-lg-8">
-            <h4 class="mb-3">Enquery</h4>
-
-
+      <div class="col-lg-12 mx-auto">
+        <div class="card rounded shadow border-0">
+          <div class="card-body  bg-white rounded">
+          <!-- <h3 class="m-3">Enquery Lists</h3> -->
+        <div class="table-responsive">
+            <!-- <h4 class="mb-3">Enquery</h4> -->
             {% if form.errors %}
-    <div class="alert alert-danger" role="alert">
-        {% for field, errors in form.errors.items %}
-            {% for error in errors %}
-                {{ field|title }}: {{ error }}
-            {% endfor %}
-        {% endfor %}
-    </div>
-    {% endif %}
+            <div class="alert alert-danger" role="alert">
+                {% for field, errors in form.errors.items %}
+                    {% for error in errors %}
+                        {{ field|title }}: {{ error }}
+                    {% endfor %}
+                {% endfor %}
+            </div>
+            {% endif %}
+        
+            <form class="needs-validation shadow"   method="POST">
+              {% csrf_token %}
+              <div class="row g-3">
+                  <div class="col-sm-6">
+                      <label for="firstName" class="form-label fw-bold">Name</label>
+                      <input type="text" name="name" class="form-control border-dark" id="firstName" value="{{ enquiry.name }}">
+                      <div class="invalid-feedback">
+                          Valid first name is required.
+                      </div>
+                  </div>
 
+                  <div class="col-sm-6">
+                    <label for="firstName" class="form-label fw-bold">Email</label>
+                    <input type="email" name="email" class="form-control border-dark"  value="{{ enquiry.email }}" readonly>
+                    <div class="invalid-feedback">
+                        Valid first name is required.
+                    </div>
+                </div>
 
-    <form method="post">
-        {% csrf_token %}
-        <label for="name">Name:</label><br>
-        <input type="text" id="name" name="name" value="{{ enquiry.name }}"><br><br>
-        
-        <label for="phone_number">Phone Number:</label><br>
-        <input type="text" id="phone_number" name="phone_number" value="{{ enquiry.phone_number }}"><br><br>
-        
-        <!-- <label for="dates">Dates:</label><br>
-        {% for date in enquiry.dates.all %}
-            <input type="text" id="date_{{ forloop.counter }}" name="dates" value="{{ date }}"><br>
-        {% endfor %} -->
-        
-        <!-- You can add more date fields if needed -->
-        
-        <button type="submit">Update</button>
-    </form>
-            
-          
-          </section>
-    
+                  <div class="col-sm-6">
+                      <label for="lastName" class="form-label fw-bold">Phone Number</label>
+                      <input type="number" name="phone_number" class="form-control border-dark" id="phoneNumber" value="{{ enquiry.phone_number }}">
+                      <div id="phoneError" class="invalid-feedback">
+                        Please enter a 10-digit phone number.
+                    </div>
+                  </div>
+                  <!-- <div id="amenityFields">
+                      <label class="fw-bold">Add Dates</label>
+                      <div class="input-group amenity-input-container">
+                          <input type="date" name="date" class="form-control date-input border-dark" placeholder="Enter Date" required>
+                          <div class="input-group-append">
+                              <button type="button" class="btn btn-outline-secondary remove-amenity ">Remove</button>
+                          </div>
+                      </div>
+                      <div id="errorMessage" style="color: red; display: none;"></div>
+                  </div>
+                  <div class="input-group amenity-input-container">
+                      <button class="bTn mt-2" type="button" id="addDate">Add Another Date</button>
+                      <button class="bTn mt-2" type="submit">Save Enquiry</button>
+                  </div> -->
+                  
+                </div>
+                <button class="bTn mt-2 float-right" type="submit">Save Enquiry</button>
+          </form>
+        </div>
+          </div>
+        </div>
+      </div>
+      
+</section>
+   
 </body>
-{%endblock%}
+
+{%  endblock %}
 
