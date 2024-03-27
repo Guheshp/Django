@@ -65,6 +65,7 @@ class Invoice(models.Model):
     date_created = models.DateTimeField(auto_now=True, null=True)
     date_updated = models.DateTimeField(auto_now=True, null=True)
     advance_amt = models.FloatField( null=True)
+    tax_rate = models.FloatField( null=True) 
     new_amt = models.FloatField( null=True)
     advance_paid_date = models.DateField(auto_now=False, auto_now_add=False, null=True)
     payment_type = models.CharField(max_length=200, null=True, choices=TYPE)
@@ -84,14 +85,6 @@ class Invoice(models.Model):
         if not self.total_amount:
             self.total_amount = self.venue.price 
 
-        total_paid = self.total_paid_amount()
-        balance = self.venue.price - total_paid
-
-        if balance == 0:
-            self.status = True
-            self.advance_amt = self.venue.price
-        else:
-            self.status = False
         super().save(*args, **kwargs)
 
     @property
@@ -106,15 +99,17 @@ class Invoice(models.Model):
         return balance
 
     def total_paid_amount(self):
-        total_paid = self.invoicehistory_set.aggregate(total_paid=Sum('paying_amount'))['total_paid']
-        if total_paid is None:
-            total_paid = 0
-        if self.advance_amt is not None:
-            total_paid += self.advance_amt
-        # Ensure total paid does not exceed the venue price
-        total_paid = min(total_paid, self.venue.price)
-        return total_paid
-        
+        if self.pk:  # Check if the instance has been saved/
+            total_paid = self.invoicehistory_set.aggregate(total_paid=Sum('paying_amount'))['total_paid']
+            if total_paid is None:
+                total_paid = 0
+            if self.advance_amt is not None:
+                total_paid += self.advance_amt
+            # Ensure total paid does not exceed the venue price
+            total_paid = min(total_paid, self.venue.price)
+            return total_paid
+        return 0  # Return 0 if instance is not saved yet
+    
     def tax_payed(self):
         tax = self.new_amt - self.advance_amt
         return tax
@@ -134,5 +129,6 @@ class InvoiceHistory(models.Model):
         tax = self.new_amount - self.paying_amount
         return tax
     
+
 
     

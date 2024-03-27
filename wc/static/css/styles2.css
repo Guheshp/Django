@@ -628,3 +628,7 @@ body{margin-top:20px;
   color: rgb(23, 51, 79) !important;
   
 }
+
+.custom-card {
+  box-shadow: none !important; /* Remove box shadow */
+}

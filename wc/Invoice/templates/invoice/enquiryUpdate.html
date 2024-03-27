@@ -8,7 +8,7 @@
     <section id="header" class="jumbotron text-center p-4">
         
         <div class="text-center mt-5 d-flex justify-content-center">
-        <h1 class="display-3 text-uppercase">Enquiry for venue</h1>
+        <h1 class="display-3 text-uppercase">Update Enquiry Details</h1>
         </div>
         {% for v in venue%}
         <a class="link-primary link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover display-3" href="{% url 'user_venues'%}"><p class="lead m-0 text-color">{{v.name}}.</p></a>
@@ -73,24 +73,18 @@
                         Please enter a 10-digit phone number.
                     </div>
                   </div>
-                  <!-- <div id="amenityFields">
-                      <label class="fw-bold">Add Dates</label>
-                      <div class="input-group amenity-input-container">
-                          <input type="date" name="date" class="form-control date-input border-dark" placeholder="Enter Date" required>
-                          <div class="input-group-append">
-                              <button type="button" class="btn btn-outline-secondary remove-amenity ">Remove</button>
-                          </div>
-                      </div>
-                      <div id="errorMessage" style="color: red; display: none;"></div>
-                  </div>
-                  <div class="input-group amenity-input-container">
-                      <button class="bTn mt-2" type="button" id="addDate">Add Another Date</button>
-                      <button class="bTn mt-2" type="submit">Save Enquiry</button>
-                  </div> -->
-                  
+
+                  <div class="col-sm-6">
+                  <label for="dates" class="form-label fw-bold">Select Dates:</label>
+                  {% for date in enquiry.dates.all %}
+                      <input type="date" name="dates" value="{{ date.date|date:'Y-m-d' }}" class="form-control  border-dark mt" required>
+                  {% endfor %}
                 </div>
+                <div class="col-sm-12">
+
                 <button class="bTn mt-2 float-right" type="submit">Save Enquiry</button>
-          </form>
+                </div>
+            </form>
         </div>
           </div>
         </div>

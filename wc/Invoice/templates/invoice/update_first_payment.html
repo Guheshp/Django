@@ -1,0 +1,63 @@
+{% extends 'acc/base.html' %}
+
+{% load static %}
+
+{% block content %}
+
+<body>
+    <div class="container">
+        <div class="row justify-content-center mb-3 underline">
+        <h1>Update first payment</h1>
+        </div>
+
+    </div>
+
+    <div class="container">
+
+        <div class="row  justify-content-center">
+            <div class="col-md-5">
+                <div class="card">
+                    <form action="" method="POST">
+                        {% csrf_token %}
+                        <div class="form-group fw-bold m-3">
+                            <label for="">Advance payed</label>
+                            <input type="text" name="advance_amt" value="{{ invoice.advance_amt }}"  class="form-control border-dark" id="">
+                        </div>
+                        <div class="form-group fw-bold m-3">
+                            <label for="">TAX </label>
+                            <input type="text" name="tax_rate" value="{{ invoice.tax_rate }}"  placeholder="Enter Bride Name" class="form-control border-dark" id="">
+                        </div>
+                        <div class="form-group fw-bold m-3">
+                            <label for="">Date </label>
+                            <input type="date" name="advance_paid_date" value="{{ invoice.advance_paid_date|date:'Y-m-d' }}"  class="form-control border-dark" id="">
+                        </div>
+
+
+                        <div class="form-group m-3">
+                            <label class="form-label fw-bold" for="">Payment Type</label>
+                            <select class="form-select border-dark" name="payment_type" aria-label="Default select example">
+                                <option selected>Select Payment method</option>
+                                <option value="Cash" {% if invoice.payment_type == 'Cash' %} selected {% endif %}>Cash</option>
+                                <option value="Online Payment" {% if invoice.payment_type == 'Online Payment' %} selected {% endif %}>Online Payment</option>
+                            </select>
+                        </div>
+
+                        <div class="row gutters">
+                            <div class="col-xl-12">
+                                <div class=" py-2 px-2 text-right">
+                                    <a class="btn btn-outline-info" href="">Cancle</a>
+                                    <button type="submit" class="btn btn-primary">Submit</button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            
+
+        </div>
+    </div>
+
+</body>
+
+{% endblock %}

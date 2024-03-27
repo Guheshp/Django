@@ -24,6 +24,12 @@
         <a class="small" href="#">{{v.name|linebreaks}}</a>
         <p class=" m-0"><span> &nbsp;</span> {{venue.address_line_1}}, {{venue.address_line_2}}</p>
         <p class=" m-0"><span> &nbsp;</span> {{venue.city}}, {{venue.state}}, {{venue.pincode}}</p>
+
+        <div class="payment-info">
+
+        <p class=" m-0 d-flex"><u><i class="small">Without Tax &nbsp;</i></u><span>Balance:&nbsp;<i class="fa-solid fa-indian-rupee-sign"></i>&nbsp;</span><b>{{invoice.get_balance|floatformat:2}}</b></p>
+        <p class=" m-0 d-flex"><u><i class="small">Without Tax &nbsp;</i></u><span>Total Amt:&nbsp;<i class="fa-solid fa-indian-rupee-sign"></i>&nbsp;</span><b>{{invoice.venue.price |floatformat:2}}</b></p>
+        </div>
       
     </section>
     
@@ -75,7 +81,7 @@
                             </td>
                             <td class="text-color text-center">{{ history.date_updated }}</td>
                             <td class="text-color text-center"><i class="fa fa-inr" aria-hidden="true"></i>&nbsp;{{ history.paying_amount|floatformat:2 }}</td>
-                            <td class="text-color text-center">10%</td>
+                            <td class="text-color text-center">{{history.invoice.tax_rate}}%</td>
                             <td class="text-color text-center"><i class="fa fa-inr" aria-hidden="true"></i>&nbsp;{{history.tax_payed|floatformat:2}}</td>
                             <td class="text-color text-center"><i class="fa fa-inr" aria-hidden="true"></i>&nbsp;{{history.new_amount|floatformat:2}}</td>
 
@@ -97,7 +103,7 @@
                             </td>
                             <td class="text-color text-center">{{ invoice.date_created}}</td>
                             <td class="text-color text-center"><i class="fa fa-inr" aria-hidden="true"></i>&nbsp;{{ invoice.advance_amt|floatformat:2 }}</td>
-                            <td class="text-color text-center">10%</td>
+                            <td class="text-color text-center">{{invoice.tax_rate}}%</td>
                             <td class="text-color text-center"><i class="fa fa-inr" aria-hidden="true"></i>&nbsp;{{invoice.tax_payed|floatformat:2}}</td>
                             <td class="text-color text-center"><i class="fa fa-inr" aria-hidden="true"></i>&nbsp;{{invoice.new_amt|floatformat:2}}</td>
                             <td class="text-color text-center">
@@ -123,7 +129,7 @@
 
                       <!-- Tax -->
                       <tr>
-                          <td colspan="2">TAX 10%</td>
+                          <td colspan="2">TAX {{invoice.tax_rate}}%</td>
                           <!-- <td class="total"><i class="fa fa-inr" aria-hidden="true"></i>&nbsp;{{invoice.tax_payed|floatformat:2 }}+{{total_tax_paid|floatformat:2 }} = {{result}}</td> -->
                           <td class="total"><i class="fa fa-inr" aria-hidden="true"></i>&nbsp;{{resultx|floatformat:2 }}</td>
                       </tr>

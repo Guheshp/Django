@@ -77,7 +77,7 @@
 
                     <td>
                     {% if invoice.status %}
-                       <p class="link-success m-0"> Payment Completed <i class="fa-solid fa-check"></i></p>
+                       <a class="link-offset-3 link-underline-opacity-25 m-0 " href="#">Additional Bill</a>
                     {% else %}
                         <a class=" link-offset-3 link-underline-opacity-25" href="{% url 'update_payment' invoice.venue_id invoice.enquiry_id %}">Payment</a>
                     {% endif %}

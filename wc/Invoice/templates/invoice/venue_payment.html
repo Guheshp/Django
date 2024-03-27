@@ -2,18 +2,162 @@
 {% load static%}
 {% block content%}
 <body>
-  <section id="header" class="jumbotron text-center">
-    <h1 class="display-3">Payment Details</h1>
-    
+<section id="header" class="jumbotron text-center p-3">
 
+    <div class="row align-items-md-stretch">
+        <div class="col-md-6">
+          <div class="  ">
+            {% if coupledetails %}
+
+            <!-- <u><h3 class="d-flex ">Client Details</h3></u> -->
+
+            <p class=" m-0 d-flex">Client Name: &nbsp;<b class="">{{enquiries.name }}</b></p>
+            <p class="small m-0 d-flex"></p>
+            <p class=" d-flex m-0">Groom Name:
+                {% for coupledetail in coupledetails %}
+                &nbsp;<b>{{ coupledetail.groomname }}</b>
+                {% endfor %}
+            </p>
+            <p class=" d-flex m-0">Bride Name:
+                {% for coupledetail in coupledetails %}
+                &nbsp;<b>{{ coupledetail.bridename }}</b>
+                {% endfor %}
+            </p>
+        
+            <p class=" d-flex m-0">Dates:
+            {% for coupledetail in coupledetails %}
+            {% for date in coupledetail.enquiry.dates.all %}
+            
+            &nbsp;<b>{{ date }}</b>
+          
+            {% endfor %}
+            {% endfor %}
+            </p>
+
+          </div>
+        </div>
+        {%endif%}
+
+        <div class="col-md-2">
+            <div class="">
+              <!-- <h2>Add Venue</h2> -->
+
+              <!-- <button class="btn btn-outline-light" type="button">Example button</button> -->
+            </div>
+          </div>
+
+          <div class="col-md-4">
+            <div class="ml-5 ">
+              <!-- <h3>GST Number</h3> -->
+              <!-- <u><h3 class="d-flex justify-content-center ml-5 ">Venue Details</h3></u> -->
+              <p class=" d-flex ml-5 mb-0">GST Number: &nbsp;<b class="">{{venue.gst_number }}</b></p>
+              <p class=" d-flex ml-5 mb-0">Venue Name: &nbsp;<b class="">{{venue.name }}</b></p>
+
+            </div>
+          </div>
+        
+   
+    <h1 class="display-3 mb-5">Payment Details</h1>
+    <!-- <h4 class="text-uppercase m-0 text-color">{{venue.name}}</h4> -->
+
+<!-- 
     <p class="lead m-0">Client Name</p>
-    <!-- Display the client's name for each couple detail -->
-    <p class="small m-0"><b>{{enquiries.name|linebreaks }}</b></p>
 
+    <p class="small m-0"><b>{{enquiries.name|linebreaks }}</b></p> -->
 
-    
-    <!-- <p class="lead">#</p> -->
+    <link rel="stylesheet" type="text/css" href="https://pixinvent.com/stack-responsive-bootstrap-4-admin-template/app-assets/css/bootstrap-extended.min.css">
+
+<link rel="stylesheet" type="text/css" href="https://pixinvent.com/stack-responsive-bootstrap-4-admin-template/app-assets/css/colors.min.css">
+
+<div class="grey-bg container-fluid">
+  <section id="minimal-statistics">
+    <!-- <div class="row">
+      <div class="col-12 mt-3 mb-1">
+        <h4 class="text-uppercase">Minimal Statistics Cards</h4>
+        <p>Statistics on minimal cards.</p>
+      </div>
+    </div> -->
+    <div class="row">
+      <div class="col-xl-3 col-sm-6 col-12"> 
+        <div class="card">
+          <div class="card-content">
+            <div class="card-body">
+              <div class="media d-flex">
+                <div class="align-self-center">
+                  <!-- <i class="icon-pencil primary font-large-2 float-left"></i> -->
+                  <i class="fa-solid fa-indian-rupee-sign danger font-large-2 float-left"></i>
+                </div>
+                <div class="media-body text-right">
+                  <!-- <h3>{{invoice.get_balance|floatformat:2}}</h3> -->
+                  <h3>0</h3>
+                  <span>Balance</span>
+                 
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-xl-3 col-sm-6 col-12">
+        <div class="card">
+          <div class="card-content">
+            <div class="card-body">
+              <div class="media d-flex">
+                <div class="align-self-center">
+                  <i class="fa-solid fa-indian-rupee-sign success font-large-2 float-left"></i>
+
+                </div>
+                <div class="media-body text-right">
+                  <!-- <h3>{{invoice.total_paid_amount|floatformat:2}}</h3> -->
+                  <h3>0</h3>
+                  <span>Amount Paid</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-xl-3 col-sm-6 col-12">
+        <div class="card">
+          <div class="card-content">
+            <div class="card-body">
+              <div class="media d-flex">
+                <div class="align-self-center">
+                  <!-- <i class="icon-graph success font-large-2 float-left"></i> -->
+                  <i class="fa-solid fa-indian-rupee-sign success font-large-2 float-left"></i>
+                </div>
+                <div class="media-body text-right">
+                  <h3>{{venue.price|floatformat:2}}</h3>
+                  <span>Total Amount</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-xl-3 col-sm-6 col-12">
+        <div class="card">
+          <div class="card-content">
+            <div class="card-body">
+              <div class="media d-flex">
+                <div class="align-self-center">
+                  <i class="fas fa-map-marker-alt primary font-large-2 float-left"></i>
+
+                </div>
+                <div class="media-body text-right">
+                  <h3>0</h3>
+                  <span>Venue Booked</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    </div>
+
 </section>
+
 
 <section class="container" style="display: flex;justify-content: center;">
 
@@ -24,81 +168,13 @@
                     <div class="">
                     <!-- <h4 class="mb-3">Enquery</h4> -->
                     
-                        <div class="row g-3">
-                            <div class="col-sm-6">
-                                {% if coupledetails %}
-
-                                <label for="firstName" class="form-label fw-bold">Groom Name</label>
-                                <!-- <input name="name" class="form-control border-dark" id="firstName"  value="{{enquiry.name}}" required> -->
-                                <div class="card border-dark m-0 decoration-none">
-                                <div class="py-2 mx-3 ">
-                                    {% for coupledetail in coupledetails %}
-                                    {{ coupledetail.groomname }}
-                                {% endfor %}
-                                   
-                                 </div>
-                                 </div>
-
-                            </div>
-
-                            <div class="col-sm-6">
-                                <label for="lastName" class="form-label fw-bold">Bride Name</label>
-                                <div class="card border-dark m-0 decoration-none">
-                                    <div class="py-2 mx-3 ">
-                                        {% for coupledetail in coupledetails %}
-                                        {{ coupledetail.bridename }}
-                                        {% endfor %}
-                                    </div>
-                                 </div>
-                            </div>
-
-
-                            <div class="col-sm-6">
-                            <!-- <label for="dates">Dates:</label><br> -->
-                            <label for="lastName" class="form-label fw-bold">Dates</label>
-                            {% for coupledetail in coupledetails %}
-                            {% for date in coupledetail.enquiry.dates.all %}
-                                <div class="card border-dark m-0 decoration-none mt-2">
-                                    <div class="py-2 mx-3">
-                                        <span>{{ date }}</span>
-                                    </div>
-                                </div>
-                            {% endfor %}
-                            {% endfor %}
-                            </div>
-
-                            <div class="col-sm-6">
-                                <label for="lastName" class="form-label fw-bold">Venue Name</label>
-                                <div class="card border-dark m-0 decoration-none">
-                                    <div class="py-2 mx-3 ">
-                                        {% if venue %}
-                                        <span>{{venue.name}}</span> 
-                                        {%endif%}
-                                    </div>
-                                 </div>
-                            </div>
-                            {%endif%}
-
-                        
-                        <!-- <hr class="fw-bold"> -->
-
-                        <!-- <h3 class="m-3">Couples Details</h3> -->
-                        <div class="d-flex align-items-end flex-column mb-3">
-                            <div class="mb-auto p-2"><h2 class="m-0 fw-bold">Total Amount</h2></div>
-                            {%if venue %}
-                            <div class="p-2 mr-4 "><h3 class="m-0"><i class="fa-solid fa-indian-rupee-sign"></i>&nbsp;{{venue.price|floatformat:2}}</h3></div>
-                            <div class="p-2 mr-4 "><span class="small">Including tax of 10%</span><h3 class="m-0"><i class="fa-solid fa-indian-rupee-sign"></i>&nbsp;{{venue.venue_total_amt|floatformat:2}}</h3></div>
-                            {%endif%}
-                            <!-- <div class="p-2">Flex item</div> -->
-                          </div>
-                        </div>
                         <div>
                            
                             {%if venue  %}
                         <form action="{% url 'venue_payment' venue.id enquiries.name%}" method="POST" class="" enctype="multipart/form-data">
                             {%endif%}
                            
-                            <h1 class="p-3 text-bg-dark text-center rounded">Payment Details</h1><hr>
+                            <h1 class="p-3 text-bg-dark text-center rounded">Update Here</h1><hr>
     
                             {% csrf_token %}
     
@@ -125,6 +201,11 @@
                             <div id="error_message" style="color: red; display: none;">Advance payment cannot exceed venue price {{venue.price}}.</div>
                         </div>
                             
+                            <div class="form-group m-3">
+                                <label class="form-label fw-bold" for="">TAX</label>
+                                <input type="text" name="tax_rate" placeholder="Enter Tax in Percentage" class="form-control border-dark " id="" required>
+                            </div>
+
                             <div class="form-group m-3">
                                 <label class="form-label fw-bold" for="">Date</label>
                                 <input type="date" name="advance_paid_date"  class="form-control border-dark " id="" required>

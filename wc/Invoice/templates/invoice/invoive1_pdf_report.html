@@ -181,7 +181,7 @@
     <td class="unit">{{ invoice_bill.invoice_number  }}</td>
     <td class="desc">{{ invoice_bill.date_created }}</td>
     <td class="unit">&nbsp;{{ invoice_bill.advance_amt|floatformat:2 }}</td>
-    <td class="unit">&nbsp;10%</td>
+    <td class="unit">&nbsp;{{invoice_bill.tax_rate}}</td>
     <!-- <td class="qty">26</td> -->
     <td class="total">{{invoice_bill.tax_payed|floatformat:2}}</td>
     <td class="total">{{invoice_bill.new_amt|floatformat:2}}</td>

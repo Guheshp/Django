@@ -8,7 +8,7 @@
 <section id="header" class="jumbotron text-center p-4">
         
     <div class="text-center mt-5 d-flex justify-content-center">
-    <h1 class="display-3 text-uppercase">Couples details</h1>
+    <h1 class="display-3 text-uppercase">Couples Details</h1>
     </div>
     {% for v in venue%}
     <a class="link-primary link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover display-3" href="{% url 'user_venues'%}"><p class="lead m-0 text-color">{{v.name}}.</p></a>
@@ -47,9 +47,9 @@
                 <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
                     <div class="">
                         <label class="py-1 sub-heading">Groom Name</label>
-                        <div class="card">
+                        <div class="card custom-card"> <!-- Add a custom class -->
                             <div class="py-2 mx-3 ">
-                               <span>{{ couplesdetails.groomname}}</span> 
+                                <span>{{ couplesdetails.groomname}}</span> 
                             </div>
                         </div>
                     </div>
@@ -57,8 +57,8 @@
 
                  <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
                     <div class="">
-                        <label class="py-1 sub-heading">Bride Name</label>
-                        <div class="card">
+                        <label class="py-1 sub-heading ">Bride Name</label>
+                        <div class="card custom-card">
                             <div class="py-2 mx-3 ">
                                <span>{{ couplesdetails.bridename}}</span> 
                             </div>
@@ -69,7 +69,7 @@
                  <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
                     <div class="">
                         <label class="py-1 sub-heading">Groom DOB</label>
-                        <div class="card">
+                        <div class="card custom-card">
                             <div class="py-2 mx-3 ">
                                <span>{{ couplesdetails.groomDOB}}</span> 
                             </div>
@@ -80,7 +80,7 @@
                 <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
                     <div class="">
                         <label class="py-1 sub-heading">Bride DOB</label>
-                        <div class="card">
+                        <div class="card custom-card">
                             <div class="py-2 mx-3 ">
                                <span>{{ couplesdetails.brideDOB}}</span> 
                             </div>
@@ -91,7 +91,7 @@
                 <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
                     <div class="">
                         <label class="py-1 sub-heading">Groom Age</label>
-                        <div class="card">
+                        <div class="card custom-card">
                             <div class="py-2 mx-3 ">
                                <span>{{groomDOB}}</span> 
                             </div>
@@ -102,7 +102,7 @@
                 <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
                     <div class="">
                         <label class="py-1 sub-heading">Bride Age</label>
-                        <div class="card">
+                        <div class="card custom-card">
                             <div class="py-2 mx-3 ">
                                <span>{{brideDOB}}</span> 
                             </div>
@@ -113,7 +113,7 @@
                 <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
                     <div class="">
                         <label class="py-1 sub-heading">Groom Father's Name</label>
-                        <div class="card">
+                        <div class="card custom-card">
                             <div class="py-2 mx-3 ">
                                <span>{{ couplesdetails.groomfathername}}</span> 
                             </div>
@@ -124,7 +124,7 @@
                 <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
                     <div class="">
                         <label class="py-1 sub-heading">Bride Father's Name</label>
-                        <div class="card">
+                        <div class="card custom-card">
                             <div class="py-2 mx-3 ">
                                <span>{{ couplesdetails.bridfathername}}</span> 
                             </div>
@@ -135,7 +135,7 @@
                 <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
                     <div class="">
                         <label class="py-1 sub-heading">Groom Mother's Name</label>
-                        <div class="card">
+                        <div class="card custom-card">
                             <div class="py-2 mx-3 ">
                                <span>{{ couplesdetails.groommothername}}</span> 
                             </div>
@@ -146,7 +146,7 @@
                 <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
                     <div class="">
                         <label class="py-1 sub-heading">Bride Mother's Name</label>
-                        <div class="card">
+                        <div class="card custom-card">
                             <div class="py-2 mx-3 ">
                                <span>{{ couplesdetails.bridmothername}}</span> 
                             </div>
@@ -157,7 +157,7 @@
                 <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
                     <div class="">
                         <label class="py-1 sub-heading">Groom Images Proof</label>
-                        <div class="card">
+                        <div class="card custom-card">
                             <div class="py-2 mx-3 ">
                                <span>{{ couplesdetails.groom_proof_image}}</span> 
                             </div>
@@ -168,7 +168,7 @@
                 <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
                     <div class="">
                         <label class="py-1 sub-heading">Bride Images Proof</label>
-                        <div class="card">
+                        <div class="card custom-card">
                             <div class="py-2 mx-3 ">
                                <span>{{ couplesdetails.brid_proof_image}}</span> 
                             </div>

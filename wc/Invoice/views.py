@@ -7,6 +7,8 @@ from venue.models import Venue
 from django.http import HttpResponse
 from django.utils import timezone
 
+from decimal import Decimal
+
 from django.core.mail import send_mail
 from django.conf import settings
 
@@ -23,7 +25,12 @@ from datetime import date
 
 
 from .models import Enquiry, Date, CopulesDetails, Invoice, InvoiceHistory
-from .forms import CouplesdetailsForm, UpdateCouplesdetailsForm, VenuePatmentForm, UpdatePaymentForm
+from .forms import ( CouplesdetailsForm,
+                    UpdateCouplesdetailsForm,
+                    VenuePatmentForm,
+                    UpdatePaymentForm,
+                    FirstPaymentUpdateform)
+
 from django.contrib.auth.decorators import login_required
 
 # Create your views here.
@@ -90,24 +97,29 @@ def Enquerylist(request):
 @login_required(login_url='login')
 def update_enquiry(request, enquiry_id):
     enquiry = get_object_or_404(Enquiry, pk=enquiry_id)
+    all_dates = Date.objects.all() 
 
     if request.method == "POST":
         name = request.POST.get('name')
         email = request.POST.get('email')
         phone_number = request.POST.get('phone_number')
+        updated_dates = request.POST.getlist('dates')
       
 
         # Update enquiry details
         enquiry.name = name
         enquiry.email = email
         enquiry.phone_number = phone_number
-
         enquiry.save()
+
+        enquiry.dates.clear()  # Clear existing dates associated with the enquiry
+        for date_value in updated_dates:
+            enquiry.dates.create(date=date_value)
 
         messages.success(request, "Enquiry information updated successfully!")
         return redirect('home')
 
-    return render(request, 'invoice/enquiryUpdate.html', {'enquiry': enquiry})
+    return render(request, 'invoice/enquiryUpdate.html', {'enquiry': enquiry, 'all_dates':all_dates})
 
 
 @login_required(login_url='login')
@@ -264,9 +276,10 @@ def venue_payment(request, pk, name):
         if form.is_valid():
 
             advance_amt = form.cleaned_data['advance_amt']
+            tax_rate_percentage = form.cleaned_data['tax_rate'] / 100
 
-            tax_rate = 0.10  # 10%
-            tax_amount = advance_amt * tax_rate
+            # tax_rate = 0.10  # 10%
+            tax_amount = advance_amt * tax_rate_percentage
             total_amount_with_tax = advance_amt + tax_amount
 
             new_amt = total_amount_with_tax
@@ -318,8 +331,12 @@ def update_payment(request, venue_id, enquiry_id):
             updated_invoice = form.save(commit=False)
 
             paying_amount = form.cleaned_data['paying_amount']
+            # advance_amt_decimal = Decimal(str(paying_amount))
 
-            tax_rate = 0.10  # 10%
+            # tax_rate = 0.10  # 10%
+            tax_rate= invoice.tax_rate / 100
+
+
             tax_amount = paying_amount * tax_rate
             total_amount_with_tax = paying_amount + tax_amount
 
@@ -334,7 +351,7 @@ def update_payment(request, venue_id, enquiry_id):
                 invoice_number=new_invoice_number,
                 date_updated=timezone.now()
             )
-            print(new_amount)
+            # print(new_amount)
             
             invoice.total_amount = invoice.venue.price
             invoice.save()
@@ -351,6 +368,39 @@ def update_payment(request, venue_id, enquiry_id):
 
 
 @login_required(login_url='login')
+def update_first_payment(request,  venue_id, enquiry_id):
+    venue = get_object_or_404(Venue, pk=venue_id)
+    enquiry = Enquiry.objects.get(pk=enquiry_id)
+    invoice = Invoice.objects.filter(venue=venue, enquiry=enquiry).first()
+    if request.method == "POST":
+        form = FirstPaymentUpdateform(request.POST, instance=invoice)
+        if form.is_valid():
+
+            advance_amt = form.cleaned_data['advance_amt']
+            tax_rate_percentage = form.cleaned_data['tax_rate'] / 100
+
+            tax_amount = advance_amt * tax_rate_percentage
+            total_amount_with_tax = advance_amt + tax_amount
+            new_amt = total_amount_with_tax
+
+
+            first_payment = form.save(commit=False)
+            
+            first_payment.venue = venue
+            first_payment.enquiry = enquiry
+            first_payment.user = request.user
+            first_payment.new_amt = new_amt
+
+            first_payment.save()
+            messages.success(request, "First payment updated successfully!")
+            return redirect('details', venue_id=venue.id, enquiry_id=enquiry.id)
+    else:
+        form = FirstPaymentUpdateform(instance=invoice)
+    context = {'form':form,'invoice':invoice}
+
+    return render(request, 'invoice/update_first_payment.html', context)
+
+@login_required(login_url='login')
 def payment_list(request):
     invoices = Invoice.objects.all().order_by('-id')
     search = request.GET.get('search')
@@ -358,13 +408,47 @@ def payment_list(request):
         invoices = invoices.filter(
              Q(enquiry__name__icontains=search)|
              Q(invoice_number__icontains=search)
-
         )
-       
-
     context = {'invoices':invoices, 'search':search}
     return render(request, 'invoice/payment_list.html', context)
 
+
+@login_required(login_url='login')
+def update_invoice_history(request,invoice_history_id):
+    invoice_history = get_object_or_404(InvoiceHistory, id=invoice_history_id)
+    invoice = invoice_history.invoice
+    venue = invoice_history.invoice.venue
+    enquiry = invoice_history.invoice.enquiry
+    if request.method == 'POST':
+        form = FirstPaymentUpdateform(request.POST, instance=invoice_history)
+        if form.is_valid():
+
+            paying_amount = form.cleaned_data['paying_amount']
+
+            # tax_rate = 0.10  # 10%
+            tax_rate= invoice.tax_rate / 100
+
+
+            tax_amount = paying_amount * tax_rate
+            total_amount_with_tax = paying_amount + tax_amount
+
+            # new_amount = total_amount_with_tax
+
+            # history_payment = form.save(commit=False)
+            # invoice_history.invoice = invoice
+            invoice_history.new_amount = total_amount_with_tax
+            invoice_history.invoice = invoice
+            invoice_history.user = request.user
+            invoice_history.paying_amount = paying_amount
+            invoice_history.date_updated = timezone.now()
+            invoice_history.save()
+
+            messages.success(request, "History payment updated successfully!")
+            return redirect('details', venue_id=venue.id, enquiry_id=enquiry.id)
+    else:
+        form = FirstPaymentUpdateform(instance=invoice_history)
+    context = {'form':form, 'invoice_history':invoice_history}
+    return render(request, 'invoice/update_invoice_history.html', context)
 
 # @login_required(login_url='login')
 # def details(request, venue_id, enquiry_id):
@@ -391,7 +475,6 @@ def details(request, venue_id, enquiry_id):
 
     y = invoice.total_paid_amount()
     resulty  = y+resultx
-
 
     search = request.GET.get('search')
     if search:
@@ -482,6 +565,7 @@ def single_pdf_report(request, invoice_history_id):
        return HttpResponse('We had some errors <pre>' + html + '</pre>')
     return response
 
+
 @login_required(login_url='login')
 def single_pdf(request, invoice_history_id):
     invoice_history = get_object_or_404(InvoiceHistory, id=invoice_history_id)
@@ -496,7 +580,6 @@ def single_pdf(request, invoice_history_id):
     return render(request, 'invoice/single_pdf0.html', context)
 
 
-
 @login_required(login_url='login')
 def invoive1_pdf(request, invoice_id):
     invoice_bill = get_object_or_404(Invoice, id=invoice_id)
@@ -507,7 +590,6 @@ def invoive1_pdf(request, invoice_id):
                 'venue':venue,
                 'enquiry':enquiry,
                }
-    
     return render(request, 'invoice/single_pdf.html', context)
 
 @login_required(login_url='login')
