@@ -50,5 +50,11 @@ class FirstPaymentUpdateform(forms.ModelForm):
 
 
 class Invoice_History_Update_Form(forms.ModelForm):
-    model = InvoiceHistory
-    firlds = ['new_amount', 'paying_amount']
+
+    class Meta:
+        model = InvoiceHistory
+        fields = ['paying_amount', 'date_updated']
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        # self.fields['date_updated'].widget.attrs['readonly'] = True

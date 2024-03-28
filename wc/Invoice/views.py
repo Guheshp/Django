@@ -37,26 +37,37 @@ from django.contrib.auth.decorators import login_required
 
 @login_required(login_url='login')
 def Enquery(request):
-    venue = Venue.objects.filter(user=request.user)
+    try:
+        venue = Venue.objects.get(user=request.user)
+    except Venue.DoesNotExist:
+        # Handle the case where no venue is associated with the user
+        messages.error(request, "No venue associated with the current user.")
+        return redirect('home') 
 
     if request.method == "POST":
+        # Retrieve form data from the request
         name = request.POST.get('name')
         email = request.POST.get('email')
         phone_number = request.POST.get('phone_number')
-        dates = request.POST.getlist('date')  # Get list of dates
+        dates = request.POST.getlist('date')
 
         # Ensure that name and phone number are provided
         if not name or not phone_number:
             messages.error(request, "Name and phone number are required.")
-            return redirect('home')  # Replace 'your_form_view_name' with the name of your form view
+            return redirect('home')
 
         # Ensure that at least one date is provided
         if not dates:
             messages.error(request, "Please provide at least one date.")
-            return redirect('home')  # Replace 'your_form_view_name' with the name of your form view
+            return redirect('home')
 
         # Create Enquiry object
-        enquiry = Enquiry.objects.create(name=name, email=email, phone_number=phone_number)
+        enquiry = Enquiry.objects.create(
+            name=name,
+            venue=venue,
+            email=email,
+            phone_number=phone_number
+        )
 
         # Add dates to the Enquiry object
         for date_str in dates:
@@ -65,13 +76,18 @@ def Enquery(request):
 
         messages.success(request, "Enquiry information added successfully!")
         return redirect('home')
-    context= {'venue':venue}
+
+    context = {'venue': venue}
     return render(request, 'invoice/Eenquery.html', context)
 
 
 @login_required(login_url='login')
 def Enquerylist(request):
-    enquiries = Enquiry.objects.all().order_by('-id')
+    venue = get_object_or_404(Venue, user=request.user)
+
+    # Filter enquiries based on the associated venue
+    enquiries = Enquiry.objects.filter(venue=venue).order_by('-id')
+
     booked = []
     for enquiry in enquiries:
         couples_details = enquiry.copulesdetails_set.all()
@@ -84,18 +100,21 @@ def Enquerylist(request):
         enquiries = enquiries.filter(
             Q(name__icontains=search) |
             Q(phone_number__icontains=search)
-
-            # Q(copulesdetails__name__icontains=search) |  # Example of searching related field
-            # Q(copulesdetails__phone_number__icontains=search) |  # Another related field example
-            # Q(copulesdetails__dates__icontains=search)  # Another related field example
         )
 
-    context = {'enquiries':enquiries, 'booked':booked, 'search':search}
+    context = {'enquiries': enquiries, 'booked': booked, 'search': search}
     return render(request, 'invoice/Enquerylist.html', context)
 
 
 @login_required(login_url='login')
 def update_enquiry(request, enquiry_id):
+    try:
+        venue = Venue.objects.get(user=request.user)
+    except Venue.DoesNotExist:
+        # Handle the case where no venue is associated with the user
+        messages.error(request, "No venue associated with the current user.")
+        return redirect('home')
+
     enquiry = get_object_or_404(Enquiry, pk=enquiry_id)
     all_dates = Date.objects.all() 
 
@@ -109,6 +128,7 @@ def update_enquiry(request, enquiry_id):
         # Update enquiry details
         enquiry.name = name
         enquiry.email = email
+        enquiry.venue = venue
         enquiry.phone_number = phone_number
         enquiry.save()
 
@@ -136,21 +156,25 @@ def delete_enquiry(request, pk):
 
 @login_required(login_url='login')
 def Booking(request):
-    couplesdetails = CopulesDetails.objects.all().order_by('-id')
-    enquiries = Enquiry.objects.all().order_by('-id')
-    venue = Venue.objects.filter(user=request.user)
+
+    venue = get_object_or_404(Venue, user=request.user)
+
+    # Filter couples details based on the associated venue
+    couplesdetails = venue.copulesdetails_set.all().order_by('-id')
+
+    # Filter enquiries based on the associated venue
+    enquiries = Enquiry.objects.filter(venue=venue).order_by('-id')
 
     search = request.GET.get('search')
     if search:
-        # Filter CouplesDetails based on bride name or groom name
+        # Filter CouplesDetails based on bride name, groom name, or enquiry name
         couplesdetails = couplesdetails.filter(
             Q(bridename__icontains=search) |
-            Q(groomname__icontains=search)|
+            Q(groomname__icontains=search) |
             Q(enquiry__name__icontains=search)
         )
-       
 
-    context = {'couplesdetails': couplesdetails, 'enquiries': enquiries, 'venue': venue, 'search':search}
+    context = {'couplesdetails': couplesdetails, 'enquiries': enquiries, 'venue': venue, 'search': search}
     return render(request, 'invoice/booking_list.html', context)
 
 
@@ -331,7 +355,6 @@ def update_payment(request, venue_id, enquiry_id):
             updated_invoice = form.save(commit=False)
 
             paying_amount = form.cleaned_data['paying_amount']
-            # advance_amt_decimal = Decimal(str(paying_amount))
 
             # tax_rate = 0.10  # 10%
             tax_rate= invoice.tax_rate / 100
@@ -342,6 +365,9 @@ def update_payment(request, venue_id, enquiry_id):
 
             new_amount = total_amount_with_tax
 
+            payment_type = form.cleaned_data['payment_type']
+
+
             # Create an InvoiceHistory instance to record the change
             InvoiceHistory.objects.create(
                 invoice=updated_invoice,
@@ -349,7 +375,8 @@ def update_payment(request, venue_id, enquiry_id):
                 new_amount=new_amount,
                 paying_amount=paying_amount,
                 invoice_number=new_invoice_number,
-                date_updated=timezone.now()
+                date_updated=timezone.now(),
+                payment_type=payment_type
             )
             # print(new_amount)
             
@@ -402,7 +429,10 @@ def update_first_payment(request,  venue_id, enquiry_id):
 
 @login_required(login_url='login')
 def payment_list(request):
-    invoices = Invoice.objects.all().order_by('-id')
+    venue = get_object_or_404(Venue, user=request.user)
+
+    # Filter invoices based on the associated venue
+    invoices = Invoice.objects.filter(venue=venue).order_by('-id')
     search = request.GET.get('search')
     if search:
         invoices = invoices.filter(
@@ -414,40 +444,46 @@ def payment_list(request):
 
 
 @login_required(login_url='login')
-def update_invoice_history(request,invoice_history_id):
+def update_invoice_history(request, venue_id, enquiry_id, invoice_history_id):
+    # Retrieve the venue and enquiry objects
+    venue = get_object_or_404(Venue, pk=venue_id)
+    enquiry = get_object_or_404(Enquiry, pk=enquiry_id)
+
+    # Retrieve the specific InvoiceHistory object to update
     invoice_history = get_object_or_404(InvoiceHistory, id=invoice_history_id)
-    invoice = invoice_history.invoice
-    venue = invoice_history.invoice.venue
-    enquiry = invoice_history.invoice.enquiry
+
     if request.method == 'POST':
-        form = FirstPaymentUpdateform(request.POST, instance=invoice_history)
+        # Create a form instance and populate it with data from the request
+        form = UpdatePaymentForm(request.POST, instance=invoice_history)
         if form.is_valid():
+            # If the form is valid, save the form data
+            form.save()
 
+            # Update the new amount in the invoice
             paying_amount = form.cleaned_data['paying_amount']
-
-            # tax_rate = 0.10  # 10%
-            tax_rate= invoice.tax_rate / 100
-
-
+            tax_rate = invoice_history.invoice.tax_rate / 100
             tax_amount = paying_amount * tax_rate
             total_amount_with_tax = paying_amount + tax_amount
-
-            # new_amount = total_amount_with_tax
-
-            # history_payment = form.save(commit=False)
-            # invoice_history.invoice = invoice
             invoice_history.new_amount = total_amount_with_tax
-            invoice_history.invoice = invoice
-            invoice_history.user = request.user
             invoice_history.paying_amount = paying_amount
+            invoice_history.user = request.user
             invoice_history.date_updated = timezone.now()
             invoice_history.save()
 
-            messages.success(request, "History payment updated successfully!")
-            return redirect('details', venue_id=venue.id, enquiry_id=enquiry.id)
+            # Redirect to the details page with success message
+            messages.success(request, 'Payment updated successfully.')
+            return redirect('details', venue_id=venue_id, enquiry_id=enquiry_id)
     else:
-        form = FirstPaymentUpdateform(instance=invoice_history)
-    context = {'form':form, 'invoice_history':invoice_history}
+        # If the request method is GET, render the form with initial data
+        form = UpdatePaymentForm(instance=invoice_history)
+
+    # Prepare the context for rendering the template
+    context = {
+        'form': form,
+        'enquiry': enquiry,
+        'venue': venue,
+        'invoice_history': invoice_history
+    }
     return render(request, 'invoice/update_invoice_history.html', context)
 
 # @login_required(login_url='login')
@@ -473,7 +509,7 @@ def details(request, venue_id, enquiry_id):
     x = invoice.tax_payed()
     resultx  = x + total_tax_paid
 
-    y = invoice.total_paid_amount()
+    y = invoice.Grand_total_amt()
     resulty  = y+resultx
 
     search = request.GET.get('search')

@@ -549,11 +549,16 @@ def showvenue(request,pk):
 
 @login_required(login_url='login')
 def user_venues(request):
+    # user_name = request.user
+    # user_venues = Venue.objects.filter(user=request.user).order_by('name')
+    # enquiry_count = Enquiry.objects.filter(venue=user_venues).count()
+    # context = {'user_venues': user_venues, 'user_name':user_name, 'enquiry_count':enquiry_count}
     user_name = request.user
     user_venues = Venue.objects.filter(user=request.user).order_by('name')
-    enquiry_count = Enquiry.objects.all().count()
-    context = {'user_venues': user_venues, 'user_name':user_name, 'enquiry_count':enquiry_count}
+    enquiry_count = Enquiry.objects.filter(venue__user=request.user).count()
+    context = {'user_venues': user_venues, 'enquiry_count': enquiry_count, 'user_name':user_name}
     return render(request, 'venue/user_venues.html', context)
+
 
 @login_required(login_url='login')
 def show_user_venue(request,pk):

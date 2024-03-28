@@ -10,10 +10,10 @@
         <div class="text-center mt-5 d-flex justify-content-center">
         <h1 class="display-3 text-uppercase">Enquiry for venue</h1>
         </div>
-        {% for v in venue%}
+
         <a class="link-primary link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover display-3" href="{% url 'user_venues'%}"><p class="lead m-0 text-color">{{v.name}}.</p></a>
         <!-- <a class="small" href="#">{{v.name|linebreaks}}</a> -->
-        {%endfor%}
+
 
         
         <!-- <div class="row">
@@ -64,6 +64,7 @@
                         Please enter a 10-digit phone number.
                     </div>
                   </div>
+                  
                   <div id="amenityFields">
                       <label class="fw-bold">Add Dates</label>
                       <div class="input-group amenity-input-container">

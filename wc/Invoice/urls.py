@@ -18,7 +18,7 @@ urlpatterns = [
     path('update_first_payment/<str:venue_id>/<str:enquiry_id>/', views.update_first_payment, name='update_first_payment'),
     path('payment_list/',views.payment_list, name='payment_list'),
 
-    path('update_invoice_history/<str:invoice_history_id>/', views.update_invoice_history, name='update_invoice_history'),
+    path('update_invoice_history/<str:venue_id>/<str:enquiry_id>/<str:invoice_history_id>/', views.update_invoice_history, name='update_invoice_history'),
     # path('details/<str:venue_id>/<str:enquiry_id>/',views.details, name='details'),
 
     path('details/<str:venue_id>/<str:enquiry_id>/',views.details, name='details'),

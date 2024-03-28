@@ -50,7 +50,7 @@
 
                 </div>
                 <div class="media-body text-right">
-                  <h3>{{invoice.total_paid_amount|floatformat:2}}</h3>
+                  <h3>{{invoice.Grand_total_amt|floatformat:2}}</h3>
                   <span>Amount Paid</span>
                 </div>
               </div>
@@ -115,11 +115,7 @@
 
             <form method="post">
               {% csrf_token %}
-              <!-- <div class="col-sm-12 ">
-               
-                  <label class="form-label fw-bold " for="id_advance_amt">Payed Amount:</label>
-                  <input type="text" id="id_advance_amt" class="form-control border-dark" name="old_amount" value="{{ old_amount }}">
-              </div> -->
+             
       
               <div class="col-sm-12">
                 <label class="form-label fw-bold mt-2" for="id_advance_amt">Now Paying:</label>
@@ -127,29 +123,25 @@
                 <div id="error_message" class="text-danger" style="display: none;">paying amount cannot exceed venue price or balance.</div>
             </div>
               
-            <!-- <div class="form-group m-3">
-              <label class="form-label fw-bold" for="">TAX</label>
-              <input type="number" name="tax_rate"  class="form-control border-dark " value="{{ invoice.tax_rate }}"required>
-          </div> -->
+           
       
               <div class="col-sm-12 mt-2">
                   <label class="form-label fw-bold" for="id_advance_paid_date">Advance Paid Date:</label>
                   <input type="date" id="id_advance_paid_date" class="form-control border-dark" name="advance_paid_date" value="{{ form.advance_paid_date.value }}" required>
               </div>
               
-              <div class="form-label fw-bold m-3" class="col-sm-12">
+             
+               <div class="form-group m-3">
+                <label class="form-label fw-bold" for="">Payment Type</label>
 
-                  <label for="id_payment_type">Payment Type:</label>
-                  <select id="id_payment_type" class="form-select border-dark"  name="payment_type">
-                      <option value="Cash" {% if form.payment_type.value == "Cash" %} selected {% endif %}>Cash</option>
-                      <option value="Online Payment" {% if form.payment_type.value == "Online Payment" %} selected {% endif %}>Online Payment</option>
+                <select class="form-select border-dark" name="payment_type" aria-label="Default select example">
+                    <option selected>Select Payment method</option>
+                    <option name="" value="Cash">Cash</option>
+                    <option name="" value="Credit Card">Credit Card</option>
+                    <option name="" value="Bank Transfer">Bank Transfer</option>
+                    <option name="" value="Online Payment">Online Payment</option>
                   </select>
-              
-               </div>
-              <!-- <div>
-                  <input type="checkbox" id="id_status" name="status" {% if form.status.value %} checked {% endif %}>
-                  <label for="id_status">Full Payment Done</label>
-              </div> -->
+            </div>
               <button class="bTn" type="submit">Update Payment</button>
           </form>
         </div>

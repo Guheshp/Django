@@ -1,50 +1,85 @@
-{% extends 'acc/base.html' %}
-
-{% load static %}
-
-{% block content %}
-
+{% extends 'acc/base.html'%}
+{% load static%}
+{% block content%}
 <body>
-    <div class="container">
-        <div class="row justify-content-center mb-3 underline">
-        <h1>Update History payment</h1>
-        </div>
+  <section id="header" class="jumbotron text-center p-3">
+    <h1 class="display-3">Update Payment</h1>
+
+    <p class="lead m-0">Venue Booked by </p>
+    <a class="small" href="#">{{enquiry.name|linebreaks}}</a>
+    <!-- <p class="lead">#</p> -->
+    <link rel="stylesheet" type="text/css" href="https://pixinvent.com/stack-responsive-bootstrap-4-admin-template/app-assets/css/bootstrap-extended.min.css">
+
+<link rel="stylesheet" type="text/css" href="https://pixinvent.com/stack-responsive-bootstrap-4-admin-template/app-assets/css/colors.min.css">
+
+<div class="grey-bg container-fluid">
+  <section id="minimal-statistics">
+    <!-- <div class="row">
+      <div class="col-12 mt-3 mb-1">
+        <h4 class="text-uppercase">Minimal Statistics Cards</h4>
+        <p>Statistics on minimal cards.</p>
+      </div>
+    </div> -->
+    
 
     </div>
 
-    <div class="container">
+</section>
 
-        <div class="row  justify-content-center">
-            <div class="col-md-5">
-                <div class="card">
-                    <form action="{% url 'update_invoice_history' invoice_history.id%}" method="POST">
-                        {% csrf_token %}
-                        <div class="form-group fw-bold m-3">
-                            <label for="">Advance payed</label>
-                            <input type="text" name="paying_amount" value="{{ invoice_history.paying_amount }}"  class="form-control border-dark" id="">
-                        </div>
+    <section class="container" style="display: flex;justify-content: center;">
 
-                        <div class="form-group fw-bold m-3">
-                            <label for="">Date </label>
-                            <input type="date" name="date_updated" value="{{ invoice_history.date_updated|date:'Y-m-d' }}"  class="form-control border-dark" id="">
-                        </div>
-
-                        <div class="row gutters">
-                            <div class="col-xl-12">
-                                <div class=" py-2 px-2 text-right">
-                                    <a class="btn btn-outline-info" href="">Cancle</a>
-                                    <button type="submit" class="btn btn-primary">Submit</button>
-                                </div>
-                            </div>
-                        </div>
-                    </form>
-                </div>
+      <div class="col-lg-12 mx-auto">
+        <div class="card rounded shadow border-0">
+          <div class="card-body  bg-white rounded">
+          <!-- <h3 class="m-3">Enquery Lists</h3> -->
+        <div class="table-responsive">
+            <!-- <h4 class="mb-3">Enquery</h4> -->
+            <form method="post">
+                {% csrf_token %}
+                {{ form.as_p }} 
+                <input type="submit" value="Update Payment">
+            </form>
+            <!-- <form method="post">
+              {% csrf_token %}
+             
+      
+              <div class="col-sm-12">
+                <label class="form-label fw-bold mt-2" for="id_advance_amt">Now Paying:</label>
+                <input type="text" id="id_advance_amt" class="form-control border-dark" placeholder="Please enter amount" name="paying_amount" value="">
+                <div id="error_message" class="text-danger" style="display: none;">paying amount cannot exceed venue price or balance.</div>
             </div>
-            
+              
+           
+      
+              <div class="col-sm-12 mt-2">
+                  <label class="form-label fw-bold" for="id_advance_paid_date">Advance Paid Date:</label>
+                  <input type="date" id="id_advance_paid_date" class="form-control border-dark" name="advance_paid_date" value="{{ form.advance_paid_date.value }}" required>
+              </div>
+              
+             
+               <div class="form-group m-3">
+                <label class="form-label fw-bold" for="">Payment Type</label>
 
+                <select class="form-select border-dark" name="payment_type" aria-label="Default select example">
+                    <option selected>Select Payment method</option>
+                    <option name="" value="Cash">Cash</option>
+                    <option name="" value="Credit Card">Credit Card</option>
+                    <option name="" value="Bank Transfer">Bank Transfer</option>
+                    <option name="" value="Online Payment">Online Payment</option>
+                  </select>
+            </div>
+              <button class="bTn" type="submit">Update Payment</button>
+          </form> -->
         </div>
-    </div>
+          </div>
+        </div>
+      </div>
+      
+</section>
+
+    
 
 </body>
 
-{% endblock %}
+{%  endblock %}
+

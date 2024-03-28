@@ -39,7 +39,7 @@
                   </tr>
                 </thead>
                 <tbody>
-                {% for enquiry in enquiries %}
+                  {% for enquiry in enquiries %}
                   <tr>
                     <td class="text-color">{{forloop.counter}}</td>
                     <td ><a class=" link-primary link-offset-3 link-underline-opacity-25 link-underline-opacity-100-hover " href="{% url 'enquiryUpdate' enquiry.id %}">{{ enquiry.name }}</a></td>
@@ -108,8 +108,8 @@
 
                     
                   </tr>
-                  {% endfor %}
 
+                  {% endfor %}
                 </tbody>
               </table>
             </div>

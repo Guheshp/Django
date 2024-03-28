@@ -2,6 +2,7 @@ import random
 from django.db import models
 from django.utils import timezone
 from venue.models import Venue
+
 from django.db.models import Sum
 
 from .utils import generate_invoice_number
@@ -17,13 +18,14 @@ class Date(models.Model):
         return f"{self.date}"
 
 class Enquiry(models.Model):
+    venue = models.ForeignKey(Venue, on_delete=models.CASCADE, related_name='enquiries', null=True)
     name = models.CharField(max_length=200)
     phone_number = models.CharField(max_length=10)
     email = models.EmailField(max_length=200, null=True)
     dates = models.ManyToManyField(Date, related_name='enquiries_dates')
 
     def __str__(self):
-        return f"{self.name}"
+        return f"{self.name} venue is {self.venue}"
     
 
 class CopulesDetails(models.Model):
@@ -54,7 +56,11 @@ class CopulesDetails(models.Model):
 class Invoice(models.Model):
 
     TYPE = (
-        ("Cash","Cash"),
+        # ("Cash","Cash"),
+        # ("Online Payment", "Online Payment")
+        ('Cash', 'Cash'),
+        ('Credit Card', 'Credit Card'),
+        ('Bank Transfer', 'Bank Transfer'),
         ("Online Payment", "Online Payment")
     )
     
@@ -87,28 +93,55 @@ class Invoice(models.Model):
 
         super().save(*args, **kwargs)
 
+
     @property
     def get_balance(self):
-        total_paid = self.total_paid_amount()
-        balance = self.venue.price - total_paid
-
+        get_grand_total = self.Grand_total_amt()
+        balance = self.venue.price - get_grand_total
         if balance == 0:
             self.status = True
-            self.advance_amt = self.venue.price
-
+            # self.advance_amt = self.venue.price
         return balance
 
+    
+    def advance_amount(self):
+        """
+        Calculate the total advance amount paid for this invoice.
+        """
+        if self.advance_amt is not None:
+            return self.advance_amt
+        
+        return 0
+
+    # def total_paid_amount(self):
+    #     if self.pk:  # Check if the instance has been saved/
+    #         total_paid = self.invoicehistory_set.aggregate(total_paid=Sum('paying_amount'))['total_paid']
+    #         if total_paid is None:
+    #             total_paid = 0
+    #         if self.advance_amt is not None:
+    #             total_paid += self.advance_amt
+    #         # Ensure total paid does not exceed the venue price
+    #         total_paid = min(total_paid, self.venue.price)
+    #         return total_paid
+    #     return 0 
+
     def total_paid_amount(self):
-        if self.pk:  # Check if the instance has been saved/
+        if self.pk:  # Check if the instance has been saved
             total_paid = self.invoicehistory_set.aggregate(total_paid=Sum('paying_amount'))['total_paid']
             if total_paid is None:
                 total_paid = 0
-            if self.advance_amt is not None:
-                total_paid += self.advance_amt
             # Ensure total paid does not exceed the venue price
             total_paid = min(total_paid, self.venue.price)
             return total_paid
-        return 0  # Return 0 if instance is not saved yet
+        return 0  #
+    
+    def Grand_total_amt(self):
+        """
+        Calculate the grand total amount paid for this invoice including the advance amount.
+        """
+        total_paid = self.total_paid_amount()
+        advance_amount = self.advance_amount()
+        return total_paid + advance_amount
     
     def tax_payed(self):
         tax = self.new_amt - self.advance_amt
@@ -116,13 +149,21 @@ class Invoice(models.Model):
 
 
 class InvoiceHistory(models.Model):
+    TYPE = (
+        # ("Cash","Cash"),
+        # ("Online Payment", "Online Payment")
+        ('Cash', 'Cash'),
+        ('Credit Card', 'Credit Card'),
+        ('Bank Transfer', 'Bank Transfer'),
+        ("Online Payment", "Online Payment")
+    )
     invoice = models.ForeignKey(Invoice, on_delete=models.CASCADE)
     invoice_number = models.CharField(max_length=50, unique=True, null=True)
     user = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
-    # old_amount = models.FloatField()
     new_amount = models.FloatField()
     paying_amount = models.FloatField(null=True)
     date_updated = models.DateTimeField(default=timezone.now)
+    payment_type = models.CharField(max_length=200, null=True, choices=TYPE)
 
    
     def tax_payed(self):
