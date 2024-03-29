@@ -44,6 +44,15 @@
                     <td class="text-color">{{forloop.counter}}</td>
                     <td ><a class=" link-primary link-offset-3 link-underline-opacity-25 link-underline-opacity-100-hover " href="{% url 'enquiryUpdate' enquiry.id %}">{{ enquiry.name }}</a></td>
                     <td class="text-color">{{ enquiry.phone_number }}</td>
+                    {% if enquiry.is_booked %}
+                    <td>
+                      <ul>
+                        {%for date in enquiry.copulesdetails_set.all%}
+                          <li class="text-color">{{ date.date }}</li>
+                        {%endfor%}
+                      </ul>
+                  </td>
+                  {%else%}
                     <td>
                         <ul>
                             {% for date in enquiry.dates.all %}
@@ -51,7 +60,7 @@
                             {% endfor %}
                         </ul>
                     </td>
-
+                    {% endif %}
                     <!-- <td><a href="{% url 'enquiryUpdate' enquiry.id %}">Update</a></td> -->
 
                     {% if enquiry.is_booked %}

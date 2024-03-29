@@ -55,7 +55,8 @@
 
                         <tr>
                             <td class="text-color text-center">
-                               <a class="link-offset-3 link-underline-opacity-25" href="{% url 'update_invoice_history' venue.id enquiry.id invoice_history.id%}">{{ invoice_history.invoice_number  }}</a> 
+                               <!-- <a class="link-offset-3 link-underline-opacity-25" href="{% url 'update_invoice_history' venue.id enquiry.id invoice_history.id%}">{{ invoice_history.invoice_number  }}</a>  -->
+                               <a class="link-offset-3 link-underline-opacity-25" href="#">{{ invoice_history.invoice_number  }}</a> 
                             </td>
                             <td class="text-color text-center">{{ invoice_history.date_updated }}</td>
                             <td class="text-color text-center"><i class="fa fa-inr" aria-hidden="true"></i>&nbsp;{{ invoice_history.paying_amount|floatformat:2 }}</td>

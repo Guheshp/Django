@@ -44,6 +44,7 @@ class CopulesDetails(models.Model):
     created_at = models.DateTimeField(auto_now_add = True)
     updated_at = models.DateTimeField(auto_now = True)
     is_booked = models.BooleanField(default=False)
+    date = models.DateField(auto_now=False, auto_now_add=False, null=True)
 
     class Meta:
         verbose_name = "CopulesDetails"  

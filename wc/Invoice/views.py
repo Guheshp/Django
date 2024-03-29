@@ -43,6 +43,7 @@ def Enquery(request):
         # Handle the case where no venue is associated with the user
         messages.error(request, "No venue associated with the current user.")
         return redirect('home') 
+    
 
     if request.method == "POST":
         # Retrieve form data from the request
@@ -75,7 +76,7 @@ def Enquery(request):
             enquiry.dates.add(date_obj)
 
         messages.success(request, "Enquiry information added successfully!")
-        return redirect('home')
+        return redirect('Enquerylist')
 
     context = {'venue': venue}
     return render(request, 'invoice/Eenquery.html', context)
@@ -233,9 +234,10 @@ def Booking_venue(request, pk):
 
                 messages.success(request,f"{groomname}'s and {bridename} data saved Successfully.")
                 # return redirect('venue_payment',venue.first().id)
-                return redirect('home')
+                return redirect('Booking')
     else:
-        form = CouplesdetailsForm()
+        # form = CouplesdetailsForm()
+        form = CouplesdetailsForm(request.POST or None, request.FILES or None)
     context = {'form':form, 'enquiry':enquiry, 'venue':venue}
     return render(request, 'invoice/Booking_venue.html', context)
 
@@ -501,6 +503,7 @@ def update_invoice_history(request, venue_id, enquiry_id, invoice_history_id):
 def details(request, venue_id, enquiry_id):
     venue = get_object_or_404(Venue, pk=venue_id)
     enquiry = Enquiry.objects.get(pk=enquiry_id)
+    couplesdetails = enquiry.copulesdetails_set.all
     invoice = Invoice.objects.filter(venue=venue, enquiry=enquiry).first()
     invoice_history = InvoiceHistory.objects.filter(invoice=invoice).order_by('-id')
 
@@ -528,7 +531,8 @@ def details(request, venue_id, enquiry_id):
             'total_tax_paid':total_tax_paid,
             'resultx':resultx, 
             'resulty':resulty,
-            'search':search}
+            'search':search,
+            'couplesdetails':couplesdetails}
     
     return render(request, 'invoice/details.html', context)
 

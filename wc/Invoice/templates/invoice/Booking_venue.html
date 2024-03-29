@@ -1,18 +1,23 @@
-
-
 {% extends 'acc/base.html'%}
 {% load static%}
 {% block content%}
 <body>
-  <section id="header" class="jumbotron text-center">
+  <section id="header" class="jumbotron text-center p-3">
+    <div class="payment-info">
+        <h5 class="  d-flex">Client information:</h5>
+    <p class=" ml-2 mb-0 d-flex "><span>Name:&nbsp;{{enquiry.name}}</b></p>
+    <p class=" ml-2 mb-0 d-flex "><span>Phone Number:&nbsp;{{enquiry.phone_number}}</b></p>
+    </div>
     <h1 class="display-3">Booking Venue</h1>
     
     {%for v in venue%}
-    <p class="lead m-0">Booking for</p>
-    <a class="small" href="#">{{v.name|linebreaks}}</a>
+    <p class="lead m-0">Booking </p>
+    <a class="small link-primary link-offset-3 link-underline-opacity-25 link-underline-opacity-100-hoverclass lead  text-color m-0" href="{% url 'show_user_venue' enquiry.venue.id%}">{{v.name|linebreaks}}</a>
+    <p class="">for {{enquiry.name}}</p>
     {% endfor%}
     
-    <p class="lead">#</p>
+    <!-- <p class="lead">#</p> -->
+   
 </section>
 
 <section class="container" style="display: flex;justify-content: center;">
@@ -24,40 +29,40 @@
                     <div class="">
                     <!-- <h4 class="mb-3">Enquery</h4> -->
 
-                        <div class="row g-3">
+                        <!-- <div class="row g-3">
                             <div class="col-sm-6">
                                 <label for="firstName" class="form-label fw-bold">Name</label>
-                                <!-- <input name="name" class="form-control border-dark" id="firstName"  value="{{enquiry.name}}" required> -->
+                                <input name="name" class="form-control border-dark" id="firstName"  value="{{enquiry.name}}" required>
                                 <div class="card border-dark m-0 decoration-none">
                                 <div class="py-2 mx-3 ">
                                     <span>{{enquiry.name}}</span> 
                                  </div>
                                  </div>
-                            </div>
+                            </div> -->
 
-                            <div class="col-sm-6">
+                            <!-- <div class="col-sm-6">
                                 <label for="lastName" class="form-label fw-bold">Phone Number</label>
                                 <div class="card border-dark m-0 decoration-none">
                                     <div class="py-2 mx-3 ">
                                         <span>{{enquiry.phone_number}}</span> 
                                     </div>
                                  </div>
-                            </div>
+                            </div> -->
 
-                            <div class="col-sm-6">
-                            <!-- <label for="dates">Dates:</label><br> -->
+                            <!-- <div class="col-sm-6">
+
                             <label for="lastName" class="form-label fw-bold">Dates</label>
                                 {% for date in enquiry.dates.all %}
-                                    <!-- <input class="form-control border-dark"  id="date_{{ forloop.counter }}" name="dates" value="{{ date }}"><br> -->
+
                                     <div class="card border-dark m-0 decoration-none mt-2">
                                         <div class="py-2 mx-3">
                                             <span>{{ date }}</span>
                                         </div>
                                      </div>
                                 {% endfor %}
-                            </div>
+                            </div> -->
 
-                            <div class="col-sm-6">
+                            <!-- <div class="col-sm-6">
                                 <label for="lastName" class="form-label fw-bold">Venue Name</label>
                                 <div class="card border-dark m-0 decoration-none">
                                     <div class="py-2 mx-3 ">
@@ -66,29 +71,42 @@
                                         {%endfor%}
                                     </div>
                                  </div>
-                            </div>
+                            </div> -->
 
                         
                         <!-- <hr class="fw-bold"> -->
 
                         <!-- <h3 class="m-3">Couples Details</h3> -->
+                        <h1 class="p-3 text-bg-dark text-center rounded">Couples Details</h1><hr>
+                        
+
                         <div>
                         <form action="{% url 'Booking_venue' enquiry.id%}" method="POST" class="" enctype="multipart/form-data">
-                            <h1 class="p-3 text-bg-dark text-center rounded">Couples Details</h1><hr>
     
                             {% csrf_token %}
     
                             {% if form.errors %}
-    
                             <div class="alert alert-danger">
-                                    {% for field, error_list in form.errors.items %}
-                                        {% for error in error_list %}
-                                        <p>{{ error }}</p>
-                                        {% endfor %}
-                                    {% endfor %}
+                                {% for field, error_list in form.errors.items %}
+                                {% for error in error_list %}
+                                <p><strong>{{ field|capfirst }}:</strong> {{ error }}</p> <!-- Display field name with the error -->
+                                {% endfor %}
+                                {% endfor %}
                             </div>
-    
                             {% endif %}
+                            <h3 class="m-3">Confirm Dates</h3>
+
+
+                            <div class="form-group m-3">
+                                <label class="form-label fw-bold" for="date_select">Dates</label>
+                                <select class="form-select border-dark" name="date" id="date_select" aria-label="Default select example">
+                                    <option value="" selected>Select a date</option>
+                                    {% for date in enquiry.dates.all %}
+                                    <option value="{{ date }}">{{ date }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+
 
                     <div class="row align-items-md-stretch">
                         
@@ -97,12 +115,12 @@
 
                             <div class="form-group m-3">
                                 <label class="form-label fw-bold" for="">Groom Name</label>
-                                <input type="text" name="groomname" placeholder="Enter Groom Name" class="form-control border-dark " id="" required>
+                                <input type="text" name="groomname" placeholder="Enter Groom Name" class="form-control border-dark " id="" value="{{ form.data.groomname }}"  required>
                             </div>
                             
                             <div class="form-group m-3">
                                 <label class="form-label fw-bold" for="">Groom Date Of Birth</label>
-                                <input type="date" name="groomDOB"  class="form-control border-dark " id="" required>
+                                <input type="date" name="groomDOB"  class="form-control border-dark " id="" value="{{ form.data.groomDOB }}" required>
                                 {% if form.errors.groomDOB %}
                                 <div class="text-danger">{{ form.errors.groomDOB.as_text }}</div>
                                 {% endif %}
@@ -110,11 +128,11 @@
 
                             <div class="form-group m-3">
                                 <label class="form-label fw-bold" for="">Father's Full Name</label>
-                                <input type="text" name="groomfathername" placeholder="Enter Father's Full Name" class="form-control border-dark " id="" required>
+                                <input type="text" name="groomfathername" placeholder="Enter Father's Full Name" class="form-control border-dark " value="{{ form.data.groomfathername }}" id="" required>
                             </div>
                             <div class="form-group m-3">
                                 <label class="form-label fw-bold" for="">Mother's Full Name</label>
-                                <input type="text" name="groommothername" placeholder="Enter Mother's Full Name" class="form-control border-dark " id="" required>
+                                <input type="text" name="groommothername" placeholder="Enter Mother's Full Name" class="form-control border-dark " value="{{ form.data.groommothername }}" id="" required>
                             </div>
 
                             
@@ -126,7 +144,7 @@
                             <div class="form-group m-3">
                                 <label class="form-label fw-bold" for="groom_proof_image">Id Proof of Groom</label>
                                 <!-- Make sure to add the id attribute -->
-                                <input type="file" name="groom_proof_image" class="form-control border-dark" id="groom_proof_image">
+                                <input type="file" name="groom_proof_image" class="form-control border-dark" id="groom_proof_image" value="{{ form.data.groom_proof_image }}">
                             </div>
 
                         </div>
@@ -137,12 +155,12 @@
 
                             <div class="form-group m-3">
                                 <label class="form-label fw-bold" for="">Bride Name</label>
-                                <input type="text" name="bridename" placeholder="Enter Bride Name" class="form-control border-dark " id="" required>
+                                <input type="text" name="bridename" placeholder="Enter Bride Name" class="form-control border-dark " value="{{ form.data.bridename }}" id="" required>
                             </div>
     
                             <div class="form-group m-3">
                                 <label class="form-label fw-bold" for="">Bride Date Of Birth</label>
-                                <input type="date" name="brideDOB"  class="form-control border-dark " id="" required>
+                                <input type="date" name="brideDOB"  class="form-control border-dark " id="" value="{{ form.data.brideDOB }}" required>
                                 {% if form.errors.brideDOB %}
                                 <div class="text-danger">{{ form.errors.brideDOB.as_text }}</div>
                                 {% endif %}
@@ -150,12 +168,12 @@
 
                             <div class="form-group m-3">
                                 <label class="form-label fw-bold" for="">Father's Full Name</label>
-                                <input type="text" name="bridfathername" placeholder="Enter Father's Full Name" class="form-control border-dark " id="" required>
+                                <input type="text" name="bridfathername" placeholder="Enter Father's Full Name" class="form-control border-dark " id="" value="{{ form.data.bridfathername }}" required>
                             </div>
 
                             <div class="form-group m-3">
                                 <label class="form-label fw-bold" for="">Mother's Full Name</label>
-                                <input type="text" name="bridmothername" placeholder="Enter Mother's Full Name" class="form-control border-dark " id="" required>
+                                <input type="text" name="bridmothername" placeholder="Enter Mother's Full Name" class="form-control border-dark " value="{{ form.data.bridmothername }}" id="" required>
                             </div>
 
                             <!-- <div class="form-group m-3">
@@ -166,7 +184,7 @@
                             <div class="form-group m-3">
                                 <label class="form-label fw-bold" for="brid_proof_image">Id Proof of Bride</label>
                                 <!-- Make sure to add the id attribute -->
-                                <input type="file" name="brid_proof_image" class="form-control border-dark" id="brid_proof_image">
+                                <input type="file" name="brid_proof_image" class="form-control border-dark" value="{{ form.data.brid_proof_image }}" id="brid_proof_image">
                             </div>
 
                         </div>

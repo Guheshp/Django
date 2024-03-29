@@ -19,12 +19,12 @@ class UpdateEnquiryForm(forms.ModelForm):
 class CouplesdetailsForm(forms.ModelForm):
     class Meta:
         model = CopulesDetails
-        fields = ['groomname', 'groomDOB', 'groomfathername', 'groommothername', 'groom_proof_image', 'bridename', 'brideDOB', 'bridfathername', 'bridmothername', 'brid_proof_image']
+        fields = ['groomname', 'groomDOB', 'groomfathername', 'groommothername', 'groom_proof_image', 'bridename', 'brideDOB', 'bridfathername', 'bridmothername', 'brid_proof_image', 'date']
 
 class UpdateCouplesdetailsForm(forms.ModelForm):
     class Meta:
         model = CopulesDetails
-        fields = ['groomname', 'groomDOB', 'groomfathername', 'groommothername', 'groom_proof_image', 'bridename', 'brideDOB', 'bridfathername', 'bridmothername', 'brid_proof_image']
+        fields = ['groomname', 'groomDOB', 'groomfathername', 'groommothername', 'groom_proof_image', 'bridename', 'brideDOB', 'bridfathername', 'bridmothername', 'brid_proof_image', 'date']
 
 class VenuePatmentForm(forms.ModelForm):
     class Meta:

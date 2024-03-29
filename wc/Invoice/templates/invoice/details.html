@@ -3,24 +3,33 @@
 
 <div class="container ">
 
-    <section id="header" class="jumbotron text-center p-5">
+    <section id="header" class="jumbotron text-center p-3">
         <div class="owner-info float-left d-flex flex-column">
-            <p class="m-0 d-flex">{{venue.user.name}}</p>
-            <p class="m-0 d-flex">{{venue.user.phone}}</p>
-            <p class="m-0 d-flex">{{venue.user.email}}</p>
+            <h3 class="lead ml-0 d-flex">Client Information</h3>
+            <p class="m-0 d-flex"><span>Name: &nbsp;</span> <b>{{enquiry.name}}</b></p>
+            <p class="m-0 d-flex"><span>Phone Number: &nbsp;</span> <b>{{enquiry.phone_number}}</b></p>
+            <p class="m-0 d-flex"><span>Email: &nbsp;</span> <b>{{enquiry.email}}</b></p>
+            <p class="m-0 d-flex"><span>GST Number: &nbsp;</span> <b>{{venue.gst_number}}</b></p>
+
         </div>
 
-        <p class="float-right m-0"><span>GST Number: &nbsp;</span> <b>{{venue.gst_number}}</b></p><br>
-        <p class="float-right m-0"><span>Client: &nbsp;</span> <b>{{enquiry.name}}</b></p><br>
-        <p class="float-right m-0"><span>Phone Number: &nbsp;</span> <b>{{enquiry.phone_number}}</b></p><br>
-       
-        
+
+        <!-- <p class="float-right m-0"><span>Name: &nbsp;</span> <b>{{venue.user.name}}</b></p>
+        <p class="float-right m-0"><span>Phone Number: &nbsp;</span> <b>{{venue.user.phone}}</b></p>
+        <p class="float-right m-0"><span>Email: &nbsp;</span> <b>{{venue.user.email}}</b></p>
+        <p class="float-right m-0"><span>GST Number: &nbsp;</span> <b>{{venue.gst_number}}</b></p> -->
+        <!-- <h3 class="lead  float-right">Owner Information</h3><br> -->
+        <p class="float-right m-0 "><span>Name: &nbsp;</span> <b>{{venue.user.name}}</b></p><br>
+        <p class="float-right m-0 "><span>Phone Number: &nbsp;</span> <b>{{venue.user.phone}}</b></p><br>
+        <p class="float-right m-0"><span>Email: &nbsp;</span> <b>{{venue.user.email}}</b></p><br>
+
+
         
         <div class="text-center mt-5 d-flex justify-content-center">
 
         </div>
         
-        <h4 class="text-uppercase m-0 text-color">{{venue.name}}</h4>
+        <h4 class="text-uppercase mt-3 text-color">{{venue.name}}</h4>
         <a class="small" href="#">{{v.name|linebreaks}}</a>
         <p class=" m-0"><span> &nbsp;</span> {{venue.address_line_1}}, {{venue.address_line_2}}</p>
         <p class=" m-0"><span> &nbsp;</span> {{venue.city}}, {{venue.state}}, {{venue.pincode}}</p>

@@ -26,11 +26,11 @@
         
             <p class=" d-flex m-0">Dates:
             {% for coupledetail in coupledetails %}
-            {% for date in coupledetail.enquiry.dates.all %}
+
             
-            &nbsp;<b>{{ date }}</b>
+            &nbsp;<b>{{ coupledetail.date }}</b>
           
-            {% endfor %}
+
             {% endfor %}
             </p>
 
