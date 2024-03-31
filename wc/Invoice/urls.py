@@ -31,6 +31,10 @@ urlpatterns = [
     path('invoive1_pdf_report/<str:invoice_id>/',views.invoive1_pdf_report, name='invoive1_pdf_report'),
 
 
+    path('calender/',views.calender, name='calender'),
+
+
+
 
 ]
 

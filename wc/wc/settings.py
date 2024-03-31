@@ -47,7 +47,6 @@ INSTALLED_APPS = [
     'venue',
     'Invoice',
 
-
 ]
 
 CRISPY_TEMPLATE_PACK ='bootstrap4'

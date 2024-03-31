@@ -47,8 +47,7 @@ urlpatterns = [
     path('check_booking/<str:venue_id>',views.check_booking, name='check_booking'),
     path('Info/<str:pk>/',views.Info, name='Info'),
     path('finalbook/<str:pk>/',views.finalbook, name='finalbook'),
-    path('payment/',views.payment, name='payment'),
-    
+
 
 
 ]

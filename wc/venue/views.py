@@ -727,6 +727,7 @@ def finalbook(request, pk):
     return render (request, 'venue/finalbook.html', context)
 
 
-@login_required(login_url='login')
-def payment(request):
-    return render(request, 'venue/payment.html')
+
+
+
+

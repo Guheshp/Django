@@ -9,6 +9,9 @@ from django.utils import timezone
 
 from decimal import Decimal
 
+from datetime import datetime
+import calendar
+
 from django.core.mail import send_mail
 from django.conf import settings
 
@@ -21,7 +24,8 @@ import uuid
 
 from .utils import generate_invoice_number
 
-from datetime import date
+from datetime import date, datetime
+
 
 
 from .models import Enquiry, Date, CopulesDetails, Invoice, InvoiceHistory
@@ -361,14 +365,12 @@ def update_payment(request, venue_id, enquiry_id):
             # tax_rate = 0.10  # 10%
             tax_rate= invoice.tax_rate / 100
 
-
             tax_amount = paying_amount * tax_rate
             total_amount_with_tax = paying_amount + tax_amount
 
             new_amount = total_amount_with_tax
 
             payment_type = form.cleaned_data['payment_type']
-
 
             # Create an InvoiceHistory instance to record the change
             InvoiceHistory.objects.create(
@@ -658,3 +660,16 @@ def invoive1_pdf_report(request, invoice_id):
        return HttpResponse('We had some errors <pre>' + html + '</pre>')
     return response
 
+@login_required(login_url='login')
+def calender(request):
+    venue = get_object_or_404(Venue, user=request.user)
+
+    couplesdetails = venue.copulesdetails_set.values_list('date', flat=True)
+
+    year = datetime.now().year
+    month = datetime.now().month
+    _, last_day = calendar.monthrange(year, month)
+    days = [day for day in range(1, last_day + 1)]
+
+    context = {'venue':venue, 'couplesdetails':couplesdetails}
+    return render(request, 'invoice/calender.html', context)

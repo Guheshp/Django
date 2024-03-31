@@ -9,6 +9,9 @@
   <div class="">
     <header class="d-flex justify-content-center" style="background-color: rgb(23, 51, 79)">
 
+      <a class="nav-link text-light" href="{% url 'calender'%}" id="" >
+       Calender
+     </a>
 <!-- venue info start  -->
 
       <li class="nav-item dropdown" style="list-style-type:none; float: right; background-color: rgb(23, 51, 79);">
@@ -102,65 +105,8 @@
         </ul>
     </li>
       <!-- update end -->
-
-
     </header>
     
-    <!-- <div class="border-bottom border-light"></div>
-
-    <li class="nav-item dropdown" style="list-style-type:none; float: right; background-color: rgb(23, 51, 79);">
-      <a class="nav-link dropdown-toggle text-light" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-          Update Details
-      </a>
-      <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-            <li class="nav-item dropdown">
-
-              {% for v in venue %}
-              <a class="dropdown-item " href="{% url 'viewvenue_info' v.id%}"> VIEW VENUE INFO</a>
-              {%endfor%}
-            </li>
-
-              <li>
-              {% for v in venue %}
-              <a class="dropdown-item " href="{% url 'viewAmenities' v.id%}">UPDATE AMENITIES</a>
-              {%endfor%}</li>
-
-              <li>
-              {% for v in venue %}
-              <a class="dropdown-item " href="{% url 'viewrestrictions' v.id%}">UPDATE RESTRICTIONS</a>
-              {%endfor%}</li>
-              
-              <li>
-              {% for v in venue %}
-              <a class="dropdown-item " href="{% url 'view_image' v.id%}">UPDATE IMAGES</a>
-              {%endfor%}</li>
-
-              <li>
-              {% for v in venue %}
-              <a class="dropdown-item " href="{% url 'updatecontact_info' v.id%}">UPDATE  CONTACT INFO</a>
-              {%endfor%}</li>
-              <li>
-              {% for v in venue %}
-              <a class="dropdown-item " href="{% url 'update_category' v.id%}">
-                 UPDATE ADDITIONAL INFO
-              </a>
-              {%endfor%}</li>
-         
-          <li><hr class="dropdown-divider"></li>
-          <li><a class="dropdown-item" href="{% url 'user_venues' %}">View Venue</a></li>
-      </ul>
-  </li>
-  </div> -->
-
-
-    <!-- <div class="venderpage">
-        <div class="container">
-        {% for v in vendor%}
-            <a class="title txt" href="{% url 'vendorservice' v.id%}">MY SERVICES</a>
-            {% endfor %}
-        </div>
-    </div> -->
-
     <div class="home">
       
 <!-- slide  -->
@@ -183,93 +129,7 @@
       <!-- update information begins  -->
 
         <section>
-          <!-- <div class="horizintal-bar">
-              <div class="container">
-                  <div class="d-flex gap-2 justify-content-center py-1">
-                      {% if venueinfo_exists%}
-                      <p>yes venue_info exist</p>
-                      {%else%}
-                     <a href="{% url 'addvenue_info'%}"><button class=" d-inline-flex align-items-center" type="submit">
-  
-                        </button> ADD VENUE INFORMATIONS</a>
-                        {%endif%}
-  
-                      {% for v in venue %}
-                      <a href="{% url 'add_amenity' v.id%}">ADD AMENITIES</a>
-                      {%endfor%}
-  
-  
-                      {% for v in venue %}
-                      <a href="{% url 'add_restrictions' v.id%}"><button class=" d-inline-flex align-items-center" type="button">
-                          ADD RESTRICTIONS 
-                      {%endfor%}
-                      </button></a>
-  
-                      {% for v in venue %}
-                            <a href="{% url 'add_images' v.id%}"><button class=" d-inline-flex align-items-center" type="button">
-                          ADD IMAGES
-                      {%endfor%}
-                        </button></a>
-                      {% if contact_exist%}
-                      <p>contact exist</p>
-                      {% else %}
-                        {% for v in venue %}
-                        <a href="{% url 'contact_info' v.id%}"><button class=" d-inline-flex align-items-center" type="submit">
-                          CONTACT INFORMATIONS 
-                          {%endfor%}
-                          {%endif%}
-                        </button></a>
-  
-                      {% for v in venue %}
-                      <a href="{% url 'category' v.id%}"><button class=" d-inline-flex align-items-center" type="button">
-                          Additionals
-                          {%endfor%}
-  
-                        </button></a>
-                        
-                    </div>
-              </div>
-          </div> -->
-  
-          <!-- <div class="horizintal-bar mt-3">
-              <div class="container">
-                  <div class="d-flex gap-2 justify-content-center py-1" style="background-color:  rgb(23, 51, 79); color: white;">
-
-                  {% if venueinfo_exists %}
-                  {% for v in venue %}
-                  <a class="nav-link text-light m-0" href="{% url 'viewvenue_info' v.id%}"> VIEW VENUE INFO</a>
-                  {%endfor%}
-                  {%endif%}
-
-  
-                  {% for v in venue %}
-                  <a class="nav-link text-light m-0" href="{% url 'viewAmenities' v.id%}">UPDATE AMENITIES</a>
-                  {%endfor%}
-  
-  
-                  {% for v in venue %}
-                  <a class="nav-link text-light m-0" href="{% url 'viewrestrictions' v.id%}">UPDATE RESTRICTIONS</a>
-                  {%endfor%}
-                  
-  
-                  {% for v in venue %}
-                  <a class="nav-link text-light m-0" href="{% url 'view_image' v.id%}">UPDATE IMAGES</a>
-                  {%endfor%}
-  
-  
-                  {% for v in venue %}
-                  <a class="nav-link text-light m-0" href="{% url 'updatecontact_info' v.id%}">UPDATE  CONTACT INFO</a>
-                  {%endfor%}
-  
-                  {% for v in venue %}
-                  <a class="nav-link text-light m-0" href="{% url 'update_category' v.id%}">
-                     UPDATE ADDITIONAL INFO
-                  </a>
-                  {%endfor%}
-                  
-                    </div>
-              </div>
-          </div> -->
+        
       </section>
 
 <div class="home">
