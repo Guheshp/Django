@@ -664,12 +664,7 @@ def invoive1_pdf_report(request, invoice_id):
 def calender(request):
     venue = get_object_or_404(Venue, user=request.user)
 
-    couplesdetails = venue.copulesdetails_set.values_list('date', flat=True)
-
-    year = datetime.now().year
-    month = datetime.now().month
-    _, last_day = calendar.monthrange(year, month)
-    days = [day for day in range(1, last_day + 1)]
+    couplesdetails = venue.copulesdetails_set.all()
 
     context = {'venue':venue, 'couplesdetails':couplesdetails}
     return render(request, 'invoice/calender.html', context)

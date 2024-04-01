@@ -1,21 +1,15 @@
 /* Import Google font - Poppins */
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap');
-/* *{
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-  font-family: 'Poppins', sans-serif;
-} */
 
 .wrapper{
-    
-    width: 650px;
-    margin-left: 250px;
-    border: 1px solid black;
-    padding: 10px;
-  background: #fff;
+  width: 620px;
+  margin-left: 20px;
+  /* border: 1px solid black; */
+  padding: 10px;
+  /* background: #fff; */
   border-radius: 10px;
-  box-shadow: 0 15px 40px rgba(0,0,0,0.12);
+  box-shadow: none; /* Removed box shadow */
+
 }
 .wrapper header{
   padding: 25px 30px 10px;
@@ -92,13 +86,15 @@ header .current-date{
   transform: translate(-50%, -50%);
 }
 .days li.active::before{
-  background: #9B59B6;
+  background: rgb(23, 51, 79);
 }
 .days li:not(.active):hover::before{
   background: #f2f2f2;
 }
 
-.special-date {
-    background-color: #ffcccc;
-    font-weight: bold;
+.side-info{
+  margin-top: 0 !important;
+  justify-content: start;
 }
+
+
